@@ -1,0 +1,90 @@
+plugins {
+    id "base"
+    id "idea"
+    id "com.moowork.node" version "0.13"
+}
+
+idea {
+    module {
+        sourceDirs += file('app')
+        testSourceDirs += file('test')
+    }
+}
+
+node {
+    version = '6.10.1'
+    workDir = file("${project.buildDir}/nodejs")
+    download = true
+}
+
+task yarnSetup(type: NpmTask) {
+    group 'node'
+    description "Install yarn into bundled node's global node_modules"
+
+    args = ['install', 'yarn@0.28.4', '--global']
+
+    // Defer evaluation of 'outputs.dir' until we know the location of node
+    gradle.taskGraph.whenReady {
+        yarnSetup.outputs.dir file("${node.variant.npmDir}/yarn")
+    }
+}
+
+task yarnInstall(type: NodeTask, dependsOn: yarnSetup) {
+    group 'node'
+    description 'Install node packages from package.json using yarn.'
+
+    inputs.file 'package.json'
+    inputs.file 'yarn.lock'
+    outputs.dir 'node_modules'
+    args = ['install', '--pure-lockfile']
+
+    // Defer evaluation of 'script' until we know the location of node
+    gradle.taskGraph.whenReady {
+        yarnInstall.script = file("${node.variant.npmDir}/yarn/bin/yarn.js")
+    }
+}
+
+task installDependencies {
+    dependsOn yarnInstall
+}
+
+task buildProduction(type: NpmTask) {
+    dependsOn installDependencies
+
+    inputs.dir 'src'
+    inputs.files 'package.json', 'yarn.lock', 'angular-cli.json'
+    outputs.dir 'dist'
+
+    args = ['run-script', 'buildProduction']
+}
+
+task test(type: NodeTask, dependsOn: installDependencies) {
+    workingDir = file('test')
+    script = file('node_modules/karma/bin/karma')
+    args = ['start', file('test/karma.conf.js'), '--single-run']
+}
+
+task serve(type: NodeTask, dependsOn: installDependencies) {
+    script = file('node_modules/webpack-dev-server/bin/webpack-dev-server.js')
+    args = ['--config', 'webpack.serve-config.js', '--color']
+}
+
+task deleteNodeModules(type: Delete) {
+    delete 'node_modules'
+}
+
+task frontendJar(type: Jar, dependsOn: buildProduction) {
+    baseName "rhp-frontend"
+    from "dist"
+    eachFile { details ->
+        details.path = "static/${details.path}"
+    }
+    // Jar contains duplicate empty folders, see Gradle issue:
+    // http://issues.gradle.org/browse/GRADLE-1830
+    // so we need to set includeEmptyDirs to false
+    includeEmptyDirs = false
+}
+
+artifacts {
+    archives frontendJar
+}

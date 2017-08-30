@@ -1,0 +1,12 @@
+*~
+.idea
+target
+.gradle
+build
+classes
+out
+/web-api/src/main/resources/config/application-local.properties
+/frontend/src/app/apina.ts
+/frontend/node_modules
+/frontend/dist
+npm-debug.log

@@ -63,15 +63,14 @@ task buildProduction(type: NpmTask) {
     args = ['run-script', 'buildProduction']
 }
 
-task test(type: NodeTask, dependsOn: installDependencies) {
-    workingDir = file('test')
-    script = file('node_modules/karma/bin/karma')
-    args = ['start', file('test/karma.conf.js'), '--single-run']
+task test(type: NpmTask) {
+  dependsOn installDependencies
+  args = ['run-script', 'e2e']
 }
 
-task serve(type: NodeTask, dependsOn: installDependencies) {
-    script = file('node_modules/webpack-dev-server/bin/webpack-dev-server.js')
-    args = ['--config', 'webpack.serve-config.js', '--color']
+task serve(type: NpmTask) {
+  dependsOn installDependencies
+  args = ['run-script', 'start']
 }
 
 task deleteNodeModules(type: Delete) {

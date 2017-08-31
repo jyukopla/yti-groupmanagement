@@ -17,15 +17,31 @@ node {
     download = true
 }
 
-task yarnSetup(type: NpmTask) {
-    group 'node'
-    description "Install yarn into bundled node's global node_modules"
+// This manual setup is not necessary once https://github.com/srs/gradle-node-plugin/issues/175 is fixed
+task yarnSetup(dependsOn: nodeSetup) {
+    File yarnDir = file(".gradle/yarn")
+    String yarnVersion = "0.28.4"
 
-    args = ['install', 'yarn@0.28.4', '--global']
+    group = 'node'
+    description = "Install yarn into .gradle/yarn"
+    inputs.property("yarnVersion", yarnVersion)
+    outputs.dir yarnDir
 
-    // Defer evaluation of 'outputs.dir' until we know the location of node
-    gradle.taskGraph.whenReady {
-        yarnSetup.outputs.dir file("${node.variant.npmDir}/yarn")
+    doLast {
+        String tarFile = "yarn-v${yarnVersion}.tar.gz"
+        String url = "https://yarnpkg.com/downloads/$yarnVersion/$tarFile"
+
+        yarnDir.deleteDir()
+        yarnDir.mkdirs()
+
+        logger.debug( "Downloading yarn from ${url}" )
+
+        ant.get( src: url, dest: yarnDir, skipexisting: true )
+
+        copy {
+            from tarTree(new File(yarnDir, tarFile))
+            into yarnDir
+        }
     }
 }
 
@@ -36,16 +52,12 @@ task yarnInstall(type: NodeTask, dependsOn: yarnSetup) {
     inputs.file 'package.json'
     inputs.file 'yarn.lock'
     outputs.dir 'node_modules'
+    script = file(".gradle/yarn/dist/bin/yarn.js")
     args = ['install', '--pure-lockfile']
-
-    // Defer evaluation of 'script' until we know the location of node
-    gradle.taskGraph.whenReady {
-        yarnInstall.script = file("${node.variant.npmDir}/yarn/bin/yarn.js")
-    }
 }
 
-task installDependencies {
-    dependsOn yarnInstall
+task installDependencies(dependsOn: yarnInstall) {
+  description = 'Install all frontend dependencies'
 }
 
 task buildProduction(type: NpmTask) {

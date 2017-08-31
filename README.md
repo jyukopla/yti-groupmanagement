@@ -4,7 +4,7 @@
 
 Get started:
 
-  - Copy `web-api/src/main/resources/application-dev.properties` to `application-local.properties`
+  - Copy `web-api/src/main/resources/config/application-dev.properties` to `application-local.properties`
     and adjust the settings.
   - Run `./gradlew assemble` to download all dependencies.
 

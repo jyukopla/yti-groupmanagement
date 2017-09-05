@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   TranslateModule, TranslateLoader, MissingTranslationHandler,
@@ -47,6 +48,8 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     ApinaModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
     NgbModule.forRoot(),
     TranslateModule.forRoot({ provide: TranslateLoader, useFactory: createTranslateLoader })

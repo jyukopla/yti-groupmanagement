@@ -6,7 +6,7 @@ import { Observable } from "rxjs/Observable";
   selector: 'frontpage',
   styleUrls: ['./frontpage.component.scss'],
   template: `
-    <h2>Hello {{test | async}}!</h2>
+    <h2>{{'Hello' | translate}} {{test | async}}!</h2>
   `
 })
 export class FrontpageComponent {

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2017-09-05 12:24+0300\n"
+"PO-Revision-Date: 2017-09-05 15:57+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -19,5 +19,20 @@ msgstr ""
 msgid "You are expected at {{time}}', {time: moment.format('H:mm"
 msgstr ""
 
+msgid "Give feedback"
+msgstr ""
+
+msgid "Source code"
+msgstr ""
+
+msgid "CSC - IT Center for Science Ltd"
+msgstr ""
+
+msgid "licensed under the"
+msgstr ""
+
 msgid "Hello"
 msgstr "Hello"
+
+msgid "Front page"
+msgstr ""

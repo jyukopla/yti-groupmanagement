@@ -10,5 +10,20 @@ msgstr ""
 msgid "You are expected at {{time}}', {time: moment.format('H:mm"
 msgstr ""
 
+msgid "Give feedback"
+msgstr ""
+
+msgid "Source code"
+msgstr ""
+
+msgid "CSC - IT Center for Science Ltd"
+msgstr ""
+
+msgid "licensed under the"
+msgstr ""
+
 msgid "Hello"
+msgstr ""
+
+msgid "Front page"
 msgstr ""

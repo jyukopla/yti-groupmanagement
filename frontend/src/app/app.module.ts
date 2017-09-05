@@ -14,6 +14,11 @@ import { ApinaModule } from './apina';
 import { TestService } from './services/test.service';
 import { FrontpageComponent } from './components/frontpage.component';
 import { LanguageService } from './services/language.service';
+import { NavigationBarComponent } from './components/navigation-bar.component';
+import { BreadcrumbComponent } from './components/breadcrumb.component';
+import { FooterComponent } from './components/footer.component';
+import { TranslateValuePipe } from './pipes/translate-value.pipe';
+import { LocationService } from './services/location.service';
 
 const localizations: { [lang: string]: string} = {
   fi: require('json-loader!po-loader?format=mf!../../po/fi.po'),
@@ -43,7 +48,11 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    FrontpageComponent
+    FrontpageComponent,
+    NavigationBarComponent,
+    BreadcrumbComponent,
+    FooterComponent,
+    TranslateValuePipe
   ],
   imports: [
     BrowserModule,
@@ -57,6 +66,7 @@ const appRoutes: Routes = [
   providers: [
     { provide: MissingTranslationHandler, useFactory: createMissingTranslationHandler },
     LanguageService,
+    LocationService,
     TestService
   ],
   bootstrap: [AppComponent]

@@ -6,7 +6,10 @@ import { LanguageService } from '../services/language.service';
   styleUrls: ['./app.component.scss'],
   template: `
     <ng-template ngbModalContainer></ng-template>
+    <navigation-bar></navigation-bar>
+    <breadcrumb></breadcrumb>
     <router-outlet></router-outlet>
+    <footer></footer>
   `
 })
 export class AppComponent {

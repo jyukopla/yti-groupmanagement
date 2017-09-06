@@ -3,4 +3,6 @@ export interface Localization {
   value: string;
 }
 
-export type Localizable = { [language: string]: string; };
+export interface Localizable {
+  [language: string]: string;
+}

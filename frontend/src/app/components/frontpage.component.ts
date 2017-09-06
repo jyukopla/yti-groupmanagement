@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { TestService } from '../services/test.service';
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 import { LocationService } from '../services/location.service';
 
 @Component({
-  selector: 'frontpage',
+  selector: 'app-frontpage',
   styleUrls: ['./frontpage.component.scss'],
   template: `
     <div class="container-fluid">

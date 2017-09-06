@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Language, LanguageService } from '../services/language.service';
 
 @Component({
-  selector: 'navigation-bar',
+  selector: 'app-navigation-bar',
   styleUrls: ['./navigation-bar.component.scss'],
   template: `
     <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">

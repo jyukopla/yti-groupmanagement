@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { AppComponent } from './components/app.component';
 import { ApinaModule } from './apina';
 import { TestService } from './services/test.service';
+import { UserService } from './services/user.service';
 import { FrontpageComponent } from './components/frontpage.component';
 import { LanguageService } from './services/language.service';
 import { NavigationBarComponent } from './components/navigation-bar.component';
@@ -19,6 +20,7 @@ import { BreadcrumbComponent } from './components/breadcrumb.component';
 import { FooterComponent } from './components/footer.component';
 import { TranslateValuePipe } from './pipes/translate-value.pipe';
 import { LocationService } from './services/location.service';
+import { UsersComponent } from './components/users.component';
 
 const localizations: { [lang: string]: string} = {
   fi: require('json-loader!po-loader?format=mf!../../po/fi.po'),
@@ -52,7 +54,8 @@ const appRoutes: Routes = [
     NavigationBarComponent,
     BreadcrumbComponent,
     FooterComponent,
-    TranslateValuePipe
+    TranslateValuePipe,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +70,8 @@ const appRoutes: Routes = [
     { provide: MissingTranslationHandler, useFactory: createMissingTranslationHandler },
     LanguageService,
     LocationService,
-    TestService
+    TestService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

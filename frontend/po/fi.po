@@ -34,6 +34,9 @@ msgstr "lisenssillä"
 msgid "Hello"
 msgstr "Hei"
 
+msgid "UserList"
+msgstr "Käyttäjälista"
+
 msgid "Front page"
 msgstr "Etusivu"
 

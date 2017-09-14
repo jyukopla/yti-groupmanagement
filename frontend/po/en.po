@@ -34,5 +34,8 @@ msgstr ""
 msgid "Hello"
 msgstr "Hello"
 
+msgid "UserList"
+msgstr "Users"
+
 msgid "Front page"
 msgstr ""

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { LocationService, Location } from '../services/location.service';
 
 @Component({
-  selector: 'breadcrumb',
+  selector: 'app-breadcrumb',
   styleUrls: ['./breadcrumb.component.scss'],
   template: `
     <ol class="breadcrumb">

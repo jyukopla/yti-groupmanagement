@@ -7,7 +7,7 @@ import {
   TranslateModule, TranslateLoader, MissingTranslationHandler,
   MissingTranslationHandlerParams
 } from 'ng2-translate';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { AppComponent } from './components/app.component';
 import { ApinaModule } from './apina';

@@ -24,7 +24,7 @@ class UserController {
     }
 
     @RequestMapping(value = "", method = GET, produces = APPLICATION_JSON_VALUE)
-    //public UserModel getUsers() {
+
     public List<UserModel> getUsers() {
         return this.userDao.getUsers();
     }

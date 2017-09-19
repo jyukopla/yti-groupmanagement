@@ -18,6 +18,6 @@ public class OrganizationDao {
     }
 
     public List<OrganizationModel> getOrganizations() {
-        return db.findAll(OrganizationModel.class,"SELECT name_en, name_fi, name_sv, url FROM organization");
+        return db.findAll(OrganizationModel.class,"SELECT id, name_en, name_fi, name_sv, url FROM organization");
     }
 }

@@ -35,6 +35,6 @@ class Organization {
     constructor(private organizationModel: OrganizationModel) { }
 
     print() {
-      return `- = ${this.organizationModel.name_en} ${this.organizationModel.name_fi} ${this.organizationModel.name_sv} ${this.organizationModel.url} = -`;
+      return `- = ${this.organizationModel.id} ${this.organizationModel.name_en} ${this.organizationModel.name_fi} ${this.organizationModel.name_sv} ${this.organizationModel.url} = -`;
     }
   }

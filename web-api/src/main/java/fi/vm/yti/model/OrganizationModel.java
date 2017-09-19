@@ -1,6 +1,5 @@
 package fi.vm.yti.model;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 public class OrganizationModel {

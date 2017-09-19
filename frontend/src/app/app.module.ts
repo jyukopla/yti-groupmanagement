@@ -13,6 +13,7 @@ import { AppComponent } from './components/app.component';
 import { ApinaModule } from './apina';
 import { TestService } from './services/test.service';
 import { UserService } from './services/user.service';
+import { OrganizationService } from './services/organization.service';
 import { FrontpageComponent } from './components/frontpage.component';
 import { LanguageService } from './services/language.service';
 import { NavigationBarComponent } from './components/navigation-bar.component';
@@ -21,6 +22,7 @@ import { FooterComponent } from './components/footer.component';
 import { TranslateValuePipe } from './pipes/translate-value.pipe';
 import { LocationService } from './services/location.service';
 import { UsersComponent } from './components/users.component';
+import { OrganizationsComponent } from './components/organizations.component';
 
 const localizations: { [lang: string]: string} = {
   fi: require('json-loader!po-loader?format=mf!../../po/fi.po'),
@@ -55,7 +57,8 @@ const appRoutes: Routes = [
     BreadcrumbComponent,
     FooterComponent,
     TranslateValuePipe,
-    UsersComponent
+    UsersComponent,
+    OrganizationsComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +74,8 @@ const appRoutes: Routes = [
     LanguageService,
     LocationService,
     TestService,
-    UserService
+    UserService,
+    OrganizationService
   ],
   bootstrap: [AppComponent]
 })

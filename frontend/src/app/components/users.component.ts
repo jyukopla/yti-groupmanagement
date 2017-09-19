@@ -7,43 +7,34 @@ import { UserModel } from '../apina';
   selector: 'app-users',
   template: `  
           <div class="col-md-12">
-            <h2>{{'UserList' | translate}}</h2>                        
-            <ul>              
-              <p *ngFor="let user of allUsers">
-              - = {{user}} = -
-              </p>              
-           </ul>            
+            <h2 translate>User list</h2>                       
+            <ul>
+              <li *ngFor="let user of allUsers">
+              {{user.print()}}
+                <pre>{{user | json}}</pre>
+              </li>
+            </ul>        
           </div>       
 `,
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
-  //users: Observable<UserModel[]>;
-  userModels: Observable<UserModel[]>;
-  allUsers: Array<String[]>;
+export class UsersComponent implements OnInit {  
+  allUsers: User[];
 
-  constructor(userService: UserService) {    
-    
-    this.userModels = userService.getUsers();
-    this.allUsers = [];
-    this.userModels.forEach(element =>{      
-          element.forEach(user => {
-            var superuser = "No";
-            if (user.superuser)
-              superuser = "Yes";
-
-            var current = [user.name,' ' + user.email, ' Admin: ' + superuser];
-            this.allUsers.push(current);           
-          });
-      });     
-
-    //this.users = userService.getUsers();    
-    //
-    // Intentionally left blank
-    //       
-  }
+  constructor(private userService: UserService) { } 
 
   ngOnInit() {
+    this.userService.getUsers().subscribe(userModels => {
+      this.allUsers = userModels.map(userModel => new User(userModel));
+    });
   }
-
 }
+
+class User {
+  
+    constructor(private userModel: UserModel) { }
+  
+    print() {
+      return `- = ${this.userModel.name} ${this.userModel.email} Admin: ${this.userModel.superuser ? 'Yes' : 'No'} = -`;
+    }
+  }

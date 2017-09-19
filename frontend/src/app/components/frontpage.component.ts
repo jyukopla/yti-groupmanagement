@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
+import { TestService } from '../services/test.service';
+import { Observable } from "rxjs/Observable";
 import { LocationService } from '../services/location.service';
+import { UsersComponent } from './users.component';
+import { OrganizationsComponent } from './organizations.component';
+
 
 @Component({
   selector: 'app-frontpage',
@@ -11,6 +16,8 @@ import { LocationService } from '../services/location.service';
           <div class="row">
             <div class="col-md-12">
               <app-users></app-users>
+              <p>
+              <app-organizations></app-organizations>
             </div>
           </div>
         </div>

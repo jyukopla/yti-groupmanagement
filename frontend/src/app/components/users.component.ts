@@ -7,7 +7,7 @@ import { UserModel } from '../apina';
   selector: 'app-users',
   template: `  
           <div class="col-md-12">
-            <h2>{{'UserList' | translate}}</h2>                        
+            <h2 translate>User list</h2>                       
             <ul>              
               <p *ngFor="let user of allUsers">
               - = {{user}} = -
@@ -35,12 +35,7 @@ export class UsersComponent implements OnInit {
             var current = [user.name,' ' + user.email, ' Admin: ' + superuser];
             this.allUsers.push(current);           
           });
-      });     
-
-    //this.users = userService.getUsers();    
-    //
-    // Intentionally left blank
-    //       
+      });
   }
 
   ngOnInit() {

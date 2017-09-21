@@ -22,7 +22,11 @@ public class OrganizationDao {
         return db.findAll(OrganizationModel.class,"SELECT id, name_en, name_fi, name_sv, url FROM organization");
     }
 
-    public List<OrganizationModel> getOrganization(UUID uuid) {
-         return db.findAll(OrganizationModel.class,"SELECT id, name_en, name_fi, name_sv, url FROM organization where id = ?", uuid);
+    public OrganizationModel getOrganization(UUID uuid) {
+         return db.findUnique(OrganizationModel.class,"SELECT id, name_en, name_fi, name_sv, url FROM organization where id = ?", uuid);
+    }
+
+    public List<OrganizationModel> setOrganization(UUID uuid) {
+        return db.findAll(OrganizationModel.class,"SELECT id, name_en, name_fi, name_sv, url FROM organization where id = ?", uuid);
     }
 }

@@ -32,7 +32,7 @@ class OrganizationController {
     }
 
     @RequestMapping(value = "{id}", method = GET, produces = APPLICATION_JSON_VALUE)
-    public List<OrganizationModel> getOrganization(@PathVariable("id") UUID id)
+    public OrganizationModel getOrganization(@PathVariable("id") UUID id)
          {return this.organizationDao.getOrganization(id);}
 
 

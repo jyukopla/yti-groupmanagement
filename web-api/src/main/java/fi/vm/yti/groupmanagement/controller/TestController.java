@@ -1,7 +1,7 @@
-package fi.vm.yti.controller;
+package fi.vm.yti.groupmanagement.controller;
 
-import fi.vm.yti.dao.TestDao;
-import fi.vm.yti.model.TestInfo;
+import fi.vm.yti.groupmanagement.dao.TestDao;
+import fi.vm.yti.groupmanagement.model.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

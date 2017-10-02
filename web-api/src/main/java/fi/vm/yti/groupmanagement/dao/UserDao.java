@@ -1,7 +1,7 @@
-package fi.vm.yti.dao;
+package fi.vm.yti.groupmanagement.dao;
 
 
-import fi.vm.yti.model.UserModel;
+import fi.vm.yti.groupmanagement.model.UserModel;
 import org.springframework.stereotype.Repository;
 import org.dalesbred.Database;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package fi.vm.yti.model;
+package fi.vm.yti.groupmanagement.model;
 
 import java.util.UUID;
 

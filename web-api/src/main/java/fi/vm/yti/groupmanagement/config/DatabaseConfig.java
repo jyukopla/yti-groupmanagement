@@ -1,4 +1,4 @@
-package fi.vm.yti.config;
+package fi.vm.yti.groupmanagement.config;
 
 import org.dalesbred.Database;
 import org.dalesbred.conversion.TypeConversionRegistry;

@@ -15,7 +15,7 @@ import { OrganizationsComponent } from './organizations.component';
         <div class="col-md-12 mx-auto">
           <div class="row">
             <div class="col-md-12">
-              <app-users></app-users>
+              <!--app-users></app-users-->
               <p>
               <app-organizations></app-organizations>
             </div>

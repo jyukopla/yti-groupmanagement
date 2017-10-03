@@ -37,8 +37,38 @@ msgstr "Hei"
 msgid "User list"
 msgstr "Käyttäjälistaus"
 
-msgid "Organization list"
-msgstr "Organisaatiolistaus"
+msgid "Organizations"
+msgstr "Organisaatiot"
+
+msgid "Add new organization"
+msgstr "Lisää uusi organisaatio"
+
+msgid "Name FI"
+msgstr "Nimi FI"
+
+msgid "Name EN"
+msgstr "Nimi EN"
+
+msgid "Name SV"
+msgstr "Nimi SV"
+
+msgid "Description FI"
+msgstr "Kuvaus FI"
+
+msgid "Description EN"
+msgstr "Kuvaus EN"
+
+msgid "Description SV"
+msgstr "Kuvaus SV"
+
+msgid "New organization"
+msgstr "Uusi organisaatio"
+
+msgid "Save"
+msgstr "Tallenna"
+
+msgid "Browse users"
+msgstr "Selaa käyttäjiä"
 
 msgid "Front page"
 msgstr "Etusivu"

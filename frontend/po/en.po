@@ -37,7 +37,37 @@ msgstr "Hello"
 msgid "User list"
 msgstr "Users"
 
-msgid "Organization list"
+msgid "Organizations"
+msgstr ""
+
+msgid "Add new organization"
+msgstr ""
+
+msgid "Name FI"
+msgstr ""
+
+msgid "Name EN"
+msgstr ""
+
+msgid "Name SV"
+msgstr ""
+
+msgid "Description FI"
+msgstr ""
+
+msgid "Description EN"
+msgstr ""
+
+msgid "Description SV"
+msgstr ""
+
+msgid "New organization"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Browse users"
 msgstr ""
 
 msgid "Front page"

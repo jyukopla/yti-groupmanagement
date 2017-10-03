@@ -23,6 +23,7 @@ import { TranslateValuePipe } from './pipes/translate-value.pipe';
 import { LocationService } from './services/location.service';
 import { UsersComponent } from './components/users.component';
 import { OrganizationsComponent } from './components/organizations.component';
+import {NewOrganizationComponent} from "./components/neworganization.component";
 
 const localizations: { [lang: string]: string} = {
   fi: require('json-loader!po-loader?format=mf!../../po/fi.po'),
@@ -47,6 +48,7 @@ export function createMissingTranslationHandler(): MissingTranslationHandler {
 
 const appRoutes: Routes = [
   { path: '', component: FrontpageComponent },
+  { path: 'newOrganization', component: NewOrganizationComponent }
 ];
 
 @NgModule({
@@ -58,7 +60,8 @@ const appRoutes: Routes = [
     FooterComponent,
     TranslateValuePipe,
     UsersComponent,
-    OrganizationsComponent
+    OrganizationsComponent,
+    NewOrganizationComponent
   ],
   imports: [
     BrowserModule,

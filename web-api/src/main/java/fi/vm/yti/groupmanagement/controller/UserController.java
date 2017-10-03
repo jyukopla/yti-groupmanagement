@@ -1,8 +1,8 @@
-package fi.vm.yti.controller;
+package fi.vm.yti.groupmanagement.controller;
 
 
-import fi.vm.yti.dao.UserDao;
-import fi.vm.yti.model.UserModel;
+import fi.vm.yti.groupmanagement.dao.UserDao;
+import fi.vm.yti.groupmanagement.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package fi.vm.yti.controller;
+package fi.vm.yti.groupmanagement.controller;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;

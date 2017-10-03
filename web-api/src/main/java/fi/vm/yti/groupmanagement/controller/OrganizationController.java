@@ -1,8 +1,8 @@
-package fi.vm.yti.controller;
+package fi.vm.yti.groupmanagement.controller;
 
 
-import fi.vm.yti.dao.OrganizationDao;
-import fi.vm.yti.model.OrganizationModel;
+import fi.vm.yti.groupmanagement.dao.OrganizationDao;
+import fi.vm.yti.groupmanagement.model.OrganizationModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

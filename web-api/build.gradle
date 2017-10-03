@@ -54,7 +54,7 @@ dependencies {
 }
 
 jar {
-    baseName = 'rhp'
+    baseName = 'yti-groupmanagement'
     dependsOn tasks.findByPath(":frontend:frontendJar")
 
     from zipTree(tasks.findByPath(":frontend:frontendJar").outputs.files.singleFile)
@@ -66,7 +66,7 @@ springBoot {
 }
 
 bootRepackage {
-    mainClass = 'fi.vm.yti.RhpMain'
+    mainClass = 'fi.vm.yti.groupmanagement.Main'
 }
 
 apina {

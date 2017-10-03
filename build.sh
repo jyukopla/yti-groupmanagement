@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t rhp .
+docker build -t yti-groupmanagement .

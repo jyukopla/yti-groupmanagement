@@ -1,4 +1,4 @@
-package fi.vm.yti;
+package fi.vm.yti.groupmanagement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,9 +6,9 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan({"fi.vm.yti"})
-public class RhpMain {
+public class Main {
 
     public static void main(String[] args) {
-        SpringApplication.run(RhpMain.class, args);
+        SpringApplication.run(Main.class, args);
     }
 }

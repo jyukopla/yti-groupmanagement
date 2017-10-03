@@ -9,9 +9,9 @@ import { Component } from '@angular/core';
       <span>{{'Give feedback' | translate}}: <a href="mailto:iow@postit.csc.fi" translate>CSC - IT Center for Science Ltd</a></span>
 
       <span class="float-right">
-        <a href="https://github.com/VRK-YTI/rhp" target="_blank">{{'Source code' | translate}}:</a>
+        <a href="https://github.com/VRK-YTI/yti-groupmanagement" target="_blank">{{'Source code' | translate}}:</a>
         <span translate>licensed under the</span>
-        <a href="https://github.com/VRK-YTI/rhp/blob/master/LICENSE.txt" target="_blank">European Union Public Licence</a>
+        <a href="https://github.com/VRK-YTI/yti-groupmanagement/blob/master/LICENSE.txt" target="_blank">European Union Public Licence</a>
       </span>
     </div>
   `

@@ -1,5 +1,5 @@
 FROM openjdk:8-jdk-alpine
 
-ADD web-api/build/libs/rhp.jar rhp.jar
+ADD web-api/build/libs/yti-groupmanagement.jar yti-groupmanagement.jar
 ENV JAVA_OPTS=""
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /rhp.jar" ]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /yti-groupmanagement.jar" ]

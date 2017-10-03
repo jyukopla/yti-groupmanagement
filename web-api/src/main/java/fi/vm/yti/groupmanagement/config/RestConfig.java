@@ -1,4 +1,4 @@
-package fi.vm.yti.config;
+package fi.vm.yti.groupmanagement.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;

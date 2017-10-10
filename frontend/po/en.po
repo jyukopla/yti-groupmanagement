@@ -26,7 +26,7 @@ msgid "Source code"
 msgstr ""
 
 msgid "Population Registry Center of Finland"
-msgstr "VRK - Väestörekisterkeskus"
+msgstr ""
 
 msgid "licensed under the"
 msgstr ""

@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   template: `
     <div class="panel-footer">
 
-      <span>{{'Give feedback' | translate}}: <a href="mailto:iow@postit.csc.fi" translate>CSC - IT Center for Science Ltd</a></span>
+      <span>{{'Give feedback' | translate}}: <a href="mailto:yhteentoimivuus@vrk.fi" translate>Population Registry Center of Finland</a></span>
 
       <span class="float-right">
         <a href="https://github.com/VRK-YTI/yti-groupmanagement" target="_blank">{{'Source code' | translate}}:</a>

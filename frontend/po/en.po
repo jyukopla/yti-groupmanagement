@@ -25,8 +25,8 @@ msgstr ""
 msgid "Source code"
 msgstr ""
 
-msgid "CSC - IT Center for Science Ltd"
-msgstr ""
+msgid "Population Registry Center of Finland"
+msgstr "VRK - Väestörekisterkeskus"
 
 msgid "licensed under the"
 msgstr ""
@@ -65,6 +65,18 @@ msgid "New organization"
 msgstr ""
 
 msgid "Save"
+msgstr ""
+
+msgid "Search user..."
+msgstr ""
+
+msgid "Add user"
+msgstr ""
+
+msgid "Select user"
+msgstr ""
+
+msgid "Cancel"
 msgstr ""
 
 msgid "Browse users"

@@ -30,6 +30,7 @@ class UserController {
         return this.userDao.getUsers();
     }
 
+
     @RequestMapping(value = "{user}", method = PUT, consumes = APPLICATION_JSON_VALUE)
     public void setUser(@RequestBody UserModel user) {
         if (!user.superuser) {

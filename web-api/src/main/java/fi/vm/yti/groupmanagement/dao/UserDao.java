@@ -21,6 +21,11 @@ public class UserDao {
         return db.findAll(UserModel.class,"SELECT name, email, superuser FROM \"user\"");
     }
 
+    //TODO or to remove
+    /*public List<UserModel> getUsersForOrganization() {
+        return db.findAll(UserModel.class,"SELECT name, email, superuser FROM \"user\"");
+    }*/
+
     public void setUser(UserModel user) {
         db.update("INSERT INTO \"user\" (email, name, superuser) VALUES (?,?,?)", user.email, user.name, user.superuser);
     }

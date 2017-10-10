@@ -10,4 +10,12 @@ export class UserService {
   getUsers(): Observable<UserModel[]> {
       return this.endpoint.getUsers();
     }
+
+  getUsersForOrganization(): UserModel[] {
+    return null;//this.endpoint. getUsers();
+  }
+
+  addUser(user: UserModel): void {
+    this.endpoint.setUser(user);
+}
 }

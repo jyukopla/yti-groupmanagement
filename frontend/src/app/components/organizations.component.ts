@@ -41,7 +41,6 @@ export class OrganizationsComponent implements OnInit {
   }
 
   addOrganization() {
-    console.log("add new");
     this.router.navigate(['/newOrganization']);
   }
 }

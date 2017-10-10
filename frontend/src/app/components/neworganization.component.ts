@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {LocationService} from "../services/location.service";
+import {isDefined, Restrict, SearchModalService} from "./search-modal.component";
+import {ModalDismissReasons} from "@ng-bootstrap/ng-bootstrap";
+import {UserModel} from "../apina";
+import {UserService} from "../services/user.service";
 
 @Component({
   selector: 'app-neworganization',
@@ -34,16 +39,51 @@ import { Component, OnInit } from '@angular/core';
     
     <h3>Ryhmän jäsenet</h3>
     <ul id="organization_users">
+      <p></p>
+      
     </ul>
+    <button type="button"
+            class="btn btn-default"
+
+            (click)="addUser()" translate>Add user</button>
     
   </div>`,
   styleUrls: ['./neworganization.component.scss']
 })
 export class NewOrganizationComponent implements OnInit {
 
-  constructor() { }
+  @Input() self?: UserModel;
+  @Input() reference: UserModel;
+  userService: UserService;
+  constructor(locationService: LocationService,
+              private searchModal: SearchModalService,
+              userService: UserService) {
+    this.userService = userService;
+    locationService.atAddNewOrganization();
+  }
 
   ngOnInit() {
   }
 
+  addUser() {
+
+    /*const restricts: Restrict[] = [
+      ...(isDefined(this.self) ? [{ graphId: this.self.graphId, conceptId: this.self.id, reason: 'self reference error'}] : []),
+      ...this.reference.value.map(({ graphId, id }) => ({ graphId, conceptId: id, reason: 'already added error'}))
+    ];*/
+
+    this.searchModal.openForGraph("User" , '', null)
+      .then(result => this.userService.addUser(result), ignoreModalClose);
+  }
+
+}
+
+export function ignoreModalClose(err: any) {
+  if (!isModalClose(err)) {
+    throw err;
+  }
+}
+
+export function isModalClose(err: any) {
+  return err === 'cancel' || err !== ModalDismissReasons.BACKDROP_CLICK || err === ModalDismissReasons.ESC;
 }

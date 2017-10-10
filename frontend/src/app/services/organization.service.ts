@@ -8,6 +8,14 @@ export class OrganizationService {
   constructor(private endpoint: OrganizationEndpoint) {}
 
     getOrganizations(): Observable<OrganizationModel[]> {
-      return this.endpoint.getOrganizations();    
+      return this.endpoint.getOrganizations();
    }
+
+    putOrganization(org: OrganizationModel): Observable<OrganizationModel> {
+      return this.endpoint.putOrganization(org);
+    }
+
+    postOrganization(org: OrganizationModel): void {
+      this.endpoint.postOrganization(org);
+    }
   }

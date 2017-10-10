@@ -39,14 +39,14 @@ class OrganizationController {
          {return this.organizationDao.getOrganization(id);}
 
     @RequestMapping(value = "organization/{org}", method = PUT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public OrganizationModel putOrganization(@RequestBody OrganizationModel org)
+    public OrganizationModel createOrganization(@RequestBody OrganizationModel org)
     {
-        return this.organizationDao.putOrganization(org);
+        return this.organizationDao.createOrganization(org);
     }
 
 
     @RequestMapping(value = "organization/{org}", method = POST, consumes = APPLICATION_JSON_VALUE)
-    public void postOrganization(@RequestBody OrganizationModel org) {
-        this.organizationDao.postOrganization(org);
+    public void updateOrganization(@RequestBody OrganizationModel org) {
+        this.organizationDao.updateOrganization(org);
     }
 }

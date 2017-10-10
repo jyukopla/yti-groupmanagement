@@ -11,11 +11,11 @@ export class OrganizationService {
       return this.endpoint.getOrganizations();
    }
 
-    putOrganization(org: OrganizationModel): Observable<OrganizationModel> {
-      return this.endpoint.putOrganization(org);
+    createOrganization(org: OrganizationModel): Observable<OrganizationModel> {
+      return this.endpoint.createOrganization(org);
     }
 
-    postOrganization(org: OrganizationModel): void {
-      this.endpoint.postOrganization(org);
+    updateOrganization(org: OrganizationModel): void {
+      this.endpoint.updateOrganization(org);
     }
   }

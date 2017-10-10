@@ -30,13 +30,13 @@ public class OrganizationDao {
         return db.findAll(OrganizationModel.class,"SELECT id, name_en, name_fi, name_sv, url FROM organization where id = ?", uuid);
     }
 
-    public OrganizationModel putOrganization(OrganizationModel org) {
+    public OrganizationModel createOrganization(OrganizationModel org) {
         int uuid = db.findUniqueInt("INSERT INTO organization (name_en, name_fi, name_sv, url) VALUES (?,?,?,?) RETURNING id", org.name_en, org.name_fi, org.name_sv, org.url);
         org = db.findUnique(OrganizationModel.class,"SELECT id, name_en, name_fi, name_sv, url FROM organization where id = ?", uuid);
         return org;
     }
 
-    public void postOrganization(OrganizationModel org) {
+    public void updateOrganization(OrganizationModel org) {
         db.update("SELECT id, name_en, name_fi, name_sv, url FROM organization where id = ?", org.id);
         db.update("UPDATE organization (name_en, name_fi, name_sv, url) VALUES (?,?,?,?) WHERE id = ?", org.name_en, org.name_fi, org.name_sv, org.url, org.id);
     }

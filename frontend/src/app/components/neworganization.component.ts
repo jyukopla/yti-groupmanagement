@@ -40,12 +40,12 @@ import {UserService} from "../services/user.service";
     <h3>Ryhmän jäsenet</h3>
     <ul id="organization_users">
       <p></p>
-      
-    </ul>
-    <button type="button"
-            class="btn btn-default"
+      <button type="button"
+              class="btn btn-default"
 
-            (click)="addUser()" translate>Add user</button>
+              (click)="addUser()" translate>Add user</button>
+
+    </ul>
     
   </div>`,
   styleUrls: ['./neworganization.component.scss']
@@ -67,10 +67,7 @@ export class NewOrganizationComponent implements OnInit {
 
   addUser() {
 
-    /*const restricts: Restrict[] = [
-      ...(isDefined(this.self) ? [{ graphId: this.self.graphId, conceptId: this.self.id, reason: 'self reference error'}] : []),
-      ...this.reference.value.map(({ graphId, id }) => ({ graphId, conceptId: id, reason: 'already added error'}))
-    ];*/
+
 
     this.searchModal.openForGraph("User" , '', null)
       .then(result => this.userService.addUser(result), ignoreModalClose);

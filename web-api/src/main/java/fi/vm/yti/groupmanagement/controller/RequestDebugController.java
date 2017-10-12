@@ -22,13 +22,22 @@ public class RequestDebugController {
 
         StringBuilder result = new StringBuilder();
 
-        while (attributeNames.hasMoreElements()) {
-            String attributeName = attributeNames.nextElement();
-            Object attributeValue = request.getAttribute(attributeName);
+        result.append(formatKeyAndValue(request, "Shib-Identity-Provider"));
+        result.append(formatKeyAndValue(request, "displayName"));
+        result.append(formatKeyAndValue(request, "group"));
+        result.append(formatKeyAndValue(request, "mail"));
+        result.append(formatKeyAndValue(request, "sn"));
+        result.append(formatKeyAndValue(request, "uid"));
 
-            result.append(attributeName).append(":").append(attributeValue).append("\n");
+        while (attributeNames.hasMoreElements()) {
+            result.append(formatKeyAndValue(request, attributeNames.nextElement()));
         }
 
         return result.toString();
+    }
+
+
+    private String formatKeyAndValue(HttpServletRequest req, String key) {
+        return key + ":" + req.getAttribute(key) + "\n";
     }
 }

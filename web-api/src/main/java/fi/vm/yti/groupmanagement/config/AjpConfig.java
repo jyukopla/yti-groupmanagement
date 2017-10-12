@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class AjpConfig {
 
     @Bean
-    public EmbeddedServletContainerFactory servletContainer(@Value("${tomcat.ajp.port}") Integer ajpPort) {
+    public EmbeddedServletContainerFactory servletContainer(@Value("${tomcat.ajp.port:}") Integer ajpPort) {
 
         TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
 

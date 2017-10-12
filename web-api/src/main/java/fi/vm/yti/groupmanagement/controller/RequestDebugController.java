@@ -9,9 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
 
 @RestController
+@RequestMapping(value = "/api/debug", method = RequestMethod.GET)
 public class RequestDebugController {
 
-    @RequestMapping(value = "/debug", method = RequestMethod.GET)
+    @RequestMapping
     String debug(HttpServletRequest request, HttpServletResponse response) {
 
         response.setContentType("text/plain");

@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/debug", method = RequestMethod.GET)
@@ -18,26 +20,19 @@ public class RequestDebugController {
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
 
-        Enumeration<String> attributeNames = request.getAttributeNames();
-
-        StringBuilder result = new StringBuilder();
-
-        result.append(formatKeyAndValue(request, "Shib-Identity-Provider"));
-        result.append(formatKeyAndValue(request, "displayName"));
-        result.append(formatKeyAndValue(request, "group"));
-        result.append(formatKeyAndValue(request, "mail"));
-        result.append(formatKeyAndValue(request, "sn"));
-        result.append(formatKeyAndValue(request, "uid"));
-
-        while (attributeNames.hasMoreElements()) {
-            result.append(formatKeyAndValue(request, attributeNames.nextElement()));
-        }
-
-        return result.toString();
+        return formatKeysAndValues(request, Arrays.asList(
+                "Shib-Identity-Provider",
+                "uid",
+                "mail",
+                "givenname",
+                "surname",
+                "o",
+                "group"
+        ));
     }
 
 
-    private String formatKeyAndValue(HttpServletRequest req, String key) {
-        return key + ":" + req.getAttribute(key) + "\n";
+    private String formatKeysAndValues(HttpServletRequest req, List<String> keys) {
+        return keys.stream().map(key -> key + ":" + req.getAttribute(key)).collect(Collectors.joining("\n"));
     }
 }

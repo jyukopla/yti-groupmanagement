@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +35,7 @@ public class RequestDebugController {
 
     private String convertLatinToUTF8(Object o) {
         if (o != null) {
-            return new String(o.toString().getBytes(Charset.forName("ISO-8859-15")), StandardCharsets.UTF_8);
+            return new String(o.toString().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         } else {
             return null;
         }

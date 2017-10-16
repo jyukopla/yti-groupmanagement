@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/api/debug", method = RequestMethod.GET)
+@RequestMapping(value = "/debug", method = RequestMethod.GET)
 public class RequestDebugController {
 
     @RequestMapping

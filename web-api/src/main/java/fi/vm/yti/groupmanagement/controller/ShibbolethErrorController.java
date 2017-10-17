@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -17,7 +18,8 @@ public class ShibbolethErrorController {
     private String registrationUrl;
 
     @RequestMapping(value = "/login-error", method = RequestMethod.GET)
-    String loginError(@RequestParam(required = false) String now,
+    String loginError(HttpServletRequest request,
+                      @RequestParam(required = false) String now,
                       @RequestParam(required = false) String requestURL,
                       @RequestParam(required = false) String errorType,
                       @RequestParam(required = false) String errorText,
@@ -32,8 +34,8 @@ public class ShibbolethErrorController {
         model.put("missingSignUp", singUpMissing);
         model.put("genericError", !singUpMissing);
 
-        model.put("registrationUrl", registrationUrl + "?returnUrl=" + urlEncode(relayState));
-        model.put("goBackUrl", relayState);
+        model.put("registrationUrl", createRegistrationUrl(request, registrationUrl));
+        model.put("goBackUrl", createGoBackUrl(request, relayState));
 
         model.put("now", now);
         model.put("requestURL", requestURL);
@@ -45,6 +47,51 @@ public class ShibbolethErrorController {
         model.put("statusCode2", statusCode2);
 
         return "loginError";
+    }
+
+    private static String createRegistrationUrl(HttpServletRequest request, String registrationUrl) {
+        return registrationUrl + "?returnUrl=" + urlEncode(getRequestUrl(request));
+    }
+
+    private static String createGoBackUrl(HttpServletRequest request, String relayState) {
+        return getRequestUrlExcludingPath(request) + "/Shibboleth.sso/Login?target=" + urlEncode(relayState);
+    }
+
+    private static String getRequestUrl(HttpServletRequest request) {
+
+        String contextPath = request.getContextPath();
+        String servletPath = request.getServletPath();
+        String pathInfo = request.getPathInfo();
+        String queryString = request.getQueryString();
+
+        StringBuilder url = new StringBuilder();
+
+        url.append(getRequestUrlExcludingPath(request));
+        url.append(contextPath).append(servletPath);
+
+        if (pathInfo != null) {
+            url.append(pathInfo);
+        }
+        if (queryString != null) {
+            url.append("?").append(queryString);
+        }
+        return url.toString();
+    }
+
+    private static String getRequestUrlExcludingPath(HttpServletRequest req) {
+
+        String scheme = req.getScheme();
+        String serverName = req.getServerName();
+        int serverPort = req.getServerPort();
+
+        StringBuilder url = new StringBuilder();
+        url.append(scheme).append("://").append(serverName);
+
+        if (serverPort != 80 && serverPort != 443) {
+            url.append(":").append(serverPort);
+        }
+
+        return url.toString();
     }
 
     private static String urlEncode(String s) {

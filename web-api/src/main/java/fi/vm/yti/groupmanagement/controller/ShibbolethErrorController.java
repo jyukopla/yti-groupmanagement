@@ -34,7 +34,7 @@ public class ShibbolethErrorController {
         model.put("missingSignUp", singUpMissing);
         model.put("genericError", !singUpMissing);
 
-        model.put("registrationUrl", createRegistrationUrl(request, registrationUrl));
+        model.put("registrationUrl", registrationUrl);
         model.put("goBackUrl", createGoBackUrl(request, relayState));
 
         model.put("now", now);
@@ -49,33 +49,8 @@ public class ShibbolethErrorController {
         return "loginError";
     }
 
-    private static String createRegistrationUrl(HttpServletRequest request, String registrationUrl) {
-        return registrationUrl + "?returnUrl=" + urlEncode(getRequestUrl(request));
-    }
-
     private static String createGoBackUrl(HttpServletRequest request, String relayState) {
         return getRequestUrlExcludingPath(request) + "/Shibboleth.sso/Login?target=" + urlEncode(relayState);
-    }
-
-    private static String getRequestUrl(HttpServletRequest request) {
-
-        String contextPath = request.getContextPath();
-        String servletPath = request.getServletPath();
-        String pathInfo = request.getPathInfo();
-        String queryString = request.getQueryString();
-
-        StringBuilder url = new StringBuilder();
-
-        url.append(getRequestUrlExcludingPath(request));
-        url.append(contextPath).append(servletPath);
-
-        if (pathInfo != null) {
-            url.append(pathInfo);
-        }
-        if (queryString != null) {
-            url.append("?").append(queryString);
-        }
-        return url.toString();
     }
 
     private static String getRequestUrlExcludingPath(HttpServletRequest req) {

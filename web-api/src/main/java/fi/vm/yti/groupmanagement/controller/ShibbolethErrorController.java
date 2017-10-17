@@ -27,9 +27,13 @@ public class ShibbolethErrorController {
                       @RequestParam(required = false) String statusCode2,
                       Map<String, Object> model) {
 
-        model.put("missingSignUp", isSingUpMissing(errorType, statusCode2));
+        boolean singUpMissing = isSingUpMissing(errorType, statusCode2);
+
+        model.put("missingSignUp", singUpMissing);
+        model.put("genericError", !singUpMissing);
+
         model.put("registrationUrl", registrationUrl + "?returnUrl=" + urlEncode(relayState));
-        model.put("goBackUrl", urlEncode(relayState));
+        model.put("goBackUrl", relayState);
 
         model.put("now", now);
         model.put("requestURL", requestURL);

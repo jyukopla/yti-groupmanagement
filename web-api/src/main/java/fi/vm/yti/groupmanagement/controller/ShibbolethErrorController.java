@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 @Controller
@@ -16,18 +18,18 @@ public class ShibbolethErrorController {
 
     @RequestMapping(value = "/login-error", method = RequestMethod.GET)
     String loginError(@RequestParam(required = false) String now,
-                 @RequestParam(required = false) String requestURL,
-                 @RequestParam(required = false) String errorType,
-                 @RequestParam(required = false) String errorText,
-                 @RequestParam(name = "RelayState", required = false) String relayState,
-                 @RequestParam(required = false) String entityID,
-                 @RequestParam(required = false) String statusCode,
-                 @RequestParam(required = false) String statusCode2,
-                 Map<String, Object> model) {
+                      @RequestParam(required = false) String requestURL,
+                      @RequestParam(required = false) String errorType,
+                      @RequestParam(required = false) String errorText,
+                      @RequestParam(name = "RelayState", required = false) String relayState,
+                      @RequestParam(required = false) String entityID,
+                      @RequestParam(required = false) String statusCode,
+                      @RequestParam(required = false) String statusCode2,
+                      Map<String, Object> model) {
 
-        if (isSingUpMissing(errorType, statusCode2)) {
-            return "redirect:" + registrationUrl;
-        }
+        model.put("missingSignUp", isSingUpMissing(errorType, statusCode2));
+        model.put("registrationUrl", registrationUrl + "?returnUrl=" + urlEncode(relayState));
+        model.put("goBackUrl", urlEncode(relayState));
 
         model.put("now", now);
         model.put("requestURL", requestURL);
@@ -39,6 +41,14 @@ public class ShibbolethErrorController {
         model.put("statusCode2", statusCode2);
 
         return "loginError";
+    }
+
+    private static String urlEncode(String s) {
+        try {
+            return URLEncoder.encode(s, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static boolean isSingUpMissing(String errorType, String statusCode2) {

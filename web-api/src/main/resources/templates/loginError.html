@@ -11,7 +11,7 @@
 
 <h1>Login error</h1>
 
-<p>
+<p th:if="${not #missingSignUp}">
     <ul>
         <li th:text="'Now: ' + ${now}"></li>
         <li th:text="'RequestURL: ' + ${requestUrl}"></li>
@@ -22,6 +22,11 @@
         <li th:text="'StatusCode: ' + ${statusCode}"></li>
         <li th:text="'StatusCode2: ' + ${statusCode2}"></li>
     </ul>
+</p>
+
+<p th:if="${#missingSignUp}">
+    You need to register to continue as logged in user. You can register from <a th:href="@{${registrationUrl}}">here</a>.
+    You can continue back to the site from <a th:href="@{${goBackUrl}}">here</a> after you have verified your email address.
 </p>
 
 </body>

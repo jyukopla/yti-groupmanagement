@@ -4,25 +4,85 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Email: { email }"
-msgstr ""
-
-msgid "You are expected at {{time}}', {time: moment.format('H:mm"
-msgstr ""
-
 msgid "Give feedback"
 msgstr ""
 
 msgid "Source code"
 msgstr ""
 
-msgid "CSC - IT Center for Science Ltd"
+msgid "Population Registry Center of Finland"
 msgstr ""
 
 msgid "licensed under the"
 msgstr ""
 
-msgid "Hello"
+msgid "Group management service"
+msgstr ""
+
+msgid "New organization"
+msgstr ""
+
+msgid "Name FI"
+msgstr ""
+
+msgid "Description FI"
+msgstr ""
+
+msgid "Name EN"
+msgstr ""
+
+msgid "Description EN"
+msgstr ""
+
+msgid "Name SV"
+msgstr ""
+
+msgid "Description SV"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Group members"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Application"
+msgstr ""
+
+msgid "Add user"
+msgstr ""
+
+msgid "Organizations"
+msgstr ""
+
+msgid "Add new organization"
+msgstr ""
+
+msgid "Browse users"
+msgstr ""
+
+msgid "Search user..."
+msgstr ""
+
+msgid "Select user"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "User list"
 msgstr ""
 
 msgid "Front page"

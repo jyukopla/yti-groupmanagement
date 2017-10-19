@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
   template: `<div class="row add-new-organization">
     <div class="col-md-12">
       
-    <h2 translate>Organizations</h2>        
+    <h2 style="display: inline-block" translate>Organizations</h2>        
       <button class="button btn-default" (click)="addOrganization()">
         <span translate>Add new organization</span>
       </button>
@@ -17,11 +17,9 @@ import {Router} from "@angular/router";
         <span translate>Browse users</span>
       </button>
     </div>
-  
     <ul id="organizations-list">
-      <li *ngFor="let organization of allOrganizations">
-      {{organization.print()}}
-        <pre>{{organization | json}}</pre>
+      <li *ngFor="let organization of allOrganizations" style="margin-left: 10px">
+      {{organization.getName()}}
       </li>
     </ul>
   </div>    `,
@@ -48,6 +46,10 @@ export class OrganizationsComponent implements OnInit {
 class Organization {
 
     constructor(private organizationModel: OrganizationModel) { }
+
+    getName() {
+      return this.organizationModel.name_fi;
+    }
 
     print() {
       return `- = ${this.organizationModel.id} ${this.organizationModel.name_en} ${this.organizationModel.name_fi} ${this.organizationModel.name_sv} ${this.organizationModel.url} = -`;

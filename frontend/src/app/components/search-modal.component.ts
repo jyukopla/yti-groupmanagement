@@ -1,4 +1,7 @@
-import {Component, ElementRef, Injectable, Input, OnInit, Optional, Renderer, ViewChild} from '@angular/core';
+import {
+  Component, ElementRef, Injectable, Input, OnInit, Optional, Pipe, PipeTransform, Renderer,
+  ViewChild
+} from '@angular/core';
 import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {UserModel} from "../apina";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
@@ -6,6 +9,7 @@ import {Localizable} from "../entities/localization";
 import {Observable} from "rxjs/Observable";
 import {UserService} from "../services/user.service";
 import {Http} from "@angular/http";
+import {forEach} from "@angular/router/src/utils/collection";
 
 type Mode = 'include'|'exclude';
 
@@ -21,27 +25,8 @@ export class SearchModalService {
   constructor(private modalService: NgbModal) {
   }
 
-  openForGraph(graphId: string, initialSearch: string, restricts: Restrict[]): Promise<UserModel> {
+  openForUser(): Promise<UserModel> {
     const modalRef = this.modalService.open(SearchModalComponent, { size: 'lg' });
-    const instance = modalRef.componentInstance as SearchModalComponent;
-    console.log("instance: ");;
-    console.log(instance);
-    console.log(instance.userModel);
-    console.log(instance.userModel.toString());
-    instance.graphId = graphId;
-    instance.mode = 'include';
-    instance.initialSearch = initialSearch;
-    instance.restricts = restricts;
-    return modalRef.result;
-  }
-
-  openOtherThanGraph(graphId: string, initialSearch = '', restricts: Restrict[]): Promise<UserModel> {
-    const modalRef = this.modalService.open(SearchModalComponent, { size: 'lg' });
-    const instance = modalRef.componentInstance as SearchModalComponent;
-    instance.graphId = graphId;
-    instance.mode = 'exclude';
-    instance.initialSearch = initialSearch;
-    instance.restricts = restricts;
     return modalRef.result;
   }
 }
@@ -50,82 +35,66 @@ export class SearchModalService {
   selector: 'app-search-modal',
   template: `<div class="modal-header">
   <h4 class="modal-title">
-  <a><i class="fa fa-times" (click)="cancel()"></i></a>
-  <!--span translate>Select user</span-->
-</h4>
-</div>
-<div class="modal-body full-height">
-<div class="row">
-<div class="col-md-4">
+    <a><i class="fa fa-times" (click)="cancel()"></i></a>
+    <span translate>Select user</span>
+  </h4>
+    </div>
 
-<!--div class="input-group input-group-lg input-group-search">
-  <input #searchInput type="text" class="form-control" placeholder="{{'Search user...' | translate}}"
-  [(ngModel)]="search"/>
-  </div-->
+    <div class="modal-body full-height ">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group input-group-lg input-group-search" style="margin-bottom: 10px;">
+                <input #searchInput type="text" class="form-control" placeholder="{{'Search user...' | translate}}"
+                [(ngModel)]="search"/>
+                </div>
+            <div class="search-panel">
+        </div>
+        
+        <!--ul id="users" [(ngModel)] = "allUsers"-->
+              <ul id="users" [(ngModel)] = "selectedItem" ngDefaultControl>
+            <!--li *ngFor="let user of allUsers | searchPipe: searchInput.value" [value]="user ">{{user.name}}</li-->
+          <li *ngFor="let user of allUsers" (click)="userSelected(user)">{{user.name}}</li>
+        </ul>
+              
+    </div>
+          <div id="userdetails" class="col-md-7">
+            <label id="userdetailname" style="font-weight: bold" translate>Name</label>
+            <p>{{userdetail_name}}</p>
+            
+            <label id="userdetailemail" style="font-weight: bold" translate>Email</label>
+            <p>{{userdetail_email}}</p>
+          </div>
 
-  <div class="search-panel">
+          <div class="col-md-4">
+        <div class="search-results">
+            <div class="search-result" [class.selected]="user === selectedItem"
+            *ngFor="let user of searchResults$ | async; trackBy: userModel"
+            (click)="select(user)">
+            <h6 [innerHTML]="user.name | translateValue"></h6>
+            <p [innerHTML]="user.email | translateValue"></p>
 
-
-  
-
-
-<!--div class="form-group" *ngIf="mode === 'exclude'">
-  <label for="vocabularyFilter" translate>Vocabulary</label>
-<!--select id="vocabularyFilter" class="form-control" [(ngModel)]="onlyVocabulary">
-<option [ngValue]="null" translate>All vocabularies</option>
-
-</select>
-</div-->
-</div>
-  <!--ul id="users" *ngFor="let user of this.allUsers ">
-    {#user.name}
-  </ul-->
-  <select id="users" [(ngModel)] = "allUsers">
-    <option *ngFor="let user of allUsers" [value]="user | json">{{user.name}}</option>
-  </select>
-
-</div>
-<div class="col-md-4">
-<!--(scrolled)="loadUsers()"-->
-<div class="search-results">
-<div class="search-result" [class.selected]="user === selectedItem"
-*ngFor="let user of searchResults$ | async; trackBy: userModel"
-(click)="select(user)">
-<h6 [innerHTML]="user.name | translateValue"></h6>
-<p [innerHTML]="user.email | translateValue"></p>
-
-  <div class="origin">
-<span class="pull-left">LABEL</span>
-</div>
-</div>
-</div>
-</div>
-<div class="col-md-4">
-<!--form>
-  <app-concept-form *ngIf="selection && !loadingSelection"
-  [concept]="selection"
-  [form]="formNode"></app-concept-form>
-</form-->
-
+                <div class="origin">
+                <span class="pull-left">LABEL</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+    </div>
   </div>
-  </div>
-  </div>
+
   <div class="modal-footer">
 
-<!--div class="alert alert-danger" style="display: inline; padding: 6px; margin: 0 5px 0 0;" role="alert" *ngIf="restrictionReasonForSelection"-->
     <div class="alert alert-danger" style="display: inline; padding: 6px; margin: 0 5px 0 0;" role="alert">
 <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
-  <!--span>{{restrictionReasonForSelection | translate}}</span-->
+ 
 </div>
 
 <button type="button"
 class="btn btn-secondary cancel"
 (click)="cancel()" translate>Cancel</button>
 
-<!--button type="button"
-class="btn btn-default confirm"
-(click)="confirm()"
-  [disabled]="cannotSelect()" translate>Select concept</button-->
     <button type="button"
             class="btn btn-default confirm"
             (click)="confirm()"
@@ -140,69 +109,57 @@ export class SearchModalComponent implements OnInit {
   @ViewChild('searchInput') searchInput: ElementRef;
 
   @Input() mode: Mode;
-  @Input() graphId: string;
+  @Input() userId: string;
   @Input() initialSearch: string;
   @Input() restricts: Restrict[];
 
 
   searchResults$ = new BehaviorSubject<UserModel[]>([]);
 
-  allUsers:UserModel[];
+  allUsers:UserModel[] = [];
 
-  selectedItem: UserModel|null = null;
+  selectedItem = null;
   selection: UserModel|null = null;
 
+  userdetail_name: string;
+
+  userdetail_email: string;
 
   search$ = new BehaviorSubject('');
-  onlyStatus$ = new BehaviorSubject<string|null>(null);
-
-  loading = true;
-  loaded = 0;
-  canLoadMore = true;
-
+  users: Observable<UserModel[]>;
 
   constructor(public modal: NgbActiveModal,
               private userService: UserService,
               private renderer: Renderer,
               private http: Http) { }
 
+
+
+
+
   ngOnInit() {
-       //TODO: Actual way of doing it commented out, now testing
-    this.userService.getUsers().subscribe(userModels => {
-    this.allUsers = userModels.map(userModel => new UserModel());
 
-    });
+    this.search = this.initialSearch;
+
+    let eventObservable = Observable.fromEvent(this.searchInput.nativeElement, 'keyup')
+    eventObservable.subscribe();
+
+
+    this.users = this.userService.getUsers();
+    this.users.forEach(user => {user.forEach(user => {this.allUsers.push(user)})});
+    this.selectedItem = this.users.take(1);
+
+
   }
 
-  loadUsers(reset = false) {
+  userSelected(user) {
+    this.userdetail_name = user.name;
+    this.userdetail_email = user.email;
+    this.selectedItem.name = this.userdetail_name;
+    this.selectedItem.email = this.userdetail_email;
 
-    const batchSize = 100;
-
-    if (reset) {
-      this.loaded = 0;
-      this.canLoadMore = true;
-    }
-
-    if (this.canLoadMore) {
-
-      this.loading = true;
-
-      const appendResults = (users: UserModel[]) => {
-        if (users.length < batchSize) {
-          this.canLoadMore = false;
-        }
-
-        this.loaded += users.length;
-
-        this.searchResults$.next(reset ? users : [...this.searchResults, ...users]);
-        this.loading = false;
-      };
-    }
   }
 
-  get searchResults() {
-    return this.searchResults$.getValue();
-  }
 
   userModel(index: number, item: UserModel) {
     return item.name;;
@@ -219,12 +176,12 @@ export class SearchModalComponent implements OnInit {
     })
   }
 
-  get loadingSelection() {
-    return this.selectedItem && (!this.selection || this.selectedItem.email !== this.selection.email);
-  }
+
+
+
 
   ngAfterViewInit() {
-
+    this.renderer.invokeElementMethod(this.searchInput.nativeElement, 'focus');
   }
 
   get search() {
@@ -240,7 +197,10 @@ export class SearchModalComponent implements OnInit {
   }
 
   confirm() {
-    this.modal.close(this.selection);
+
+    this.selectedItem.name = this.userdetail_name;
+    this.selectedItem.email = this.userdetail_email;
+    this.modal.close(this.selectedItem);
   }
 }
 
@@ -250,19 +210,16 @@ export function isDefined<T>(obj): obj is T {
 }
 
 
-class User {
-  public _value: String;
-  constructor(private userModel: UserModel) {
-  this._value = this.userModel.name;
-  }
-  setName() {
 
-  }
-  value() {
-    return this.userModel.name;
-  }
-
-  print() {
-    return `${this.userModel.name}`;
+@Pipe({
+  name: 'searchPipe',
+  pure: false
+})
+export class SearchPipe implements PipeTransform {
+  transform(data: any[], searchTerm: string): any[] {
+    searchTerm = searchTerm.toUpperCase();
+    return data.filter(item => {
+      return item.toUpperCase().indexOf(searchTerm) !== -1
+    });
   }
 }

@@ -14,8 +14,7 @@ import { OrganizationsComponent } from './organizations.component';
       <div class="page-header row">
         <div class="col-md-12 mx-auto">
           <div class="row">
-            <div class="col-md-12">
-              <!--app-users></app-users-->
+            <div class="col-md-12">              
               <p>
               <app-organizations></app-organizations>
             </div>

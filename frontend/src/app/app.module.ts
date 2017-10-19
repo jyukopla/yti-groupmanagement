@@ -24,7 +24,7 @@ import { LocationService } from './services/location.service';
 import { UsersComponent } from './components/users.component';
 import { OrganizationsComponent } from './components/organizations.component';
 import { NewOrganizationComponent } from "./components/neworganization.component";
-import {SearchModalComponent, SearchModalService, SearchPipe} from './components/search-modal.component';
+import {SearchUserModalComponent, SearchModalService, SearchPipe} from './components/search-user-modal.component';
 
 const localizations: { [lang: string]: string} = {
   fi: require('json-loader!po-loader?format=mf!../../po/fi.po'),
@@ -63,7 +63,7 @@ const appRoutes: Routes = [
     UsersComponent,
     OrganizationsComponent,
     NewOrganizationComponent,
-    SearchModalComponent,
+    SearchUserModalComponent,
     SearchPipe
   ],
   imports: [
@@ -85,7 +85,7 @@ const appRoutes: Routes = [
     SearchModalService
   ],
   entryComponents: [
-    SearchModalComponent],
+    SearchUserModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

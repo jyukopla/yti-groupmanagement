@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {LocationService} from "../services/location.service";
-import {isDefined, Restrict, SearchModalService} from "./search-modal.component";
-import {ModalDismissReasons} from "@ng-bootstrap/ng-bootstrap";
+import {SearchModalService} from "./search-user-modal.component";
 import {OrganizationModel, UserModel} from "../apina";
 import {UserService} from "../services/user.service";
 import {OrganizationService} from "../services/organization.service";
+import {ignoreModalClose} from "../utils/modal";
 
 @Component({
   selector: 'app-neworganization',
@@ -15,22 +15,22 @@ import {OrganizationService} from "../services/organization.service";
       <div class="form-group">
         <div id="organization">
         <label for="name_fi" translate>Name FI</label>
-        <input type="text" class="form-control" id="name_fi" [(ngModel)]="name_fiValue" required>
+        <input type="text" class="form-control" id="name_fi" [(ngModel)]="name_fi" required>
         <label for="name_fi" translate>Description FI</label>
-          <textarea id="description_fi" class="form-control" rows="4" [(ngModel)]="description_fiValue"></textarea>
+          <textarea id="description_fi" class="form-control" rows="4" [(ngModel)]="description_fi"></textarea>
         </div>
         <div id="organization">
         <label for="name_en" translate>Name EN</label>
-        <input type="text" class="form-control" id="name_en" [(ngModel)]="name_enValue" required>
+        <input type="text" class="form-control" id="name_en" [(ngModel)]="name_en" required>
         <label for="name_en" translate>Description EN</label>
-          <textarea id="description_en" class="form-control" rows="4" [(ngModel)]="description_enValue"></textarea>
+          <textarea id="description_en" class="form-control" rows="4" [(ngModel)]="description_en"></textarea>
         </div>
         <div id="organization">
         <label for="name_sv" translate>Name SV</label>
-        <input type="text" class="form-control" id="name_sv" [(ngModel)]="name_svValue" required>
+        <input type="text" class="form-control" id="name_sv" [(ngModel)]="name_sv" required>
         <label for="name_sv" translate>Description SV</label>
-          <textarea id="description_sv" class="form-control" rows="4" [(ngModel)]="description_svValue"></textarea>
-          <button type="submit" class="btn btn-success" (click)="saveOrganization(name_fiValue, name_enValue, name_svValue)" translate>Save</button>
+          <textarea id="description_sv" class="form-control" rows="4" [(ngModel)]="description_sv"></textarea>
+          <button type="submit" class="btn btn-success" (click)="saveOrganization()" translate>Save</button>
         </div>        
       </div>      
 
@@ -52,7 +52,7 @@ import {OrganizationService} from "../services/organization.service";
         </thead>
         <tbody>
             <tr >
-                <td>{{this.organizationUser.name}}<p>{{this.organizationUser.email}}</td>
+              <td>{{this.organizationUser.name}}<p>{{this.organizationUser.email}}</p></td>
                 <td>{{this.organizationUser.role}}</td>
             </tr>
         </tbody>
@@ -71,16 +71,16 @@ export class NewOrganizationComponent implements OnInit {
   @Input() self?: UserModel;
   @Input() reference: UserModel;
 
-  name_fiValue = "";
-  name_enValue = "";
-  name_svValue = "";
-  description_fiValue ="";
-  description_enValue ="";
-  description_svValue ="";
+  name_fi = "";
+  name_en = "";
+  name_sv = "";
+  description_fi ="";
+  description_en ="";
+  description_sv ="";
 
-  userService: UserService;
-  organizationService: OrganizationService;
-  selectedMember: Promise<any>;
+  //userService: UserService;
+  //organizationService: OrganizationService;
+  selectedMember: Promise<OrganizationModel>;
   selectedResult = {};
 
   userModel = new UserModel;
@@ -90,10 +90,8 @@ export class NewOrganizationComponent implements OnInit {
 
   constructor(locationService: LocationService,
               private searchModal: SearchModalService,
-              userService: UserService,
-              organizationService: OrganizationService) {
-    this.userService = userService;
-    this.organizationService = organizationService;
+              public organizationService: OrganizationService) {
+
     locationService.atAddNewOrganization();
   }
 
@@ -102,45 +100,32 @@ export class NewOrganizationComponent implements OnInit {
   }
 
   addUser() {
-        this.searchModal.openForUser().then((resultPromise) => {this.handleResult(resultPromise); this.selectedResult = resultPromise;}, ignoreModalClose);
+        this.searchModal.open().then((user) => {this.handleModalResult(user); this.selectedResult = user;}, ignoreModalClose);
   }
 
-  saveOrganization(name_fiValue, name_enValue, name_svValue){
+  saveOrganization(){
     this.organizationModel =  new OrganizationModel();
-    this.organizationModel.name_fi = name_fiValue;
-    this.organizationModel.name_en = name_enValue;
-    this.organizationModel.name_sv = name_svValue;
+    this.organizationModel.name_fi = this.name_fi;
+    this.organizationModel.name_en = this.name_en;
+    this.organizationModel.name_sv = this.name_sv;
 
     this.organizationService.createOrganization(this.organizationModel);
   }
 
-  handleResult(resultPromise){
-    if (resultPromise.email != null) {
-      this.userModel = resultPromise;
-      this.organizationUser.setUser(resultPromise);
+  handleModalResult(user: UserModel){
+    if (user.email != null) {
+      this.userModel = user;
+      this.organizationUser.setUser(user);
     }
   }
 }
 
-export function ignoreModalClose(err: any) {
-    if (!isModalClose(err)) {
-    throw err;
-  }
-}
-
-export function isModalClose(err: any) {
-  return err === 'cancel' || err !== ModalDismissReasons.BACKDROP_CLICK || err === ModalDismissReasons.ESC;
-}
-
 class OrganizationUser {
-  role: string;
-  name: string;
-  email: string;
-
+  role ="";
+  name ="";
+  email = "";
   constructor() {
-    this.role ="";
-    this.name ="";
-    this.email = "";
+
   }
   setUser(userModel: UserModel){
     this.role = "ADMIN";

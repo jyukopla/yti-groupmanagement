@@ -12,7 +12,7 @@ export class UserService {
     }
 
   getUsersForOrganization(): UserModel[] {
-    return null;//this.endpoint. getUsers();
+    return new Array<UserModel>();//this.endpoint.getUsers(); //TODO
   }
 
   addUser(user: UserModel): void {

@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
   template: `<div class="row add-new-organization">
     <div class="col-md-12">
       
-    <h2 style="display: inline-block" translate>Organizations</h2>        
+    <h2 translate>Organizations</h2>        
       <button class="button btn-default" (click)="addOrganization()">
         <span translate>Add new organization</span>
       </button>
@@ -18,8 +18,8 @@ import {Router} from "@angular/router";
       </button>
     </div>
     <ul id="organizations-list">
-      <li *ngFor="let organization of allOrganizations" style="margin-left: 10px">
-      {{organization.getName()}}
+      <li *ngFor="let organization of allOrganizations">
+      {{organization.name}}
       </li>
     </ul>
   </div>    `,
@@ -47,7 +47,7 @@ class Organization {
 
     constructor(private organizationModel: OrganizationModel) { }
 
-    getName() {
+    get name() {
       return this.organizationModel.name_fi;
     }
 

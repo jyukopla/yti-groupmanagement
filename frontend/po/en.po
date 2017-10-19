@@ -82,5 +82,23 @@ msgstr ""
 msgid "Browse users"
 msgstr ""
 
+msgid "Group members"
+msgstr ""
+
 msgid "Front page"
+msgstr ""
+
+msgid "Group management service"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Application"
 msgstr ""

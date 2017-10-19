@@ -71,7 +71,7 @@ msgid "Add user"
 msgstr "Lisää käyttäjä"
 
 msgid "Search user..."
-msgstr "Hae käyttäjää"
+msgstr "Hae käyttäjää..."
 
 msgid "Select user"
 msgstr "Valitse käyttäjä"
@@ -79,6 +79,8 @@ msgstr "Valitse käyttäjä"
 msgid "Cancel"
 msgstr "Peruuta"
 
+msgid "Group members"
+msgstr "Ryhmän jäsenet"
 
 msgid "Browse users"
 msgstr "Selaa käyttäjiä"
@@ -88,3 +90,21 @@ msgstr "Etusivu"
 
 #~ msgid "Give feedback:"
 #~ msgstr "Anna palautetta:"
+
+msgid "Group management service"
+msgstr "Ryhmienhallintapalvelu"
+
+msgid "Name"
+msgstr "Nimi"
+
+msgid "Email"
+msgstr "Sähköposti"
+
+msgid "User"
+msgstr "Käyttäjä"
+
+msgid "Role"
+msgstr "Rooli"
+
+msgid "Application"
+msgstr "Sovellus"

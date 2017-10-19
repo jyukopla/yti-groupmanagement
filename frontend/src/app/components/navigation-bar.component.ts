@@ -7,7 +7,7 @@ import { Language, LanguageService } from '../services/language.service';
   template: `
     <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
       
-      <a class="navbar-brand" [routerLink]="['/']"><span>Ryhmienhallintapalvelu</span></a>
+      <a class="navbar-brand" [routerLink]="['/']"><span translate>Group management service</span></a>
 
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">

@@ -22,6 +22,7 @@ public class RequestDebugController {
         response.setCharacterEncoding("UTF-8");
 
         return formatKeysAndValues(request, Arrays.asList(
+                "REMOTE_USER",
                 "Shib-Identity-Provider",
                 "uid",
                 "mail",

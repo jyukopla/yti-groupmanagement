@@ -23,6 +23,9 @@ public class RequestDebugController {
 
         return formatKeysAndValues(request, Arrays.asList(
                 "REMOTE_USER",
+                "eppn",
+                "targeted-id",
+                "persistent-id",
                 "Shib-Identity-Provider",
                 "uid",
                 "mail",

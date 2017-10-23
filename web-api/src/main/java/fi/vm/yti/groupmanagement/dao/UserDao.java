@@ -18,7 +18,7 @@ public class UserDao {
     }
 
     public List<UserModel> getUsers() {
-        return db.findAll(UserModel.class,"SELECT name, email, superuser FROM \"user\"");
+        return db.findAll(UserModel.class,"SELECT firstName, lastName, email, superuser FROM \"user\"");
     }
 
     //TODO or to remove
@@ -27,6 +27,6 @@ public class UserDao {
     }*/
 
     public void setUser(UserModel user) {
-        db.update("INSERT INTO \"user\" (email, name, superuser) VALUES (?,?,?)", user.email, user.name, user.superuser);
+        db.update("INSERT INTO \"user\" (email, firstName, lastName, superuser) VALUES (?,?,?)", user.email, user.firstName, user.lastName, user.superuser);
     }
 }

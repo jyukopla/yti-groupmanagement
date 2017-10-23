@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { Observable } from "rxjs/Observable";
-import { UserModel } from '../apina';
+import { User } from '../entities/user';
 
 @Component({
   selector: 'app-users',
@@ -18,23 +17,15 @@ import { UserModel } from '../apina';
 `,
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {  
+export class UsersComponent implements OnInit {
+
   allUsers: User[];
 
-  constructor(private userService: UserService) { } 
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.getUsers().subscribe(userModels => {
-      this.allUsers = userModels.map(userModel => new User(userModel));
+    this.userService.getUsers().subscribe(users => {
+      this.allUsers = users;
     });
   }
 }
-
-class User {
-  
-    constructor(private userModel: UserModel) { }
-  
-    print() {
-      return `- = ${this.userModel.name} ${this.userModel.email} Admin: ${this.userModel.superuser ? 'Yes' : 'No'} = -`;
-    }
-  }

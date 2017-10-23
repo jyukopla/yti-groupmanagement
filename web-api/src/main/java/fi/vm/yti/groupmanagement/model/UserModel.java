@@ -3,6 +3,7 @@ package fi.vm.yti.groupmanagement.model;
 public class UserModel {
 
     public String email;
-    public String name;
+    public String firstName;
+    public String lastName;
     public boolean superuser;
 }

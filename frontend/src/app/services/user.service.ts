@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
 import { UserEndpoint, UserModel } from '../apina';
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
+import { User } from '../entities/user';
 
 @Injectable()
 export class UserService {
 
   constructor(private endpoint: UserEndpoint) { }
 
-  getUsers(): Observable<UserModel[]> {
-      return this.endpoint.getUsers();
-    }
+  getUsers(): Observable<User[]> {
+    return this.endpoint.getUsers().map(users =>
+      users.map(userModel => new User(userModel)));
+  }
 
-  getUsersForOrganization(): UserModel[] {
-    return new Array<UserModel>();//this.endpoint.getUsers(); //TODO
+  getUsersForOrganization(): User[] {
+    return []; // TODO: this.endpoint.getUsers();
   }
 
   addUser(user: UserModel): void {
     this.endpoint.setUser(user);
-}
+  }
 }

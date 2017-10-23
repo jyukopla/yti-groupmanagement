@@ -1,26 +1,33 @@
-#users {
-  border-style: solid;
-  border-color: lightgray;
-  border-radius: 5px;
-  width: auto;
-}
+@import '../../variables';
 
-#userdetails{
-  border-style: solid;
-  border-color: lightgray;
-  border-radius: 5px;
-  display: inline-block;
-  margin-left: 5px;
-  width: 30%;
-  height: 30%;
-  float: right;
-  margin-top: 65px;
-}
+.search-results {
+  .search-result {
+    font-size: small;
+    cursor: pointer;
+    border: 1px solid #bbb;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-shadow: 2px 2px 2px #7e9cad;
+    overflow-wrap: break-word;
 
-#userdetailname {
-  font-weight: bold
-}
+    &.selected {
+      color: inherit;
+      background-color: $brand-accent-lighter;
+      border: 1px solid $brand-accent-dark;
+      box-shadow: 2px 2px 2px $brand-accent-dark;
+    }
 
-#userdetailemail {
-  font-weight: bold
+    h6 {
+      margin-top: 0.5rem;
+    }
+
+    .origin {
+      font-size: x-small;
+      border-top: #dddddd solid 1px;
+      margin: 0 10px 0 0;
+      width: calc(100% - 10px);
+      display: inline-block;
+    }
+  }
 }

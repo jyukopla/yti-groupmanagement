@@ -49,7 +49,7 @@ export class SearchUserModalService {
                  (click)="selectUser(user)">
               
               <h6>{{user.name}}</h6>
-              <p>{{user.email}}></p>
+              <p>{{user.email}}</p>
             </div>
           </div>
         </div>

@@ -87,11 +87,9 @@ export class SearchUserModalComponent implements OnInit, AfterViewInit {
     this.searchResults$ =
       Observable.combineLatest(this.search$, this.userService.getUsers()).map(([search, users]) => {
 
-        const isUserAddable = (user: User) => {
-          return !this.isExcluded(user) && (!search || user.name.toLowerCase().indexOf(search) !== -1);
-        };
+        const userMatchesSearch = (user: User) => !search || user.name.toLowerCase().indexOf(search) !== -1;
 
-        return users.filter(user => isUserAddable(user));
+        return users.filter(user => !this.isExcluded(user) && userMatchesSearch(user));
       });
   }
 

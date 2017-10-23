@@ -31,7 +31,7 @@ public class PublicApiDao {
         List<UserRow> rows = this.database.findAll(UserRow.class,
                 "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
-                        "  INNER JOIN user_organization uo ON (uo.user_email = u.email) \n" +
+                        "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
                         "WHERE u.email = ? \n" +
                         "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id", email);
 
@@ -40,7 +40,8 @@ public class PublicApiDao {
 
     private static PublicApiUser entryToAuthorizationUser(Map.Entry<UserRow.UserDetails, List<PublicApiUserOrganization>> entry) {
         UserRow.UserDetails user = entry.getKey();
-        return new PublicApiUser(user.email, user.firstName, user.lastName, user.superuser, false, entry.getValue());
+        List<PublicApiUserOrganization> nonNullOrganizations = entry.getValue().stream().filter(o -> o.getUuid() != null).collect(toList());
+        return new PublicApiUser(user.email, user.firstName, user.lastName, user.superuser, false, nonNullOrganizations);
     }
 
     private static List<PublicApiUser> rowsToAuthorizationUsers(List<UserRow> rows) {

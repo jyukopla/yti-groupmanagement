@@ -12,7 +12,8 @@ class DefaultController {
     // It's annoying to have to define these in two places, but it works for now.
     @GetMapping(
             value = {
-                    "/"
+                    "/",
+                    "/newOrganization"
             },
             produces = "text/html; charset=UTF-8")
     @ResponseBody

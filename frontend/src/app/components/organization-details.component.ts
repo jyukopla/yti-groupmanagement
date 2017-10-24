@@ -5,8 +5,9 @@ import {Subscription} from "rxjs/Subscription";
 import {OrganizationService} from "../services/organization.service";
 import {OrganizationModel, UserModel, UUID} from "../apina";
 import {ignoreModalClose} from "../utils/modal";
-import {SearchModalService} from "./search-user-modal.component";
+import {SearchUserModalService} from "./search-user-modal.component";
 import {LocationService} from "../services/location.service";
+import {User} from "../entities/user";
 
 @Component({
   selector: 'app-organization-details',
@@ -49,7 +50,7 @@ import {LocationService} from "../services/location.service";
   '       </thead>' +
   '     <tbody>' +
   '       <tr >' +
-  '       <td>{{this.organizationUser.name}}<p>{{this.organizationUser.email}}</p></td>' +
+  '       <td>{{this.organizationUser.firstName}} {{this.organizationUser.lastName}}<p>{{this.organizationUser.email}}</p></td>' +
   '       <td>{{this.organizationUser.role}}</td>' +
   '       </tr>' +
   '     </tbody>' +
@@ -73,7 +74,7 @@ export class OrganizationDetailsComponent implements OnInit {
 
   @Input() self?: UserModel;
   @Input() reference: UserModel;
-
+  excludedUserEmails: Array<string>;
 
 
   name_fi = "";
@@ -85,7 +86,7 @@ export class OrganizationDetailsComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute,
-              private searchModal: SearchModalService,
+              private searchModal: SearchUserModalService,
               locationService: LocationService,
               public organizationService: OrganizationService) {
 
@@ -111,7 +112,7 @@ export class OrganizationDetailsComponent implements OnInit {
 
 
   addUser() {
-    this.searchModal.open().then((user) => {this.handleModalResult(user); this.selectedResult = user;}, ignoreModalClose);
+    this.searchModal.open(this.excludedUserEmails).then((user) => {this.handleModalResult(user); this.selectedResult = user;}, ignoreModalClose);
   }
 
   saveOrganization(){
@@ -123,10 +124,10 @@ export class OrganizationDetailsComponent implements OnInit {
     this.organizationService.createOrganization(this.organizationModel);
   }
 
-  handleModalResult(user: UserModel){
+  handleModalResult(user: User){
     if (user.email != null) {
-      this.userModel = user;
-      this.organizationUser.setUser(user);
+      this.userModel = user.getUserModel();
+      this.organizationUser.setUser(this.userModel);
     }
   }
 
@@ -143,14 +144,16 @@ class UserOrganization {
 
 class OrganizationUser {
   role ="";
-  name ="";
+  firstName ="";
+  lastName ="";
   email = "";
   constructor() {
 
   }
   setUser(userModel: UserModel){
     this.role = "ADMIN";
-    this.name = userModel.name;
+    this.firstName = userModel.firstName;
+    this.lastName = userModel.lastName;
     this.email = userModel.email;
   }
 }

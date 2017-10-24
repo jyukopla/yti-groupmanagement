@@ -4,6 +4,8 @@ import fi.vm.yti.groupmanagement.model.PublicApiUser;
 import fi.vm.yti.groupmanagement.model.PublicApiUserOrganization;
 import org.dalesbred.Database;
 import org.dalesbred.annotation.DalesbredInstantiator;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static fi.vm.yti.groupmanagement.util.CollectionUtil.requireSingle;
+import static fi.vm.yti.groupmanagement.util.CollectionUtil.requireSingleOrNone;
+import static java.util.Collections.emptyList;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.toList;
@@ -26,7 +30,18 @@ public class PublicApiDao {
         this.database = database;
     }
 
-    public PublicApiUser getUser(String email) {
+    public @NotNull PublicApiUser createUser(@NotNull String email, @NotNull String firstName, @NotNull String lastName) {
+        this.database.update("INSERT INTO \"user\" (email, firstName, lastName, superuser) VALUES (?,?,?,?)",
+                email, firstName, lastName, false);
+
+        return new PublicApiUser(email, firstName, lastName, false, true, emptyList());
+    }
+
+    public @NotNull PublicApiUser getUser(@NotNull  String email) {
+        return requireNonNull(this.findUser(email));
+    }
+
+    public @Nullable PublicApiUser findUser(@NotNull  String email) {
 
         List<UserRow> rows = this.database.findAll(UserRow.class,
                 "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, array_agg(uo.role_name) AS roles \n" +
@@ -35,7 +50,7 @@ public class PublicApiDao {
                         "WHERE u.email = ? \n" +
                         "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id", email);
 
-        return requireSingle(rowsToAuthorizationUsers(rows));
+        return requireSingleOrNone(rowsToAuthorizationUsers(rows));
     }
 
     private static PublicApiUser entryToAuthorizationUser(Map.Entry<UserRow.UserDetails, List<PublicApiUserOrganization>> entry) {

@@ -1,7 +1,9 @@
 package fi.vm.yti.groupmanagement.controller;
 
-import fi.vm.yti.groupmanagement.dao.PublicApiDao;
 import fi.vm.yti.groupmanagement.model.PublicApiUser;
+import fi.vm.yti.groupmanagement.service.PublicApiService;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,14 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/public-api")
 public class PublicApiController {
 
-    private final PublicApiDao authorizationDao;
+    private final PublicApiService publicApiService;
 
-    public PublicApiController(PublicApiDao authorizationDao) {
-        this.authorizationDao = authorizationDao;
+    public PublicApiController(PublicApiService publicApiService) {
+        this.publicApiService = publicApiService;
     }
 
     @RequestMapping("/user")
-    public PublicApiUser getUser(@RequestParam String email) {
-        return authorizationDao.getUser(email);
+    public PublicApiUser getUser(@RequestParam @NotNull String email,
+                                 @RequestParam(required = false) @Nullable String firstName,
+                                 @RequestParam(required = false) @Nullable String lastName) {
+
+        if (firstName != null && lastName != null) {
+            return this.publicApiService.getOrCreateUser(email, firstName, lastName);
+        } else {
+            return this.publicApiService.getUser(email);
+        }
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -38,8 +39,8 @@ class OrganizationController {
     public OrganizationModel getOrganization(@PathVariable("id") UUID id)
          {return this.organizationDao.getOrganization(id);}
 
-    @RequestMapping(value = "organization/{org}", method = PUT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public OrganizationModel createOrganization(@RequestBody OrganizationModel org)
+    @RequestMapping(value = "{org}", method = PUT, consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
+    public OrganizationModel createOrganization(@PathVariable("org") OrganizationModel org)
     {
         return this.organizationDao.createOrganization(org);
     }

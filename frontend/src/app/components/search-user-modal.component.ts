@@ -35,14 +35,14 @@ export class SearchModalService {
         <div class="row">
             <div class="col-md-4">
                 <div class="input-group input-group-lg input-group-search" style="margin-bottom: 10px;">
-                <input #searchInput type="text" class="form-control" placeholder="{{'Search user...' | translate}}"
+                <input #searchInput type="text" class="form-control" (input)="searchItem(searchInput.value)" placeholder="{{'Search user...' | translate}}"
                 [(ngModel)]="search"/>
                 </div>
             <div class="search-panel">
         </div>
                 
             <ul id="users" [(ngModel)] = "selectedItem" ngDefaultControl>            
-                <li *ngFor="let user of allUsers" (click)="userSelected(user)">{{user.name}}</li>
+                <li *ngFor="let user of searchedUsers" (click)="userSelected(user)">{{user.name}}</li>
             </ul>
               
     </div>
@@ -103,6 +103,7 @@ export class SearchUserModalComponent implements OnInit {
   searchResults$ = new BehaviorSubject<UserModel[]>([]);
 
   allUsers:UserModel[] = [];
+  searchedUsers:UserModel[] = [];
 
   selectedItem = new UserModel();
   selection = new UserModel();
@@ -116,14 +117,13 @@ export class SearchUserModalComponent implements OnInit {
 
   constructor(public modal: NgbActiveModal,
               private userService: UserService,
-              private renderer: Renderer,
-              private http: Http) { }
+              private renderer: Renderer) { }
 
 
   ngOnInit() {
     this.search = this.initialSearch;
     this.users$ = this.userService.getUsers();
-    this.users$.subscribe(users => this.allUsers = users);
+    this.users$.subscribe(users => {this.allUsers = users; this.copyUsers()});
   }
 
   userSelected(user: UserModel) {
@@ -162,6 +162,19 @@ export class SearchUserModalComponent implements OnInit {
     return this.search$.getValue();
   }
 
+  searchItem(term: string) {
+    //return this.search$.getValue();
+    if(!term) this.copyUsers();
+    this.searchedUsers = this.allUsers.filter(
+      user => user.name.toString().toLowerCase().indexOf(term.toLowerCase()) > -1
+    )
+
+  }
+  copyUsers(){
+    this.searchedUsers = Object.assign([], this.allUsers);
+  }
+
+
   set search(value: string) {
     this.search$.next(value);
   }
@@ -171,23 +184,8 @@ export class SearchUserModalComponent implements OnInit {
   }
 
   confirm() {
-
     this.selectedItem.name = this.userdetail_name;
     this.selectedItem.email = this.userdetail_email;
     this.modal.close(this.selectedItem);
-  }
-}
-
-
-@Pipe({
-  name: 'searchPipe',
-  pure: false
-})
-export class SearchPipe implements PipeTransform {
-  transform(data: any[], searchTerm: string): any[] {
-    searchTerm = searchTerm.toUpperCase();
-    return data.filter(item => {
-      return item.toUpperCase().indexOf(searchTerm) !== -1
-    });
   }
 }

@@ -18,7 +18,7 @@ import {Router} from "@angular/router";
       </button>
     </div>
     <ul id="organizations-list">
-      <li *ngFor="let organization of allOrganizations">
+      <li *ngFor="let organization of allOrganizations" [routerLink]="['/organizationDetails', organization.id]">
       {{organization.name}}
       </li>
     </ul>
@@ -49,6 +49,10 @@ class Organization {
 
     get name() {
       return this.organizationModel.name_fi;
+    }
+
+    get id() {
+      return this.organizationModel.id;
     }
 
     print() {

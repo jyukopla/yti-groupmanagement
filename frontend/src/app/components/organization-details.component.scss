@@ -1,0 +1,61 @@
+.form-group {
+  padding-top: 30px;
+}
+
+h2 {
+  font-weight: bold;
+}
+
+h3 {
+  font-weight: bold;
+}
+
+label {
+  font-weight:bold;
+  margin-top: 10px;
+}
+
+#organization{
+  display: inline-block;
+  margin-left: 5px;
+  width: 30%;
+}
+
+#description{
+  display: inline-block;
+}
+
+.form-control {
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #2A6EBB;
+  border-radius: 5px;
+  float: right;
+
+  &:hover {
+    background-color: #2562A7;
+  }
+}
+
+#organizations {
+  border-style: solid;
+  border-color: lightgray;
+  border-radius: 5px;
+  width: auto;
+}
+
+#organization_users {
+  border-style: solid;
+  border-color: lightgray;
+  border-radius: 5px;
+  width: 65%;
+  min-height: 100px;
+}
+
+textarea {
+  border-radius: 5px;
+}

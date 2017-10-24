@@ -4,6 +4,12 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Email: { email }"
+msgstr ""
+
+msgid "You are expected at {{time}}', {time: moment.format('H:mm"
+msgstr ""
+
 msgid "Give feedback"
 msgstr ""
 
@@ -22,40 +28,31 @@ msgstr ""
 msgid "New organization"
 msgstr ""
 
-msgid "Name FI"
+msgid "In finnish"
 msgstr ""
 
-msgid "Description FI"
+msgid "Name"
 msgstr ""
 
-msgid "Name EN"
+msgid "Description"
 msgstr ""
 
-msgid "Description EN"
+msgid "In english"
 msgstr ""
 
-msgid "Name SV"
+msgid "In swedish"
 msgstr ""
 
-msgid "Description SV"
+msgid "Admin users"
 msgstr ""
 
-msgid "Save"
-msgstr ""
-
-msgid "Group members"
-msgstr ""
-
-msgid "User"
-msgstr ""
-
-msgid "Role"
-msgstr ""
-
-msgid "Application"
+msgid "No admin users yet"
 msgstr ""
 
 msgid "Add user"
+msgstr ""
+
+msgid "Save"
 msgstr ""
 
 msgid "Organizations"
@@ -71,12 +68,6 @@ msgid "Search user..."
 msgstr ""
 
 msgid "Select user"
-msgstr ""
-
-msgid "Name"
-msgstr ""
-
-msgid "Email"
 msgstr ""
 
 msgid "Cancel"

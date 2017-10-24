@@ -1,5 +1,6 @@
 package fi.vm.yti.groupmanagement.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,12 +17,17 @@ import java.util.stream.Collectors;
 public class RequestDebugController {
 
     @RequestMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     String debug(HttpServletRequest request, HttpServletResponse response) {
 
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
 
         return formatKeysAndValues(request, Arrays.asList(
+                "REMOTE_USER",
+                "eppn",
+                "targeted-id",
+                "persistent-id",
                 "Shib-Identity-Provider",
                 "uid",
                 "mail",

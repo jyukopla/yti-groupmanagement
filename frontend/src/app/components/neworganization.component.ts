@@ -1,135 +1,109 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {LocationService} from "../services/location.service";
-import {SearchModalService} from "./search-user-modal.component";
-import {OrganizationModel, UserModel} from "../apina";
-import {UserService} from "../services/user.service";
-import {OrganizationService} from "../services/organization.service";
-import {ignoreModalClose} from "../utils/modal";
+import { Component } from '@angular/core';
+import { LocationService } from '../services/location.service';
+import { SearchUserModalService } from './search-user-modal.component';
+import { OrganizationModel } from '../apina';
+import { OrganizationService } from '../services/organization.service';
+import { ignoreModalClose } from '../utils/modal';
+import { User } from '../entities/user';
 
 @Component({
   selector: 'app-neworganization',
-  template: `<div class="container">
-    <h2 translate>New organization</h2>
-    <ul id="organizations">
-    
-      <div class="form-group">
-        <div id="organization">
-        <label for="name_fi" translate>Name FI</label>
-        <input type="text" class="form-control" id="name_fi" [(ngModel)]="name_fi" required>
-        <label for="name_fi" translate>Description FI</label>
-          <textarea id="description_fi" class="form-control" rows="4" [(ngModel)]="description_fi"></textarea>
-        </div>
-        <div id="organization">
-        <label for="name_en" translate>Name EN</label>
-        <input type="text" class="form-control" id="name_en" [(ngModel)]="name_en" required>
-        <label for="name_en" translate>Description EN</label>
-          <textarea id="description_en" class="form-control" rows="4" [(ngModel)]="description_en"></textarea>
-        </div>
-        <div id="organization">
-        <label for="name_sv" translate>Name SV</label>
-        <input type="text" class="form-control" id="name_sv" [(ngModel)]="name_sv" required>
-        <label for="name_sv" translate>Description SV</label>
-          <textarea id="description_sv" class="form-control" rows="4" [(ngModel)]="description_sv"></textarea>
-          <button type="submit" class="btn btn-success" (click)="saveOrganization()" translate>Save</button>
-        </div>        
-      </div>      
-
-    
-      </ul>
-    <br>
-    
-    <h3 translate>Group members</h3>
-    <ul id="organization_users">
+  template: `
+    <div class="container">
       
-      <p></p>
-      <table style="width:100%">
-        <thead>
-        <tr>
-          <th translate>User</th>
-          <th translate>Role</th>
-          <th translate>Application</th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr >
-              <td>{{this.organizationUser.name}}<p>{{this.organizationUser.email}}</p></td>
-                <td>{{this.organizationUser.role}}</td>
-            </tr>
-        </tbody>
-      </table>
-    </ul>
-    <button type="button"
-            class="btn btn-default"
+      <h2 translate>New organization</h2>
 
-            (click)="addUser()" translate>Add user</button>
-    
-  </div>`,
+      <div class="row">
+        <div class="col-md-4">
+          
+          <h4 translate>In finnish</h4>
+          
+          <div class="form-group section">
+            <label for="name_fi" translate>Name</label>
+            <input type="text" class="form-control" id="name_fi" [(ngModel)]="name_fi" required>
+            <label for="name_fi" translate>Description</label>
+            <textarea id="description_fi" class="form-control" rows="4" [(ngModel)]="description_fi"></textarea>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+
+          <h4 translate>In english</h4>
+          
+          <div class="form-group section">
+            <label for="name_en" translate>Name</label>
+            <input type="text" class="form-control" id="name_en" [(ngModel)]="name_en" required>
+            <label for="name_en" translate>Description</label>
+            <textarea id="description_en" class="form-control" rows="4" [(ngModel)]="description_en"></textarea>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+
+          <h4 translate>In swedish</h4>
+          
+          <div class="form-group section">
+            <label for="name_sv" translate>Name</label>
+            <input type="text" class="form-control" id="name_sv" [(ngModel)]="name_sv" required>
+            <label for="name_sv" translate>Description</label>
+            <textarea id="description_sv" class="form-control" rows="4" [(ngModel)]="description_sv"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <h3 translate>Admin users</h3>
+
+      <p *ngIf="organizationAdminUsers.length === 0" translate>No admin users yet</p>
+      <ul *ngIf="organizationAdminUsers.length > 0">
+        <li *ngFor="let user of organizationAdminUsers">{{user.name}}</li>
+      </ul>
+
+      <button type="button"
+              class="btn btn-default"
+              (click)="addUser()" translate>Add user</button>
+      
+      <button type="submit"
+              class="btn btn-success"
+              (click)="saveOrganization()" translate>Save</button>
+    </div>`,
   styleUrls: ['./neworganization.component.scss']
 })
-export class NewOrganizationComponent implements OnInit {
+export class NewOrganizationComponent {
 
-  @Input() self?: UserModel;
-  @Input() reference: UserModel;
+  name_fi = '';
+  name_en = '';
+  name_sv = '';
 
-  name_fi = "";
-  name_en = "";
-  name_sv = "";
-  description_fi ="";
-  description_en ="";
-  description_sv ="";
+  description_fi = '';
+  description_en = '';
+  description_sv = '';
 
-  //userService: UserService;
-  //organizationService: OrganizationService;
-  selectedMember: Promise<OrganizationModel>;
-  selectedResult = {};
-
-  userModel = new UserModel;
-  organizationUser: OrganizationUser;
-  organizationModel: OrganizationModel;
-
+  organizationAdminUsers: User[] = [];
 
   constructor(locationService: LocationService,
-              private searchModal: SearchModalService,
-              public organizationService: OrganizationService) {
+              private searchModal: SearchUserModalService,
+              private organizationService: OrganizationService) {
 
     locationService.atAddNewOrganization();
   }
 
-  ngOnInit() {
-    this.organizationUser = new OrganizationUser();
-  }
-
   addUser() {
-        this.searchModal.open().then((user) => {this.handleModalResult(user); this.selectedResult = user;}, ignoreModalClose);
+
+    const excludedEmails = this.organizationAdminUsers.map(user => user.email);
+
+    this.searchModal.open(excludedEmails).then((user) => {
+      this.organizationAdminUsers.push(user);
+    }, ignoreModalClose);
   }
 
-  saveOrganization(){
-    this.organizationModel =  new OrganizationModel();
-    this.organizationModel.name_fi = this.name_fi;
-    this.organizationModel.name_en = this.name_en;
-    this.organizationModel.name_sv = this.name_sv;
+  saveOrganization() {
+    const organizationModel = new OrganizationModel();
+    organizationModel.name_fi = this.name_fi;
+    organizationModel.name_en = this.name_en;
+    organizationModel.name_sv = this.name_sv;
 
-    this.organizationService.createOrganization(this.organizationModel);
-  }
+    // TODO: save also organization admin users
 
-  handleModalResult(user: UserModel){
-    if (user.email != null) {
-      this.userModel = user;
-      this.organizationUser.setUser(user);
-    }
-  }
-}
-
-class OrganizationUser {
-  role ="";
-  name ="";
-  email = "";
-  constructor() {
-
-  }
-  setUser(userModel: UserModel){
-    this.role = "ADMIN";
-    this.name = userModel.name;
-    this.email = userModel.email;
+    this.organizationService.createOrganization(organizationModel);
   }
 }

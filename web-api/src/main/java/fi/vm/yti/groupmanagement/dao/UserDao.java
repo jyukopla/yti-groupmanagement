@@ -27,6 +27,6 @@ public class UserDao {
     }*/
 
     public void setUser(UserModel user) {
-        db.update("INSERT INTO \"user\" (email, firstName, lastName, superuser) VALUES (?,?,?)", user.email, user.firstName, user.lastName, user.superuser);
+        db.update("INSERT INTO \"user\" (email, firstName, lastName, superuser) VALUES (?,?,?,?)", user.email, user.firstName, user.lastName, user.superuser);
     }
 }

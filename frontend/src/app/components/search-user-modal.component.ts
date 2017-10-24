@@ -41,15 +41,15 @@ export class SearchUserModalService {
                    [(ngModel)]="search"/>
           </div>
         </div>
-        
+
         <div class="col-md-6">
           <div class="search-results">
             <div class="search-result"
                  *ngFor="let user of searchResults$ | async"
                  (click)="selectUser(user)">
-              
+
               <h6>{{user.name}}</h6>
-              <p>{{user.email}}</p>
+              <p>{{user.email}}></p>
             </div>
           </div>
         </div>
@@ -57,12 +57,12 @@ export class SearchUserModalService {
     </div>
 
     <div class="modal-footer">
-      
+
       <button type="button"
               class="btn btn-secondary cancel"
               (click)="cancel()" translate>Cancel
       </button>
-      
+
     </div>
   `,
   styleUrls: ['./search-user-modal.component.scss']
@@ -87,9 +87,11 @@ export class SearchUserModalComponent implements OnInit, AfterViewInit {
     this.searchResults$ =
       Observable.combineLatest(this.search$, this.userService.getUsers()).map(([search, users]) => {
 
-        const userMatchesSearch = (user: User) => !search || user.name.toLowerCase().indexOf(search) !== -1;
+        const isUserAddable = (user: User) => {
+          return !this.isExcluded(user) && (!search || user.name.toLowerCase().indexOf(search) !== -1);
+        };
 
-        return users.filter(user => !this.isExcluded(user) && userMatchesSearch(user));
+        return users.filter(user => isUserAddable(user));
       });
   }
 

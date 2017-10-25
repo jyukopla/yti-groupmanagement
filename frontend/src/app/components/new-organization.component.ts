@@ -7,7 +7,7 @@ import { ignoreModalClose } from '../utils/modal';
 import { User } from '../entities/user';
 
 @Component({
-  selector: 'app-neworganization',
+  selector: 'app-new-organization',
   template: `
     <div class="container">
       
@@ -66,7 +66,7 @@ import { User } from '../entities/user';
               class="btn btn-success"
               (click)="saveOrganization()" translate>Save</button>
     </div>`,
-  styleUrls: ['./neworganization.component.scss']
+  styleUrls: ['./new-organization.component.scss']
 })
 export class NewOrganizationComponent {
 

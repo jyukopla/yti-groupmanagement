@@ -24,7 +24,7 @@ import { LocationService } from './services/location.service';
 import { UsersComponent } from './components/users.component';
 import { OrganizationsComponent } from './components/organizations.component';
 import { OrganizationDetailsComponent } from './components/organization-details.component';
-import { NewOrganizationComponent } from './components/neworganization.component';
+import { NewOrganizationComponent } from './components/new-organization.component';
 import { SearchUserModalComponent, SearchUserModalService } from './components/search-user-modal.component';
 
 const localizations: { [lang: string]: string} = {

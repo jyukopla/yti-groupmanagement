@@ -5,7 +5,6 @@ import fi.vm.yti.groupmanagement.model.Organization;
 import fi.vm.yti.groupmanagement.model.User;
 import fi.vm.yti.groupmanagement.model.UserWithRoles;
 import org.dalesbred.Database;
-import org.dalesbred.annotation.DalesbredInstantiator;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

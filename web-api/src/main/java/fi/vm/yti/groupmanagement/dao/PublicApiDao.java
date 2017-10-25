@@ -1,5 +1,6 @@
 package fi.vm.yti.groupmanagement.dao;
 
+import fi.vm.yti.groupmanagement.model.PublicApiOrganization;
 import fi.vm.yti.groupmanagement.model.PublicApiUser;
 import fi.vm.yti.groupmanagement.model.PublicApiUserOrganization;
 import org.dalesbred.Database;
@@ -9,12 +10,14 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import static fi.vm.yti.groupmanagement.util.CollectionUtil.requireSingleOrNone;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableMap;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.mapping;
@@ -51,6 +54,26 @@ public class PublicApiDao {
                         "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id", email);
 
         return requireSingleOrNone(rowsToAuthorizationUsers(rows));
+    }
+
+    public @NotNull List<PublicApiOrganization> getOrganizations() {
+
+        List<OrganizationRow> rows = this.database.findAll(OrganizationRow.class, "select id, name_en, name_sv, name_fi, url from organization");
+
+        return rows.stream().map(row -> {
+
+            Map<String, String> prefLabel = new HashMap<>(3);
+            Map<String, String> description = new HashMap<>(3);
+
+            prefLabel.put("fi", row.name_fi);
+            prefLabel.put("en", row.name_en);
+            prefLabel.put("sv", row.name_sv);
+
+            // TODO description
+
+            return new PublicApiOrganization(row.id, unmodifiableMap(prefLabel), unmodifiableMap(description), row.url);
+
+        }).collect(toList());
     }
 
     private static PublicApiUser entryToAuthorizationUser(Map.Entry<UserRow.UserDetails, List<PublicApiUserOrganization>> entry) {
@@ -113,5 +136,23 @@ final class UserRow {
         public int hashCode() {
             return email.hashCode();
         }
+    }
+}
+
+final class OrganizationRow {
+
+    UUID id;
+    String url;
+    String name_en;
+    String name_fi;
+    String name_sv;
+
+    @DalesbredInstantiator
+    OrganizationRow(UUID id, String url, String name_en, String name_fi, String name_sv) {
+        this.id = id;
+        this.url = url;
+        this.name_en = name_en;
+        this.name_fi = name_fi;
+        this.name_sv = name_sv;
     }
 }

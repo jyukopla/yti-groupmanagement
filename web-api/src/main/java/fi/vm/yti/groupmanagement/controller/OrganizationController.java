@@ -1,10 +1,9 @@
 package fi.vm.yti.groupmanagement.controller;
 
-
 import fi.vm.yti.groupmanagement.dao.OrganizationDao;
+import fi.vm.yti.groupmanagement.model.OrganizationListItem;
 import fi.vm.yti.groupmanagement.model.OrganizationModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
-@RequestMapping("/api/organizations")
+@RequestMapping("/api")
 class OrganizationController {
 
     private final OrganizationDao organizationDao;
@@ -30,23 +29,21 @@ class OrganizationController {
         this.organizationDao = organizationDao;
     }
 
-    @RequestMapping(value = "", method = GET, produces = APPLICATION_JSON_VALUE)
-    public List<OrganizationModel> getOrganizations() {
-        return this.organizationDao.getOrganizations();
+    @RequestMapping(value = "/organizations", method = GET, produces = APPLICATION_JSON_VALUE)
+    public List<OrganizationListItem> getOrganizations() {
+        return this.organizationDao.getOrganizationList();
     }
 
-    @RequestMapping(value = "{id}", method = GET, produces = APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/organizations/{id}", method = GET, produces = APPLICATION_JSON_VALUE)
     public OrganizationModel getOrganization(@PathVariable("id") UUID id)
          {return this.organizationDao.getOrganization(id);}
 
-    @RequestMapping(value = "{org}", method = PUT, consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
-    public OrganizationModel createOrganization(@PathVariable("org") OrganizationModel org)
-    {
+    @RequestMapping(value = "/organizations/{org}", method = PUT, consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
+    public OrganizationModel createOrganization(@PathVariable("org") OrganizationModel org) {
         return this.organizationDao.createOrganization(org);
     }
 
-
-    @RequestMapping(value = "organization/{org}", method = POST, consumes = APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/organizations/organization/{org}", method = POST, consumes = APPLICATION_JSON_VALUE)
     public void updateOrganization(@RequestBody OrganizationModel org) {
         this.organizationDao.updateOrganization(org);
     }

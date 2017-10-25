@@ -49,7 +49,7 @@ public class OrganizationDao {
         db.update("UPDATE organization (name_en, name_fi, name_sv, url) VALUES (?,?,?,?) WHERE id = ?", org.name_en, org.name_fi, org.name_sv, org.url, org.id);
     }
 
-    private static class OrganizationListItemRow {
+    public static class OrganizationListItemRow {
 
         public UUID id;
         public String name_fi;

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import {OrganizationEndpoint, OrganizationModel, UUID} from '../apina';
-import { Observable } from "rxjs/Observable";
+import { OrganizationEndpoint, OrganizationListItem, OrganizationModel, UUID } from '../apina';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class OrganizationService {
 
   constructor(private endpoint: OrganizationEndpoint) {}
 
-    getOrganizations(): Observable<OrganizationModel[]> {
+    getOrganizationList(): Observable<OrganizationListItem[]> {
       return this.endpoint.getOrganizations();
    }
 

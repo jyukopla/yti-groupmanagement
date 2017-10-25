@@ -10,7 +10,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 
 import { AppComponent } from './components/app.component';
-import { ApinaModule } from './apina';
+import { ApinaConfig, ApinaModule } from './apina';
 import { TestService } from './services/test.service';
 import { UserService } from './services/user.service';
 import { OrganizationService } from './services/organization.service';
@@ -90,4 +90,9 @@ const appRoutes: Routes = [
     SearchUserModalComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+  constructor(apinaConfig: ApinaConfig) {
+    apinaConfig.registerIdentitySerializer('Dictionary<string>');
+  }
+}

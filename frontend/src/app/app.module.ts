@@ -11,7 +11,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { AppComponent } from './components/app.component';
 import { ApinaConfig, ApinaModule } from './apina';
-import { TestService } from './services/test.service';
 import { UserService } from './services/user.service';
 import { OrganizationService } from './services/organization.service';
 import { FrontpageComponent } from './components/frontpage.component';
@@ -83,7 +82,6 @@ const appRoutes: Routes = [
     { provide: MissingTranslationHandler, useFactory: createMissingTranslationHandler },
     LanguageService,
     LocationService,
-    TestService,
     UserService,
     OrganizationService,
     SearchUserModalService

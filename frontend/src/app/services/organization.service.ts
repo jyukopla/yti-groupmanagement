@@ -4,7 +4,7 @@ import {
   OrganizationWithUsers, UserWithRoles, UpdateOrganization, Organization, EmailRole
 } from '../apina';
 import { Observable } from 'rxjs/Observable';
-import { OrganizationDetails } from '../entities/organizationDetails';
+import { OrganizationDetails } from '../entities/organization-details';
 
 @Injectable()
 export class OrganizationService {

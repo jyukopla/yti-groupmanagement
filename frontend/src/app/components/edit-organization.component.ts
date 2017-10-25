@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { OrganizationService } from '../services/organization.service';
 import { LocationService } from '../services/location.service';
 import { ActivatedRoute } from '@angular/router';
-import { OrganizationDetails } from '../entities/organizationDetails';
+import { OrganizationDetails } from '../entities/organization-details';
 import { UUID, User } from '../apina';
 
 @Component({

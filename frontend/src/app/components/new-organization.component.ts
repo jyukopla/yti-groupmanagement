@@ -4,7 +4,7 @@ import { SearchUserModalService } from './search-user-modal.component';
 import { OrganizationService } from '../services/organization.service';
 import { ignoreModalClose } from '../utils/modal';
 import { User } from '../entities/user';
-import { OrganizationDetails } from '../entities/organizationDetails';
+import { OrganizationDetails } from '../entities/organization-details';
 import { Router } from '@angular/router';
 
 @Component({

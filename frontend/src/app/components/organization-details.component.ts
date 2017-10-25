@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { OrganizationDetails } from '../entities/organizationDetails';
+import { OrganizationDetails } from '../entities/organization-details';
 
 @Component({
   selector: 'app-organization-details',

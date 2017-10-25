@@ -10,6 +10,15 @@ msgstr ""
 msgid "You are expected at {{time}}', {time: moment.format('H:mm"
 msgstr ""
 
+msgid "Edit organization"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "No users yet"
+msgstr ""
+
 msgid "Give feedback"
 msgstr ""
 
@@ -28,6 +37,18 @@ msgstr ""
 msgid "New organization"
 msgstr ""
 
+msgid "Admin users"
+msgstr ""
+
+msgid "No admin users yet"
+msgstr ""
+
+msgid "Add user"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
 msgid "In finnish"
 msgstr ""
 
@@ -41,18 +62,6 @@ msgid "In english"
 msgstr ""
 
 msgid "In swedish"
-msgstr ""
-
-msgid "Admin users"
-msgstr ""
-
-msgid "No admin users yet"
-msgstr ""
-
-msgid "Add user"
-msgstr ""
-
-msgid "Save"
 msgstr ""
 
 msgid "Organizations"

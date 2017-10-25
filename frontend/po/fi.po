@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2017-10-23 15:19+0300\n"
+"PO-Revision-Date: 2017-10-25 22:05+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -18,6 +18,15 @@ msgstr ""
 
 msgid "You are expected at {{time}}', {time: moment.format('H:mm"
 msgstr ""
+
+msgid "Edit organization"
+msgstr "Muokkaa organisaatiota"
+
+msgid "Users"
+msgstr "Käyttäjät"
+
+msgid "No users yet"
+msgstr "Ei vielä käyttäjiä"
 
 msgid "Give feedback"
 msgstr "Anna palautetta"
@@ -37,6 +46,18 @@ msgstr "Ryhmienhallintapalvelu"
 msgid "New organization"
 msgstr "Uusi organisaatio"
 
+msgid "Admin users"
+msgstr "Ylläpitäjät"
+
+msgid "No admin users yet"
+msgstr "Ei vielä ylläpitäjiä"
+
+msgid "Add user"
+msgstr "Lisää käyttäjä"
+
+msgid "Save"
+msgstr "Tallenna"
+
 msgid "In finnish"
 msgstr "Suomeksi"
 
@@ -51,18 +72,6 @@ msgstr "Englanniksi"
 
 msgid "In swedish"
 msgstr "Ruotsiksi"
-
-msgid "Admin users"
-msgstr "Ylläpitäjät"
-
-msgid "No admin users yet"
-msgstr "Ei vielä ylläpitäjiä"
-
-msgid "Add user"
-msgstr "Lisää käyttäjä"
-
-msgid "Save"
-msgstr "Tallenna"
 
 msgid "Organizations"
 msgstr "Organisaatiot"

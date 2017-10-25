@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Localizable } from '../entities/localization';
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
+import { OrganizationDetails } from '../entities/organizationDetails';
 
 export interface Location {
   localizationKey?: string;
@@ -9,8 +10,7 @@ export interface Location {
 }
 
 const frontPage = { localizationKey: 'Front page', route: [''] };
-const newOrganization = { localizationKey: 'Add new organization', route: ['/newOrganization'] };
-const organizationDetails = { localizationKey: 'Organization', route: ['/organizationDetails'] };
+const newOrganization = { localizationKey: 'Add new organization' };
 
 @Injectable()
 export class LocationService {
@@ -30,7 +30,7 @@ export class LocationService {
     this.changeLocation([newOrganization]);
   }
 
-  atOrganizationDetails(): void {
-    this.changeLocation([organizationDetails]);
+  atOrganization(organization: OrganizationDetails): void {
+    this.changeLocation([{ label: organization.name }]);
   }
 }

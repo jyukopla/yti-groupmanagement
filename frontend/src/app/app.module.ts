@@ -51,7 +51,7 @@ export function createMissingTranslationHandler(): MissingTranslationHandler {
 const appRoutes: Routes = [
   { path: '', component: FrontpageComponent },
   { path: 'newOrganization', component: NewOrganizationComponent },
-  { path: 'organizationDetails/:id', component: OrganizationDetailsComponent}
+  { path: 'organization/:id', component: OrganizationDetailsComponent}
 ];
 
 @NgModule({

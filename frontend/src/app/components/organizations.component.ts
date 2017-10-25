@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
         </button>
       </div>
       <ul id="organizations-list">
-        <li *ngFor="let organization of organizations" [routerLink]="['/organizationDetails', organization.id]">
+        <li *ngFor="let organization of organizations" [routerLink]="['/organization', organization.id]">
           {{organization.name | translateValue}}
         </li>
       </ul>

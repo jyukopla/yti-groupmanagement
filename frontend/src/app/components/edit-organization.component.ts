@@ -9,6 +9,7 @@ import { SearchUserModalService } from './search-user-modal.component';
 
 @Component({
   selector: 'app-edit-organization',
+  styleUrls: ['./edit-organization.component.scss'],
   template: `
     <div class="container" *ngIf="organization">
 
@@ -24,7 +25,7 @@ import { SearchUserModalService } from './search-user-modal.component';
         <tr>
           <th translate>Name</th>
           <th translate>Email</th>
-          <th *ngFor="let role of availableRoles">{{role | translate}}</th>
+          <th class="rotate" *ngFor="let role of availableRoles"><div><span>{{role | translate}}</span></div></th>
           <th></th>
         </tr>
         </thead>
@@ -32,7 +33,7 @@ import { SearchUserModalService } from './search-user-modal.component';
             <tr *ngFor="let user of users">
               <td>{{user.name}}</td>
               <td>{{user.email}}</td>
-              <td *ngFor="let role of availableRoles">
+              <td *ngFor="let role of availableRoles" class="check">
                 <input type="checkbox"
                        [checked]="user.isInRole(role)"
                        (click)="user.toggleRole(role)" />

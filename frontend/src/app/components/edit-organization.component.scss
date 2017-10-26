@@ -1,0 +1,26 @@
+h2, h3 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+th {
+  vertical-align: bottom;
+}
+
+td.check {
+  width: 50px;
+}
+
+th.rotate {
+  height: 140px;
+  white-space: nowrap;
+}
+
+th.rotate > div {
+  transform: translate(-10px, -20px) rotate(315deg);
+  width: 50px;
+}
+th.rotate > div > span {
+  border-bottom: 1px solid #ccc;
+  padding: 5px 10px;
+}

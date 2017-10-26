@@ -4,6 +4,8 @@ import { LocationService } from '../services/location.service';
 import { ActivatedRoute } from '@angular/router';
 import { OrganizationDetails } from '../entities/organization-details';
 import { UUID, User } from '../apina';
+import { ignoreModalClose } from '../utils/modal';
+import { SearchUserModalService } from './search-user-modal.component';
 
 @Component({
   selector: 'app-edit-organization',
@@ -17,12 +19,13 @@ import { UUID, User } from '../apina';
       <h3 translate>Users</h3>
 
       <p *ngIf="users.length === 0" translate>No users yet</p>
-      <table>
+      <table *ngIf="users.length > 0">
         <thead>
         <tr>
           <th translate>Name</th>
           <th translate>Email</th>
           <th *ngFor="let role of availableRoles">{{role | translate}}</th>
+          <th></th>
         </tr>
         </thead>
         <tbody>
@@ -34,10 +37,15 @@ import { UUID, User } from '../apina';
                        [checked]="user.isInRole(role)"
                        (click)="user.toggleRole(role)" />
               </td>
+              <td><i class="fa fa-trash" (click)="removeUser(user)"></i></td>
             </tr>
         </tbody>
       </table>
 
+      <button type="button"
+              class="btn btn-default"
+              (click)="addUser()" translate>Add user</button>
+      
       <button type="submit"
               class="btn btn-success"
               (click)="saveOrganization()" translate>Save</button>
@@ -53,6 +61,7 @@ export class EditOrganizationComponent {
 
   constructor(private route: ActivatedRoute,
               locationService: LocationService,
+              private searchUserModal: SearchUserModalService,
               private organizationService: OrganizationService) {
 
     const organizationWithUsers$ = route.params.flatMap(params => {
@@ -69,6 +78,19 @@ export class EditOrganizationComponent {
       this.users = organizationWithUsers.users.map(user => new UserViewModel(user.user, user.roles));
       this.availableRoles = organizationWithUsers.availableRoles;
     });
+  }
+
+  get organizationUserEmails() {
+    return this.users.map(user => user.email);
+  }
+
+  addUser() {
+    this.searchUserModal.open(this.organizationUserEmails)
+      .then(user => this.users.push(new UserViewModel(user, [])), ignoreModalClose);
+  }
+
+  removeUser(user: UserViewModel) {
+    this.users.splice(this.users.indexOf(user), 1);
   }
 
   saveOrganization() {

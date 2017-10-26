@@ -66,10 +66,12 @@ public class OrganizationService {
 
         Organization organizationModel = this.organizationDao.getOrganization(organizationId);
         List<UserWithRoles> users = this.organizationDao.getOrganizationUsers(organizationId);
+        List<String> availableRoles = this.organizationDao.getAvailableRoles();
 
         OrganizationWithUsers organizationWithUsers = new OrganizationWithUsers();
         organizationWithUsers.organization = organizationModel;
         organizationWithUsers.users = users;
+        organizationWithUsers.availableRoles = availableRoles;
 
         return organizationWithUsers;
     }

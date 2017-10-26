@@ -17,11 +17,26 @@ import { UUID, User } from '../apina';
       <h3 translate>Users</h3>
 
       <p *ngIf="users.length === 0" translate>No users yet</p>
-      <ul *ngIf="users.length > 0">
-        <li *ngFor="let user of users">
-          {{user.print()}}
-        </li>
-      </ul>
+      <table>
+        <thead>
+        <tr>
+          <th translate>Name</th>
+          <th translate>Email</th>
+          <th *ngFor="let role of availableRoles">{{role | translate}}</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users">
+              <td>{{user.name}}</td>
+              <td>{{user.email}}</td>
+              <td *ngFor="let role of availableRoles">
+                <input type="checkbox"
+                       [checked]="user.isInRole(role)"
+                       (click)="user.toggleRole(role)" />
+              </td>
+            </tr>
+        </tbody>
+      </table>
 
       <button type="submit"
               class="btn btn-success"
@@ -34,6 +49,7 @@ export class EditOrganizationComponent {
   organizationId: UUID;
   organization: OrganizationDetails;
   users: UserViewModel[];
+  availableRoles: string[];
 
   constructor(private route: ActivatedRoute,
               locationService: LocationService,
@@ -51,6 +67,7 @@ export class EditOrganizationComponent {
       this.organizationId = organizationWithUsers.organization.id;
       this.organization = organizationDetails;
       this.users = organizationWithUsers.users.map(user => new UserViewModel(user.user, user.roles));
+      this.availableRoles = organizationWithUsers.availableRoles;
     });
   }
 
@@ -61,16 +78,37 @@ export class EditOrganizationComponent {
   }
 }
 
-// TODO figure out proper view model object, currently just for debug printing usage
 class UserViewModel {
 
-  constructor(public user: User, public roles: string[]   ) {
+  constructor(public user: User, public roles: string[]) {
   }
 
-  print() {
-    return this.user.firstName +
-      ' ' + this.user.lastName +
-      ' (' + this.user.email + ') ' +
-      'roles: ' + this.roles.join(',');
+  get name() {
+    return this.user.firstName +  ' ' + this.user.lastName;
+  }
+
+  get email() {
+    return this.user.email;
+  }
+
+  isInRole(role: string) {
+    return this.roles.indexOf(role) !== -1;
+  }
+
+  toggleRole(role: string) {
+
+    if (this.isInRole(role)) {
+      this.removeRole(role);
+    } else {
+      this.addRole(role);
+    }
+  }
+
+  private removeRole(role: string) {
+    this.roles.splice(this.roles.indexOf(role), 1);
+  }
+
+  private addRole(role: string) {
+    this.roles.push(role);
   }
 }

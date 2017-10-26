@@ -59,6 +59,10 @@ public class OrganizationDao {
         });
     }
 
+    public @NotNull List<String> getAvailableRoles() {
+        return db.findAll(String.class, "SELECT name from role");
+    }
+
     public void createOrganization(Organization org) {
 
         db.update("INSERT INTO organization (id, name_en, name_fi, name_sv, description_en, description_fi, description_sv, url) VALUES (?,?,?,?,?,?,?,?)",

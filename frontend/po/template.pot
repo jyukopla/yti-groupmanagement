@@ -19,6 +19,15 @@ msgstr ""
 msgid "No users yet"
 msgstr ""
 
+msgid "Name"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
 msgid "Give feedback"
 msgstr ""
 
@@ -46,13 +55,7 @@ msgstr ""
 msgid "Add user"
 msgstr ""
 
-msgid "Save"
-msgstr ""
-
 msgid "In finnish"
-msgstr ""
-
-msgid "Name"
 msgstr ""
 
 msgid "Description"
@@ -86,4 +89,28 @@ msgid "User list"
 msgstr ""
 
 msgid "Front page"
+msgstr ""
+
+msgid "ADMIN"
+msgstr ""
+
+msgid "DATA_MODEL_ADMIN"
+msgstr ""
+
+msgid "DATA_MODEL_EDITOR"
+msgstr ""
+
+msgid "TERMINOLOGY_ADMIN"
+msgstr ""
+
+msgid "TERMINOLOGY_EDITOR"
+msgstr ""
+
+msgid "CODE_LIST_ADMIN"
+msgstr ""
+
+msgid "CODE_LIST_EDITOR"
+msgstr ""
+
+msgid "TRANSLATOR"
 msgstr ""

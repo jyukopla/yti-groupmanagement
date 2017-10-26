@@ -6,4 +6,5 @@ public class OrganizationWithUsers {
 
     public Organization organization;
     public List<UserWithRoles> users;
+    public List<String> availableRoles;
 }

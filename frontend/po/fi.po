@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2017-10-25 22:05+0300\n"
+"PO-Revision-Date: 2017-10-26 10:17+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -27,6 +27,15 @@ msgstr "Käyttäjät"
 
 msgid "No users yet"
 msgstr "Ei vielä käyttäjiä"
+
+msgid "Name"
+msgstr "Nimi"
+
+msgid "Email"
+msgstr "Sähköposti"
+
+msgid "Save"
+msgstr "Tallenna"
 
 msgid "Give feedback"
 msgstr "Anna palautetta"
@@ -55,14 +64,8 @@ msgstr "Ei vielä ylläpitäjiä"
 msgid "Add user"
 msgstr "Lisää käyttäjä"
 
-msgid "Save"
-msgstr "Tallenna"
-
 msgid "In finnish"
 msgstr "Suomeksi"
-
-msgid "Name"
-msgstr "Nimi"
 
 msgid "Description"
 msgstr "Kuvaus"
@@ -97,6 +100,30 @@ msgstr "Käyttäjälistaus"
 msgid "Front page"
 msgstr "Etusivu"
 
+msgid "ADMIN"
+msgstr "Ylläpitäjä"
+
+msgid "DATA_MODEL_ADMIN"
+msgstr "Tietomallin ylläpitäjä"
+
+msgid "DATA_MODEL_EDITOR"
+msgstr "Tietomallintaja"
+
+msgid "TERMINOLOGY_ADMIN"
+msgstr "Sasnaston ylläpitäjä"
+
+msgid "TERMINOLOGY_EDITOR"
+msgstr "Sanastotyöntekijä"
+
+msgid "CODE_LIST_ADMIN"
+msgstr "Koodiston ylläpitäjä"
+
+msgid "CODE_LIST_EDITOR"
+msgstr "Koodistotyöntekijä"
+
+msgid "TRANSLATOR"
+msgstr "Kääntäjä"
+
 #~ msgid "Hello"
 #~ msgstr "Hei"
 
@@ -120,9 +147,6 @@ msgstr "Etusivu"
 
 #~ msgid "Group members"
 #~ msgstr "Ryhmän jäsenet"
-
-#~ msgid "Email"
-#~ msgstr "Sähköposti"
 
 #~ msgid "User"
 #~ msgstr "Käyttäjä"

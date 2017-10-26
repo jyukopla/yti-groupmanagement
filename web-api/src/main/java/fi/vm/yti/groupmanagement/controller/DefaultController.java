@@ -14,7 +14,7 @@ class DefaultController {
             value = {
                     "/",
                     "/newOrganization",
-                    "/organizationDetails"
+                    "/organization/{id:[\\d\\w-]+}"
             },
             produces = "text/html; charset=UTF-8")
     @ResponseBody

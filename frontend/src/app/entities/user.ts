@@ -1,24 +1,20 @@
-import { UserModel } from '../apina';
+import { User as ApinaUser} from '../apina';
 
 export class User {
 
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   superuser: boolean;
-  userModel: UserModel;
 
-  constructor(userModel: UserModel) {
-    this.name = userModel.firstName + ' ' + userModel.lastName;
+  constructor(userModel: ApinaUser) {
+    this.firstName = userModel.firstName;
+    this.lastName = userModel.lastName;
     this.email = userModel.email;
     this.superuser = userModel.superuser;
-    this.userModel = this.userModel;
   }
 
-  getUserModel(){
-    return this.userModel;
-  };
-
-  print() {
-    return `- = ${this.name} ${this.email} Admin: ${this.superuser ? 'Yes' : 'No'} = -`;
+  get name() {
+    return this.firstName + ' ' + this.lastName;
   }
 }

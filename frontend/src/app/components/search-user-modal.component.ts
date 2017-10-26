@@ -49,7 +49,7 @@ export class SearchUserModalService {
                  (click)="selectUser(user)">
 
               <h6>{{user.name}}</h6>
-              <p>{{user.email}}></p>
+              <p>{{user.email}}</p>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@ export class SearchUserModalComponent implements OnInit, AfterViewInit {
       Observable.combineLatest(this.search$, this.userService.getUsers()).map(([search, users]) => {
 
         const isUserAddable = (user: User) => {
-          return !this.isExcluded(user) && (!search || user.name.toLowerCase().indexOf(search) !== -1);
+          return !this.isExcluded(user) && (!search || user.name.toLowerCase().indexOf(search.toLowerCase()) !== -1);
         };
 
         return users.filter(user => isUserAddable(user));

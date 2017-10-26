@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2017-10-23 15:19+0300\n"
+"PO-Revision-Date: 2017-10-26 10:18+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -19,6 +19,24 @@ msgstr ""
 msgid "You are expected at {{time}}', {time: moment.format('H:mm"
 msgstr ""
 
+msgid "Edit organization"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "No users yet"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
 msgid "Give feedback"
 msgstr ""
 
@@ -31,11 +49,32 @@ msgstr ""
 msgid "licensed under the"
 msgstr ""
 
-msgid "Hello"
-msgstr "Hello"
+msgid "Group management service"
+msgstr ""
 
-msgid "User list"
-msgstr "Users"
+msgid "New organization"
+msgstr ""
+
+msgid "Admin users"
+msgstr ""
+
+msgid "No admin users yet"
+msgstr ""
+
+msgid "Add user"
+msgstr ""
+
+msgid "In finnish"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "In english"
+msgstr ""
+
+msgid "In swedish"
+msgstr ""
 
 msgid "Organizations"
 msgstr ""
@@ -43,34 +82,10 @@ msgstr ""
 msgid "Add new organization"
 msgstr ""
 
-msgid "Name FI"
-msgstr ""
-
-msgid "Name EN"
-msgstr ""
-
-msgid "Name SV"
-msgstr ""
-
-msgid "Description FI"
-msgstr ""
-
-msgid "Description EN"
-msgstr ""
-
-msgid "Description SV"
-msgstr ""
-
-msgid "New organization"
-msgstr ""
-
-msgid "Save"
+msgid "Browse users"
 msgstr ""
 
 msgid "Search user..."
-msgstr ""
-
-msgid "Add user"
 msgstr ""
 
 msgid "Select user"
@@ -79,26 +94,35 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-msgid "Browse users"
-msgstr ""
-
-msgid "Group members"
-msgstr ""
+msgid "User list"
+msgstr "Users"
 
 msgid "Front page"
 msgstr ""
 
-msgid "Group management service"
-msgstr ""
+msgid "ADMIN"
+msgstr "Admin"
 
-msgid "Name"
-msgstr ""
+msgid "DATA_MODEL_ADMIN"
+msgstr "Data model admin"
 
-msgid "User"
-msgstr ""
+msgid "DATA_MODEL_EDITOR"
+msgstr "Data model editor"
 
-msgid "Role"
-msgstr ""
+msgid "TERMINOLOGY_ADMIN"
+msgstr "Terminology admin"
 
-msgid "Application"
-msgstr ""
+msgid "TERMINOLOGY_EDITOR"
+msgstr "Terminology editor"
+
+msgid "CODE_LIST_ADMIN"
+msgstr "Code list admin"
+
+msgid "CODE_LIST_EDITOR"
+msgstr "Code list editor"
+
+msgid "TRANSLATOR"
+msgstr "Translator"
+
+#~ msgid "Hello"
+#~ msgstr "Hello"

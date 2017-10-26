@@ -5,6 +5,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public final class CollectionUtil {
 
@@ -32,6 +35,9 @@ public final class CollectionUtil {
         }
     }
 
+    public static <T, R> @NotNull List<R> mapToList(@NotNull Collection<T> collection, Function<T, R> mapper) {
+        return collection.stream().map(mapper).collect(Collectors.toList());
+    }
 
     private CollectionUtil() {
     }

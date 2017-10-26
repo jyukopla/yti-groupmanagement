@@ -1,6 +1,6 @@
 package fi.vm.yti.groupmanagement.model;
 
-public class UserModel {
+public class User {
 
     public String email;
     public String firstName;

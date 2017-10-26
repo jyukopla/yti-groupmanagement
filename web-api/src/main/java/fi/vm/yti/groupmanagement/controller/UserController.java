@@ -2,7 +2,7 @@ package fi.vm.yti.groupmanagement.controller;
 
 
 import fi.vm.yti.groupmanagement.dao.UserDao;
-import fi.vm.yti.groupmanagement.model.UserModel;
+import fi.vm.yti.groupmanagement.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,16 +26,7 @@ class UserController {
     }
 
     @RequestMapping(value = "", method = GET, produces = APPLICATION_JSON_VALUE)
-    public List<UserModel> getUsers() {
+    public List<User> getUsers() {
         return this.userDao.getUsers();
-    }
-
-
-    @RequestMapping(value = "{user}", method = PUT, consumes = APPLICATION_JSON_VALUE)
-    public void setUser(@RequestBody UserModel user) {
-        if (!user.superuser) {
-            user.superuser = false;
-        }
-        this.userDao.setUser(user);
     }
 }

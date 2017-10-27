@@ -3,8 +3,8 @@ h2, h3 {
   margin-bottom: 30px;
 }
 
-td.check {
-  width: 50px;
+td, th {
+  padding: 10px 10px 0 10px;
 }
 
 th {
@@ -16,8 +16,8 @@ th {
     white-space: nowrap;
 
     > div {
-      transform: translate(-10px, -20px) rotate(315deg);
-      width: 50px;
+      transform: translate(-10px, -10px) rotate(315deg);
+      width: 30px;
 
       > span {
         border-bottom: 1px solid #ccc;
@@ -25,4 +25,8 @@ th {
       }
     }
   }
+}
+
+.actions {
+  margin-top: 30px;
 }

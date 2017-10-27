@@ -30,26 +30,28 @@ import { SearchUserModalService } from './search-user-modal.component';
         </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of users">
-              <td>{{user.name}}</td>
-              <td>{{user.email}}</td>
-              <td *ngFor="let role of availableRoles" class="check">
-                <input type="checkbox"
-                       [checked]="user.isInRole(role)"
-                       (click)="user.toggleRole(role)" />
-              </td>
-              <td><i class="fa fa-trash" (click)="removeUser(user)"></i></td>
-            </tr>
+        <tr *ngFor="let user of users">
+          <td>{{user.name}}</td>
+          <td>{{user.email}}</td>
+          <td *ngFor="let role of availableRoles" class="check">
+            <input type="checkbox"
+                   [checked]="user.isInRole(role)"
+                   (click)="user.toggleRole(role)" />
+          </td>
+          <td><i class="fa fa-trash" (click)="removeUser(user)"></i></td>
+        </tr>
         </tbody>
       </table>
 
-      <button type="button"
-              class="btn btn-default"
-              (click)="addUser()" translate>Add user</button>
-      
-      <button type="submit"
-              class="btn btn-success"
-              (click)="saveOrganization()" translate>Save</button>
+      <div class="actions">
+          <button type="button"
+                  class="btn btn-default"
+                  (click)="addUser()" translate>Add user</button>
+
+          <button type="submit"
+                  class="btn btn-success"
+                  (click)="saveOrganization()" translate>Save</button>
+      </div>
     </div>
   `
 })

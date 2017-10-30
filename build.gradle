@@ -1,18 +1,5 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '3.2.0')
-    }
-}
-
 allprojects {
     repositories {
         jcenter()
     }
 }
-
-apply plugin: 'com.jfrog.artifactory'
-
-artifactoryPublish.skip = true

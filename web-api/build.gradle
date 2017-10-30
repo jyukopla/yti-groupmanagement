@@ -2,12 +2,19 @@ buildscript {
     repositories {
         jcenter()
     }
+    dependencies {
+        classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '3.2.0')
+    }
 }
 
 plugins {
     id "org.springframework.boot" version "1.5.1.RELEASE"
     id "fi.evident.apina" version "0.8.0"
 }
+
+apply plugin: 'com.jfrog.artifactory'
+
+artifactoryPublish.skip = true
 
 repositories {
     mavenLocal()

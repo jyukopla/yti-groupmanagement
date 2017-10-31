@@ -2,6 +2,7 @@ package fi.vm.yti.groupmanagement.service;
 
 import fi.vm.yti.groupmanagement.dao.OrganizationDao;
 import fi.vm.yti.groupmanagement.model.*;
+import fi.vm.yti.groupmanagement.security.AuthorizationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,18 +10,25 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
+import static fi.vm.yti.security.AuthorizationException.check;
+
 @Service
 public class OrganizationService {
 
     private final OrganizationDao organizationDao;
+    private final AuthorizationManager authorizationManager;
 
     @Autowired
-    public OrganizationService(OrganizationDao organizationDao) {
+    public OrganizationService(OrganizationDao organizationDao,
+                               AuthorizationManager authorizationManager) {
         this.organizationDao = organizationDao;
+        this.authorizationManager = authorizationManager;
     }
 
     @Transactional
     public UUID createOrganization(CreateOrganization createOrganizationModel) {
+
+        check(authorizationManager.canCreateOrganization());
 
         UUID id = UUID.randomUUID();
 
@@ -46,6 +54,8 @@ public class OrganizationService {
     @Transactional
     public void updateOrganization(UpdateOrganization updateOrganization) {
 
+        check(authorizationManager.canEditOrganization(updateOrganization.organization.id));
+
         Organization organization = updateOrganization.organization;
         UUID id = organization.id;
         organizationDao.updateOrganization(organization);
@@ -58,11 +68,13 @@ public class OrganizationService {
 
     @Transactional
     public List<OrganizationListItem> getOrganizationList() {
-        return this.organizationDao.getOrganizationList();
+        return authorizationManager.filterViewableOrganizations(organizationDao.getOrganizationList());
     }
 
     @Transactional
     public OrganizationWithUsers getOrganization(UUID organizationId) {
+
+        check(authorizationManager.canViewOrganization(organizationId));
 
         Organization organizationModel = this.organizationDao.getOrganization(organizationId);
         List<UserWithRoles> users = this.organizationDao.getOrganizationUsers(organizationId);

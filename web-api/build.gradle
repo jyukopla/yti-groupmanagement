@@ -84,6 +84,7 @@ bootRepackage {
 apina {
     target = new File(project(":frontend").projectDir, 'src/app/apina.ts')
     blackBoxClasses = [/org\.dalesbred\..+/, /java\.time\..+/]
+    enumMode = 'string'
 }
 
 tasks.findByPath(":frontend:installDependencies").dependsOn apina

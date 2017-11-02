@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static javafx.scene.input.KeyCode.L;
 
 @Repository
 public class UserOrganizationDao {

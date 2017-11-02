@@ -53,4 +53,6 @@ public class UserOrganization {
 
     public String getRole() { return userRole; }
 
+    public String getUserName() { return (firstname + " " + lastname); }
+
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { User } from '../entities/user';
 import {OrganizationService} from "../services/organization.service";
-import {OrganizationListItem} from "../apina";
+import {OrganizationListItem, UserOrganization} from "../apina";
 import {LocationService} from "../services/location.service";
 import {UserOrganizationService} from "../services/userorganization.service";
 import {stringDistance} from "codelyzer/util/utils";
@@ -11,13 +11,14 @@ import {stringDistance} from "codelyzer/util/utils";
   selector: 'app-users',
   template: `  
           <div class="col-md-12">
-            <h2 translate>Users</h2>
+            <h2 id="mainlabel" translate>Users</h2>
             <div class="section" id="filters">
-              <label translate>Filter: </label>
+              <label id="filterlabel" translate>Filter: </label>
               <select [(ngModel)]="selectedRole" (ngModelChange)="onRoleSelect(selectedRole)">
                 <option *ngFor="let role of rolesFilter" [ngValue]="role">
-                  {{ role }}
+                  {{ role | translate}}
                 </option>
+                        
               </select>
               <select [(ngModel)]="selectedOrganization" (ngModelChange)="onOrganizationSelect(selectedOrganization)">
                 <option *ngFor="let organization of organizations" [value]="organization.name">
@@ -25,8 +26,12 @@ import {stringDistance} from "codelyzer/util/utils";
                 </option>
               </select>
             </div>
-
-            <div class="section" id="userssection">
+            <div class="section" id="userssection" width="75%">
+              <table width="75%" id="userstable" *ngFor="let userOrg of userOrganizations">
+                <td width="25%">{{ userOrg.userName }}</td>
+                <td width="25%">{{ userOrg.role | translate }}</td>
+                <td id="orgtd" width="25%" [routerLink]="['/organization', userOrg.id]">{{ userOrg.organizationName | translateValue}}</td>
+              </table>
             </div>
           </div>       
 `,
@@ -42,6 +47,7 @@ export class UsersComponent implements OnInit {
   selectedOrganization: string;
   organizationsFilter: string[];
   organizations: OrganizationListItem[];
+  userOrganizations : UserOrganization[];
 
 
   constructor(private userService: UserService,
@@ -53,7 +59,7 @@ export class UsersComponent implements OnInit {
 
 
     this.userOrganizationService.getUserOrganizations().subscribe( uos => {
-      //TODO
+      this.userOrganizations = uos;
     });
 
     this.userService.getUsers().subscribe(users => {

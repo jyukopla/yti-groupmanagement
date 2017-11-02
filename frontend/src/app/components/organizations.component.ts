@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OrganizationService } from '../services/organization.service';
 import { OrganizationListItem } from '../apina';
 import { Router } from '@angular/router';
+import { AuthorizationManager } from '../services/authorization-manager';
 
 @Component({
   selector: 'app-organizations',
@@ -10,10 +11,11 @@ import { Router } from '@angular/router';
       <div class="col-md-12">
 
         <h2 translate>Organizations</h2>
-        <button class="button btn-default" (click)="addOrganization()">
+        <button class="button btn-default" (click)="addOrganization()" *ngIf="authorizationManager.canCreateOrganization()">
           <span translate>Add new organization</span>
         </button>
-        <button class="button btn-default" (click)="browseUsers()">
+
+        <button class="button btn-default" (click)="browseUsers()" *ngIf="authorizationManager.canBrowseUsers()">
           <span translate>Browse users</span>
         </button>
       </div>
@@ -32,6 +34,7 @@ export class OrganizationsComponent implements OnInit {
   organizations: OrganizationListItem[];
 
   constructor(private organizationService: OrganizationService,
+              public authorizationManager: AuthorizationManager,
               private router: Router) {
   }
 

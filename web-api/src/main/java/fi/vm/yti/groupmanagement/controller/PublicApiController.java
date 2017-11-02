@@ -26,6 +26,10 @@ public class PublicApiController {
                                  @RequestParam(required = false) @Nullable String firstName,
                                  @RequestParam(required = false) @Nullable String lastName) {
 
+        if (email.isEmpty()) {
+            throw new RuntimeException("Email is a mandatory parameter");
+        }
+
         if (firstName != null && lastName != null) {
             return this.publicApiService.getOrCreateUser(email, firstName, lastName);
         } else {

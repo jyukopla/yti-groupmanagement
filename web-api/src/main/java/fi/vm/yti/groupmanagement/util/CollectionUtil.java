@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public final class CollectionUtil {
@@ -37,6 +38,10 @@ public final class CollectionUtil {
 
     public static <T, R> @NotNull List<R> mapToList(@NotNull Collection<T> collection, Function<T, R> mapper) {
         return collection.stream().map(mapper).collect(Collectors.toList());
+    }
+
+    public static <T> @NotNull List<T> filterToList(@NotNull Collection<T> collection, Predicate<T> predicate) {
+        return collection.stream().filter(predicate).collect(Collectors.toList());
     }
 
     private CollectionUtil() {

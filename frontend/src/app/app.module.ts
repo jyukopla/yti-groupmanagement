@@ -27,6 +27,7 @@ import { NewOrganizationComponent } from './components/new-organization.componen
 import { SearchUserModalComponent, SearchUserModalService } from './components/search-user-modal.component';
 import { EditOrganizationComponent } from './components/edit-organization.component';
 import {UserOrganizationService} from "./services/userorganization.service";
+import { AuthorizationManager } from './services/authorization-manager';
 
 const localizations: { [lang: string]: string} = {
   fi: require('json-loader!po-loader?format=mf!../../po/fi.po'),
@@ -85,6 +86,7 @@ const appRoutes: Routes = [
     LanguageService,
     LocationService,
     UserService,
+    AuthorizationManager,
     OrganizationService,
     SearchUserModalService,
     UserOrganizationService

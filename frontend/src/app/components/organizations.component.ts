@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
         <button class="button btn-default" (click)="addOrganization()">
           <span translate>Add new organization</span>
         </button>
-        <button class="button btn-default">
+        <button class="button btn-default" (click)="browseUsers()">
           <span translate>Browse users</span>
         </button>
       </div>
@@ -43,5 +43,9 @@ export class OrganizationsComponent implements OnInit {
 
   addOrganization() {
     this.router.navigate(['/newOrganization']);
+  }
+
+  browseUsers() {
+    this.router.navigate(['/users']);
   }
 }

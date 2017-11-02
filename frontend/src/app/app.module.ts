@@ -26,6 +26,7 @@ import { OrganizationDetailsComponent } from './components/organization-details.
 import { NewOrganizationComponent } from './components/new-organization.component';
 import { SearchUserModalComponent, SearchUserModalService } from './components/search-user-modal.component';
 import { EditOrganizationComponent } from './components/edit-organization.component';
+import {UserOrganizationService} from "./services/userorganization.service";
 
 const localizations: { [lang: string]: string} = {
   fi: require('json-loader!po-loader?format=mf!../../po/fi.po'),
@@ -51,7 +52,8 @@ export function createMissingTranslationHandler(): MissingTranslationHandler {
 const appRoutes: Routes = [
   { path: '', component: FrontpageComponent },
   { path: 'newOrganization', component: NewOrganizationComponent },
-  { path: 'organization/:id', component: EditOrganizationComponent}
+  { path: 'organization/:id', component: EditOrganizationComponent},
+  { path: 'users', component: UsersComponent}
 ];
 
 @NgModule({
@@ -84,7 +86,8 @@ const appRoutes: Routes = [
     LocationService,
     UserService,
     OrganizationService,
-    SearchUserModalService
+    SearchUserModalService,
+    UserOrganizationService
   ],
   entryComponents: [
     SearchUserModalComponent],

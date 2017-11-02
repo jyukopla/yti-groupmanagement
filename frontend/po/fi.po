@@ -124,6 +124,9 @@ msgstr "Koodistotyöntekijä"
 msgid "TRANSLATOR"
 msgstr "Kääntäjä"
 
+msgid "Filter:"
+msgstr "Suodata:"
+
 #~ msgid "Hello"
 #~ msgstr "Hei"
 

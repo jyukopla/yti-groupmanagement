@@ -4,7 +4,6 @@ import fi.vm.yti.groupmanagement.model.PublicApiOrganization;
 import fi.vm.yti.groupmanagement.model.PublicApiUser;
 import fi.vm.yti.groupmanagement.model.PublicApiUserOrganization;
 import org.dalesbred.Database;
-import org.dalesbred.annotation.DalesbredInstantiator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,18 +57,20 @@ public class PublicApiDao {
 
     public @NotNull List<PublicApiOrganization> getOrganizations() {
 
-        List<OrganizationRow> rows = this.database.findAll(OrganizationRow.class, "select id, name_en, name_sv, name_fi, url from organization");
+        List<OrganizationRow> rows = this.database.findAll(OrganizationRow.class, "select id, name_en, name_sv, name_fi, description_en, description_sv, description_fi, url from organization");
 
         return rows.stream().map(row -> {
 
             Map<String, String> prefLabel = new HashMap<>(3);
             Map<String, String> description = new HashMap<>(3);
 
-            prefLabel.put("fi", row.name_fi);
-            prefLabel.put("en", row.name_en);
-            prefLabel.put("sv", row.name_sv);
+            prefLabel.put("fi", row.nameFi);
+            prefLabel.put("en", row.nameEn);
+            prefLabel.put("sv", row.nameSv);
 
-            // TODO description
+            description.put("fi", row.descriptionFi);
+            description.put("en", row.descriptionEn);
+            description.put("sv", row.descriptionSv);
 
             return new PublicApiOrganization(row.id, unmodifiableMap(prefLabel), unmodifiableMap(description), row.url);
 
@@ -91,68 +92,61 @@ public class PublicApiDao {
 
         return grouped.entrySet().stream().map(PublicApiDao::entryToAuthorizationUser).collect(toList());
     }
-}
 
-final class UserRow {
+    public static final class OrganizationRow {
 
-    UserDetails user = new UserDetails();
-    UUID organizationId;
-    List<String> roles;
-
-    @DalesbredInstantiator
-    UserRow(String email,
-            String firstName,
-            String lastName,
-            boolean superuser,
-            UUID organizationId,
-            List<String> roles) {
-
-        this.user.email = email;
-        this.user.firstName = firstName;
-        this.user.lastName = lastName;
-        this.user.superuser = superuser;
-        this.organizationId = organizationId;
-        this.roles = roles;
+        public UUID id;
+        public String url;
+        public String nameEn;
+        public String nameFi;
+        public String nameSv;
+        public String descriptionEn;
+        public String descriptionFi;
+        public String descriptionSv;
     }
 
-    static final class UserDetails {
+    public static final class UserRow {
 
-        String email;
-        String firstName;
-        String lastName;
-        boolean superuser;
+        UserDetails user = new UserDetails();
+        UUID organizationId;
+        List<String> roles;
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+        public UserRow(String email,
+                String firstName,
+                String lastName,
+                boolean superuser,
+                UUID organizationId,
+                List<String> roles) {
 
-            UserDetails user = (UserDetails) o;
-
-            return email.equals(user.email);
+            this.user.email = email;
+            this.user.firstName = firstName;
+            this.user.lastName = lastName;
+            this.user.superuser = superuser;
+            this.organizationId = organizationId;
+            this.roles = roles;
         }
 
-        @Override
-        public int hashCode() {
-            return email.hashCode();
+        static final class UserDetails {
+
+            String email;
+            String firstName;
+            String lastName;
+            boolean superuser;
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+
+                UserDetails user = (UserDetails) o;
+
+                return email.equals(user.email);
+            }
+
+            @Override
+            public int hashCode() {
+                return email.hashCode();
+            }
         }
-    }
-}
-
-final class OrganizationRow {
-
-    UUID id;
-    String url;
-    String name_en;
-    String name_fi;
-    String name_sv;
-
-    @DalesbredInstantiator
-    OrganizationRow(UUID id, String url, String name_en, String name_fi, String name_sv) {
-        this.id = id;
-        this.url = url;
-        this.name_en = name_en;
-        this.name_fi = name_fi;
-        this.name_sv = name_sv;
     }
 }

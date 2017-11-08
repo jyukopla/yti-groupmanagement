@@ -127,5 +127,17 @@ msgstr "Translator"
 msgid "Filter:"
 msgstr ""
 
+msgid "Access requests"
+msgstr ""
+
+msgid "No requests"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
 #~ msgid "Hello"
 #~ msgstr "Hello"

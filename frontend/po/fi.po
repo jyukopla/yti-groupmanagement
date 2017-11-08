@@ -127,6 +127,18 @@ msgstr "Kääntäjä"
 msgid "Filter:"
 msgstr "Suodata:"
 
+msgid "Access requests"
+msgstr "Käyttöoikeuspyynnöt"
+
+msgid "No requests"
+msgstr "Ei pyyntöjä"
+
+msgid "User"
+msgstr "Käyttäjä"
+
+msgid "Add"
+msgstr "Lisää"
+
 #~ msgid "Hello"
 #~ msgstr "Hei"
 

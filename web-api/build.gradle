@@ -41,10 +41,12 @@ dependencies {
     compile "org.springframework.security:spring-security-web"
     compile "fi.vm.yti:yti-spring-security:0.1-SNAPSHOT"
 
-    compile "com.fasterxml.jackson.core:jackson-databind"
+    compile "org.postgresql:postgresql:9.4.1212"
     compile "org.dalesbred:dalesbred:1.2.5"
     compile "org.flywaydb:flyway-core:3.2.1"
-    compile "net.sourceforge.cardme:cardme:0.4.0"
+
+    compile "com.fasterxml.jackson.core:jackson-databind"
+
     compile "org.jetbrains:annotations:15.0"
 
     compile "org.apache.httpcomponents:httpclient:4.5.2"
@@ -52,7 +54,8 @@ dependencies {
     compile "org.thymeleaf:thymeleaf"
     compile "org.thymeleaf:thymeleaf-spring4"
 
-    compile "org.postgresql:postgresql:9.4.1212"
+    compile "io.springfox:springfox-swagger2:2.7.0"
+    compile "io.springfox:springfox-swagger-ui:2.7.0"
 
     compileOnly "org.springframework.boot:spring-boot-configuration-processor"
 

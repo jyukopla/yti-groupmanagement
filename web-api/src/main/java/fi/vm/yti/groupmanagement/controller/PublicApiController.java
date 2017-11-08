@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
 @RestController
 @RequestMapping("/public-api")
 public class PublicApiController {
@@ -21,7 +24,7 @@ public class PublicApiController {
         this.publicApiService = publicApiService;
     }
 
-    @RequestMapping("/user")
+    @RequestMapping(value = "/user", method = GET, produces = APPLICATION_JSON_VALUE)
     public PublicApiUser getUser(@RequestParam @NotNull String email,
                                  @RequestParam(required = false) @Nullable String firstName,
                                  @RequestParam(required = false) @Nullable String lastName) {
@@ -37,7 +40,7 @@ public class PublicApiController {
         }
     }
 
-    @RequestMapping("/organizations")
+    @RequestMapping(value = "/organizations", method = GET, produces = APPLICATION_JSON_VALUE)
     public List<PublicApiOrganization> getOrganizations() {
         return publicApiService.getOrganizations();
     }

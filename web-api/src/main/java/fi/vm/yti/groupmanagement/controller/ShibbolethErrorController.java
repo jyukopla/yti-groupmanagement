@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 import static fi.vm.yti.groupmanagement.util.RequestUtil.createLoginUrl;
+import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
 @Controller
 public class ShibbolethErrorController {
@@ -18,7 +19,7 @@ public class ShibbolethErrorController {
     @Value("${registration.url}")
     private String registrationUrl;
 
-    @RequestMapping(value = "/login-error", method = RequestMethod.GET)
+    @RequestMapping(value = "/login-error", method = RequestMethod.GET, produces = TEXT_HTML_VALUE)
     String loginError(HttpServletRequest request,
                       @RequestParam(required = false) @Nullable String now,
                       @RequestParam(required = false) @Nullable String requestURL,

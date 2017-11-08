@@ -5,17 +5,15 @@ import { Language, LanguageService } from '../services/language.service';
   selector: 'app-navigation-bar',
   styleUrls: ['./navigation-bar.component.scss'],
   template: `
-    <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
-      
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+
       <a class="navbar-brand" [routerLink]="['/']"><span translate>Group management service</span></a>
 
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item" *ngFor="let language of languages">
-            <a class="nav-link" (click)="setLanguage(language.code)">{{language.name}}</a>
-          </li>
-        </ul>
-      </div>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item" *ngFor="let language of languages">
+          <a class="nav-link" (click)="setLanguage(language.code)">{{language.name}}</a>
+        </li>
+      </ul>
     </nav>
   `
 })

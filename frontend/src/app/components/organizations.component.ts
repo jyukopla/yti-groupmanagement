@@ -20,9 +20,9 @@ import { AuthorizationManager } from '../services/authorization-manager';
         </button>
       </div>
       <ul id="organizations-list">
-        <li *ngFor="let organization of organizations" [routerLink]="['/organization', organization.id]">
-          {{organization.name | translateValue}}
-        </li>
+        <a *ngFor="let organization of organizations" [routerLink]="['/organization', organization.id]">
+        {{organization.name | translateValue}} <br>
+        </a>
       </ul>
     </div>
   `,

@@ -14,9 +14,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static fi.vm.yti.security.AuthorizationException.check;
+import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 @RestController
-@RequestMapping(value = "/debug", method = RequestMethod.GET)
+@RequestMapping(value = "/debug", method = RequestMethod.GET, produces = TEXT_PLAIN_VALUE)
 public class RequestDebugController {
 
     private final AuthorizationManager authorizationManager;

@@ -27,7 +27,7 @@ public class UserOrganizationController {
         return this.userOrganizationDao.getUserOrganizationList();
     }
 
-    @RequestMapping(value = "/roles", method = GET)
+    @RequestMapping(value = "/roles", method = GET, produces = APPLICATION_JSON_VALUE)
     public List<String> getAllRoles() {
         return this.userOrganizationDao.getAllRoles();
     }

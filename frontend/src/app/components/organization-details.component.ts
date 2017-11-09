@@ -15,6 +15,9 @@ import { OrganizationDetails } from '../entities/organization-details';
           <label for="description_fi" translate>Description</label>
           <textarea id="description_fi" class="form-control" rows="4" [(ngModel)]="organization.descriptionFi"></textarea>
         </div>
+        <p></p>
+        <label for="url_input">Url: </label>
+        <input type="text" class="form-control" id="url_input" [(ngModel)]="organization.url">
       </div>
 
       <div class="col-md-4">

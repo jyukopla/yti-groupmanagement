@@ -35,10 +35,10 @@ import { SearchUserModalService } from './search-user-modal.component';
           <td>{{user.email}}</td>
           <td *ngFor="let role of availableRoles" class="check">
             <input type="checkbox"
-                   [checked]="user.isInRole(role)"
-                   (click)="user.toggleRole(role)" />
+                   [checked]="user.isInRole(role) " [disabled]="(adminUsers.length === 1) && (role==='ADMIN') && (user.isInRole('ADMIN'))"
+                   (click)="roleClicked(user, role)" />
           </td>
-          <td><i class="fa fa-trash" (click)="removeUser(user)"></i></td>
+          <td><i id="deleteuser" class="fa fa-trash" (click)="removeUser(user)" *ngIf=" !(adminUsers.length <= 1) || (!user.isInRole('ADMIN'))"></i></td>
         </tr>
         </tbody>
       </table>
@@ -61,6 +61,7 @@ export class EditOrganizationComponent {
   organization: OrganizationDetails;
   users: UserViewModel[];
   availableRoles: string[];
+  adminUsers: UserViewModel[] = [];
 
   constructor(private route: ActivatedRoute,
               locationService: LocationService,
@@ -79,8 +80,38 @@ export class EditOrganizationComponent {
       this.organizationId = organizationWithUsers.organization.id;
       this.organization = organizationDetails;
       this.users = organizationWithUsers.users.map(user => new UserViewModel(user.user, user.roles));
+      this.users.forEach(user => {if (user.roles.indexOf("ADMIN") !== -1) {
+        this.adminUsers.push(new UserViewModel(user.user, user.roles));
+      }});
+      if (this.adminUsers.length ===0 || undefined) {
+        //There always has to be at least one user, which has role admin
+        this.adminUsers.push(new UserViewModel(new User(), ['ADMIN']));
+      }
       this.availableRoles = organizationWithUsers.availableRoles;
     });
+  }
+
+  roleClicked(user: UserViewModel, role: string){
+
+    user.toggleRole(role);
+
+    if (role === 'ADMIN' && !user.isInRole('ADMIN')) {
+      this.removeFromAdmin(user);
+    }
+    else if (role === 'ADMIN'){
+      this.addToAdmin(user);
+    }
+  }
+
+  removeFromAdmin(user: UserViewModel) {
+
+    this.adminUsers.splice(this.adminUsers.indexOf(user), 1);
+  }
+
+  addToAdmin( user: UserViewModel) {
+    if ((user.roles.indexOf("ADMIN") !== -1)){
+      this.adminUsers.push(user);
+    }
   }
 
   get organizationUserEmails() {
@@ -94,6 +125,9 @@ export class EditOrganizationComponent {
 
   removeUser(user: UserViewModel) {
     this.users.splice(this.users.indexOf(user), 1);
+    if (user.isInRole('ADMIN')) {
+      this.adminUsers.splice(this.adminUsers.indexOf(user), 1);
+    }
   }
 
   saveOrganization() {

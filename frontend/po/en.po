@@ -103,26 +103,14 @@ msgstr ""
 msgid "ADMIN"
 msgstr "Admin"
 
-msgid "DATA_MODEL_ADMIN"
-msgstr "Data model admin"
-
 msgid "DATA_MODEL_EDITOR"
 msgstr "Data model editor"
-
-msgid "TERMINOLOGY_ADMIN"
-msgstr "Terminology admin"
 
 msgid "TERMINOLOGY_EDITOR"
 msgstr "Terminology editor"
 
-msgid "CODE_LIST_ADMIN"
-msgstr "Code list admin"
-
 msgid "CODE_LIST_EDITOR"
 msgstr "Code list editor"
-
-msgid "TRANSLATOR"
-msgstr "Translator"
 
 msgid "Filter:"
 msgstr ""

@@ -103,26 +103,14 @@ msgstr "Etusivu"
 msgid "ADMIN"
 msgstr "Ylläpitäjä"
 
-msgid "DATA_MODEL_ADMIN"
-msgstr "Tietomallin ylläpitäjä"
-
 msgid "DATA_MODEL_EDITOR"
 msgstr "Tietomallintaja"
-
-msgid "TERMINOLOGY_ADMIN"
-msgstr "Sanaston ylläpitäjä"
 
 msgid "TERMINOLOGY_EDITOR"
 msgstr "Sanastotyöntekijä"
 
-msgid "CODE_LIST_ADMIN"
-msgstr "Koodiston ylläpitäjä"
-
 msgid "CODE_LIST_EDITOR"
 msgstr "Koodistotyöntekijä"
-
-msgid "TRANSLATOR"
-msgstr "Kääntäjä"
 
 msgid "Filter:"
 msgstr "Suodata:"

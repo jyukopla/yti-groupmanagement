@@ -1,13 +1,9 @@
 import { AuthenticatedUser as ApinaAuthenticatedUser, UUID } from '../apina';
 
 type Role = 'ADMIN'
-          | 'DATA_MODEL_ADMIN'
           | 'DATA_MODEL_EDITOR'
-          | 'TERMINOLOGY_ADMIN'
           | 'TERMINOLOGY_EDITOR'
-          | 'CODE_LIST_ADMIN'
-          | 'CODE_LIST_EDITOR'
-          | 'TRANSLATOR';
+          | 'CODE_LIST_EDITOR';
 
 export class AuthenticatedUser {
 

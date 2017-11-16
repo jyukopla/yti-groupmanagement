@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {UserRequest, UserRequestEndpoint, UUID} from '../apina';
+import {UserRequest, UserRequestEndpoint, UserRequestWithOrganization, UUID} from '../apina';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -11,7 +11,12 @@ export class UserRequestService {
     return this.endpoint.getUserRequests(organizationId);
   }
 
-  deleteUserRequest(requestId: number): void {
-    this.endpoint.deleteUserRequest(requestId);
+  getAllUserRequests(): Observable<UserRequestWithOrganization[]> {
+    console.log("get requests");
+    return this.endpoint.getAllUserRequests();
+  }
+
+  deleteRequest(id: number): Observable<void> {
+    return this.endpoint.deleteUserRequest(id);
   }
 }

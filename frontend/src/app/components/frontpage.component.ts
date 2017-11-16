@@ -12,6 +12,8 @@ import { LocationService } from '../services/location.service';
             <div class="col-md-12">
               <app-organizations></app-organizations>
             </div>
+            <br>
+            <app-user-requests></app-user-requests>
           </div>
         </div>
       </div>

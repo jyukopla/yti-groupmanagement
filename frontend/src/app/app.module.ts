@@ -26,9 +26,10 @@ import { OrganizationDetailsComponent } from './components/organization-details.
 import { NewOrganizationComponent } from './components/new-organization.component';
 import { SearchUserModalComponent, SearchUserModalService } from './components/search-user-modal.component';
 import { EditOrganizationComponent } from './components/edit-organization.component';
-import {UserOrganizationService} from "./services/userorganization.service";
+import { UserOrganizationService } from "./services/userorganization.service";
 import { AuthorizationManager } from './services/authorization-manager';
-import {UserRequestService} from "./services/user-request.service";
+import { UserRequestService } from "./services/user-request.service";
+import { UserRequestsComponent } from './components/user-requests.component';
 
 const localizations: { [lang: string]: string} = {
   fi: require('json-loader!po-loader?format=mf!../../po/fi.po'),
@@ -71,7 +72,8 @@ const appRoutes: Routes = [
     NewOrganizationComponent,
     EditOrganizationComponent,
     SearchUserModalComponent,
-    OrganizationDetailsComponent
+    OrganizationDetailsComponent,
+    UserRequestsComponent
   ],
   imports: [
     BrowserModule,

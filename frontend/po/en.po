@@ -127,5 +127,11 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
+msgid "Organization"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
 #~ msgid "Hello"
 #~ msgstr "Hello"

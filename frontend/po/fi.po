@@ -127,6 +127,12 @@ msgstr "Käyttäjä"
 msgid "Add"
 msgstr "Lisää"
 
+msgid "Organization"
+msgstr "Organisaatio"
+
+msgid "Role"
+msgstr "Rooli"
+
 #~ msgid "Hello"
 #~ msgstr "Hei"
 

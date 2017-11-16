@@ -1,0 +1,3 @@
+ALTER TABLE request DROP COLUMN IF EXISTS description;
+ALTER TABLE request ADD role_name VARCHAR(255) REFERENCES role;
+ALTER TABLE request ADD sent BOOLEAN DEFAULT 'false';

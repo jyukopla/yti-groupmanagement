@@ -5,6 +5,7 @@ import fi.vm.yti.groupmanagement.dao.UserRequestDao;
 import fi.vm.yti.groupmanagement.model.UserRequest;
 import fi.vm.yti.groupmanagement.model.UserRequestModel;
 
+import fi.vm.yti.groupmanagement.model.UserRequestWithOrganization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +36,13 @@ class UserRequestController {
         return this.userRequestDao.getUserRequests(organizationId);
     }
 
-    @RequestMapping(value = "/delete/{id}", method = PUT)
-    public void deleteUserRequest(@PathVariable Integer id) {
+    @RequestMapping(value = "/get", method = GET, produces = APPLICATION_JSON_VALUE)
+    public List<UserRequestWithOrganization> getAllUserRequests() {
+        return this.userRequestDao.getAllUserRequests();
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = DELETE)
+    public void deleteUserRequest(@PathVariable("id") Integer id) {
         this.userRequestDao.deleteUserRequest(id);
     }
 }

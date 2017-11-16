@@ -6,4 +6,6 @@ public class UserRequest {
     public Integer id;
     public String user_email;
     public UUID organization_id;
+    public String role_name;
+    boolean sent;
 }

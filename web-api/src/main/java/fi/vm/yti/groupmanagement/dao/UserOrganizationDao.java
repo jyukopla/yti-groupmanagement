@@ -1,6 +1,8 @@
 package fi.vm.yti.groupmanagement.dao;
 
 import fi.vm.yti.groupmanagement.model.UserOrganization;
+import fi.vm.yti.groupmanagement.model.UserRequest;
+import fi.vm.yti.groupmanagement.model.UserRequestWithOrganization;
 import org.dalesbred.Database;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,6 +35,11 @@ public class UserOrganizationDao {
 
     public @NotNull List<String> getAllRoles() {
         return db.findAll(String.class,"SELECT name FROM role");
+    }
+
+
+    public void addUserToOrganization(UserRequestWithOrganization userRequest) {
+        db.update("INSERT INTO user_organization (user_email, organization_id, role_name) VALUES (?,?,?)", userRequest.email, userRequest.organizationId, userRequest.role);
     }
 }
 

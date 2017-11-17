@@ -9,37 +9,38 @@ import { UserOrganizationService } from '../services/userorganization.service';
     <div class="container">
       <div class="row">
         <br>
-          <div id="accessrequests">
-           <h2 translate>Access requests</h2>            
-            <p *ngIf="userRequests.length === 0" translate>No requests</p>
-            <table *ngIf="userRequests.length > 0">
-              <thead>
-              <tr>
-                <th translate>Name</th>
-                <th translate>Email</th>
-                <th translate>Organization</th>
-                <th translate>Role</th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let requests of userRequests">
-                <td style="white-space: nowrap">{{requests.fullName}}</td>
-                <td>{{requests.email}}</td>
-                <td>{{requests.organizationName | translateValue }}</td>
-                <td>{{requests.role | translate}}</td>
-                <div class="col-md-4">
+        <div id="accessrequests">
+          <h2 translate>Access requests</h2>
+          <p *ngIf="userRequests.length === 0" translate>No requests</p>
+          <table *ngIf="userRequests.length > 0">
+            <thead>
+            <tr>
+              <th translate>Name</th>
+              <th translate>Email</th>
+              <th translate>Organization</th>
+              <th translate>Role</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let requests of userRequests">
+              <td style="white-space: nowrap">{{requests.fullName}}</td>
+              <td>{{requests.email}}</td>
+              <td>{{requests.organizationName | translateValue }}</td>
+              <td>{{requests.role | translate}}</td>
+              <div class="col-md-4">
                 <td><i class="fa fa-trash fa-lg" (click)="removeRequest(requests)"></i></td>
-                <td><button id="acceptrequest" 
-                            type="button" 
-                            class="btn btn-default btn-sm" 
-                            (click)="acceptUserRequest(requests)" translate>Add</button>
+                <td>
+                  <button id="acceptrequest"
+                          type="button"
+                          class="btn btn-default btn-sm"
+                          (click)="acceptUserRequest(requests)" translate>Add</button>
                 </td>
-                </div>
-              </tr>
-              </tbody>
-            </table>
-          </div>
+              </div>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   `,

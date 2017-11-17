@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AuthenticatedUser } from '../entities/authenticated-user';
-import { AuthenticationEndpoint } from '../apina';
+import { FrontendEndpoint } from '../apina';
 
 @Injectable()
 export class AuthorizationManager {
 
   user?: AuthenticatedUser;
 
-  constructor(private endpoint: AuthenticationEndpoint) {
+  constructor(private endpoint: FrontendEndpoint) {
     this.endpoint.getAuthenticatedUser()
       .map(user => new AuthenticatedUser(user))
       .subscribe(user => this.user = user);

@@ -1,20 +1,17 @@
 package fi.vm.yti.groupmanagement.model;
 
-
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class UserOrganization {
 
-    private final UUID organizationId;
-    private final String firstname, lastname;
-    private final String userEmail;
-    private final String userRole;
-    private final HashMap<String, String> organizationName;
-    private final HashMap<String, String> organizationDescription;
-
+    public final UUID organizationId;
+    public final String firstname;
+    public final String lastname;
+    public final String userEmail;
+    public final String userRole;
+    public final HashMap<String, String> organizationName;
+    public final HashMap<String, String> organizationDescription;
 
     public UserOrganization(String userEmail, String firstName, String lastName, String descriptionFi, String descriptionEn,
                             String descriptionSv, String nameFi, String nameEn, String nameSv, UUID organizationId, String roleName ) {
@@ -39,20 +36,7 @@ public class UserOrganization {
 
     }
 
-    public UUID getId() {
-        return organizationId;
+    public String getUserName() {
+        return firstname + " " + lastname;
     }
-
-    public Map<String, String> getOrganizationName() {
-        return organizationName;
-    }
-
-    public Map<String, String> getOrganizationDescription() {
-        return organizationDescription;
-    }
-
-    public String getRole() { return userRole; }
-
-    public String getUserName() { return (firstname + " " + lastname); }
-
 }

@@ -5,9 +5,9 @@ import {
 } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { UserService } from '../services/user.service';
 import { User } from '../entities/user';
 import { Observable } from 'rxjs/Observable';
+import { ApiService } from '../services/api.service';
 
 @Injectable()
 export class SearchUserModalService {
@@ -79,13 +79,13 @@ export class SearchUserModalComponent implements OnInit, AfterViewInit {
   searchResults$: Observable<User[]>;
 
   constructor(public modal: NgbActiveModal,
-              private userService: UserService,
+              private apiService: ApiService,
               private renderer: Renderer) {
   }
 
   ngOnInit() {
     this.searchResults$ =
-      Observable.combineLatest(this.search$, this.userService.getUsers()).map(([search, users]) => {
+      Observable.combineLatest(this.search$, this.apiService.getUsers()).map(([search, users]) => {
 
         const isUserAddable = (user: User) => {
           return !this.isExcluded(user) && (!search || user.name.toLowerCase().indexOf(search.toLowerCase()) !== -1);

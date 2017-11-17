@@ -1,27 +1,40 @@
 package fi.vm.yti.groupmanagement.dao;
 
-import fi.vm.yti.groupmanagement.model.OrganizationListItem;
-import fi.vm.yti.groupmanagement.model.Organization;
-import fi.vm.yti.groupmanagement.model.User;
-import fi.vm.yti.groupmanagement.model.UserWithRoles;
+import fi.vm.yti.groupmanagement.model.*;
 import org.dalesbred.Database;
+import org.dalesbred.query.QueryBuilder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static fi.vm.yti.groupmanagement.util.CollectionUtil.mapToList;
 
 @Repository
-public class OrganizationDao {
+public class FrontendDao {
 
     private final Database db;
 
     @Autowired
-    public OrganizationDao(Database db) {
+    public FrontendDao(Database db) {
         this.db = db;
+    }
+
+    public List<User> getUsers() {
+        return db.findAll(User.class,"SELECT firstName, lastName, email, superuser FROM \"user\"");
+    }
+
+    public @NotNull List<UserOrganization> getUserOrganizationList() {
+
+        return db.findAll(UserOrganization.class, "SELECT uo.user_email, us.firstname, us.lastname, org.description_fi, org.description_en, org.description_sv, org.name_fi, org.name_en, org.name_sv, uo.organization_id AS orgids, \n" +
+                "uo.role_name AS roles FROM user_organization uo \n" +
+                "LEFT JOIN organization org ON (uo.organization_id = org.id) \n" +
+                "LEFT JOIN \"user\" us ON (us.email = uo.user_email) \n" +
+                "ORDER BY us.lastname;");
     }
 
     public @NotNull List<OrganizationListItem> getOrganizationList() {
@@ -81,6 +94,40 @@ public class OrganizationDao {
 
     public void clearUserRoles(UUID id) {
         db.update("DELETE FROM user_organization uo where uo.organization_id = ?", id);
+    }
+
+    public @NotNull List<String> getAllRoles() {
+        return db.findAll(String.class,"SELECT name FROM role");
+    }
+
+    public void addUserRequest(UserRequestModel userRequest) {
+        db.update("INSERT INTO request (user_email, organization_id, role_name, sent) VALUES (?,?,?,?)",
+                userRequest.email, userRequest.organizationId, userRequest.role, false);
+    }
+
+    public @NotNull List<UserRequestWithOrganization> getAllUserRequestsForOrganizations(@Nullable Set<UUID> organizations) {
+
+        QueryBuilder builder = new QueryBuilder(
+                "SELECT r.id, r.user_email, r.organization_id, r.role_name, us.firstName, us.lastName, org.name_fi, org.name_en, org.name_sv, r.sent \n" +
+                        "FROM request r\n" +
+                        "LEFT JOIN \"user\" us ON (us.email = r.user_email)\n" +
+                        "LEFT JOIN organization org ON (org.id = r.organization_id)\n");
+
+        if (organizations != null) {
+            builder.append("WHERE r.organization_id in (").appendPlaceholders(organizations).append(")");
+        }
+
+        return db.findAll(UserRequestWithOrganization.class, builder.build());
+    }
+
+    public void deleteUserRequest(int requestId) {
+        db.update("DELETE FROM request WHERE id=?", requestId);
+    }
+
+    public @NotNull UserRequest getUserRequest(int requestId) {
+        return db.findUnique(UserRequest.class,
+                "SELECT r.id, r.user_email, r.organization_id, r.role_name, r.sent FROM request r\n" +
+                        "WHERE r.id = ?", requestId);
     }
 
     public static class OrganizationListItemRow {

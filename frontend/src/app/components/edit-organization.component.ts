@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { OrganizationService } from '../services/organization.service';
 import { LocationService } from '../services/location.service';
 import { ActivatedRoute } from '@angular/router';
 import { OrganizationDetails } from '../entities/organization-details';
 import { UUID, User } from '../apina';
 import { ignoreModalClose } from '../utils/modal';
 import { SearchUserModalService } from './search-user-modal.component';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-edit-organization',
@@ -66,11 +66,11 @@ export class EditOrganizationComponent {
   constructor(private route: ActivatedRoute,
               locationService: LocationService,
               private searchUserModal: SearchUserModalService,
-              private organizationService: OrganizationService) {
+              private apiService: ApiService) {
 
     const organizationWithUsers$ = route.params.flatMap(params => {
       const organizationId = params['id'];
-      return organizationService.getOrganization(organizationId);
+      return apiService.getOrganization(organizationId);
     });
 
     organizationWithUsers$.subscribe(organizationWithUsers => {
@@ -114,7 +114,7 @@ export class EditOrganizationComponent {
   }
 
   saveOrganization() {
-    this.organizationService.updateOrganization(this.organizationId, this.organization, this.users).subscribe(() => {
+    this.apiService.updateOrganization(this.organizationId, this.organization, this.users).subscribe(() => {
       console.log('saved');
     });
   }

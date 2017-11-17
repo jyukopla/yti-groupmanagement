@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public class UserRequestModel {
 
-    public UUID uuid;
+    public UUID organizationId;
+    public String role;
     public String email;
 }

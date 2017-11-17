@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { UserRequestService } from '../services/user-request.service';
+import { ApiService } from '../services/api.service';
 import { UserRequestWithOrganization } from '../apina';
-import { UserOrganizationService } from '../services/userorganization.service';
 
 @Component({
   selector: 'app-user-requests',
@@ -29,12 +28,13 @@ import { UserOrganizationService } from '../services/userorganization.service';
               <td>{{requests.organizationName | translateValue }}</td>
               <td>{{requests.role | translate}}</td>
               <div class="col-md-4">
-                <td><i class="fa fa-trash fa-lg" (click)="removeRequest(requests)"></i></td>
+                <td><i class="fa fa-trash fa-lg" (click)="declineRequest(requests)"></i></td>
                 <td>
                   <button id="acceptrequest"
                           type="button"
                           class="btn btn-default btn-sm"
-                          (click)="acceptUserRequest(requests)" translate>Add</button>
+                          (click)="acceptRequest(requests)" translate>Add
+                  </button>
                 </td>
               </div>
             </tr>
@@ -50,28 +50,25 @@ export class UserRequestsComponent {
 
   userRequests: UserRequestWithOrganization[] = [];
 
-  constructor(private userRequestService: UserRequestService,
-              private userOrganizationService: UserOrganizationService) {
+  constructor(private apiService: ApiService) {
 
-    this.userRequestService.getAllUserRequests().subscribe( requests => {
+    this.apiService.getAllUserRequests().subscribe( requests => {
       this.userRequests = requests;
     });
   }
 
-  removeRequest(userRequest: UserRequestWithOrganization) {
-    this.userRequestService.deleteRequest(userRequest.id).subscribe(() => {
+  declineRequest(userRequest: UserRequestWithOrganization) {
+    this.apiService.declineRequest(userRequest.id).subscribe(() => {
       this.userRequests.splice(this.userRequests.indexOf(userRequest), 1);
     });
   }
 
-  acceptUserRequest(userRequest: UserRequestWithOrganization) {
+  acceptRequest(userRequest: UserRequestWithOrganization) {
     console.log('Adding user');
     console.log(userRequest.email);
-    this.userOrganizationService.addUserToOrganization(userRequest).subscribe(() => {
-      this.userRequestService.deleteRequest(userRequest.id).subscribe(() => {
-        this.userRequests.splice(this.userRequests.indexOf(userRequest), 1);
-      });
-      // Add notification for new user in organization
+    this.apiService.acceptRequest(userRequest.id).subscribe(() => {
+      this.userRequests.splice(this.userRequests.indexOf(userRequest), 1);
     });
+    // Add notification for new user in organization
   }
 }

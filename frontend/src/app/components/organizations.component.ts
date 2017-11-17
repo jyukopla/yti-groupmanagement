@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { OrganizationService } from '../services/organization.service';
 import { OrganizationListItem } from '../apina';
 import { Router } from '@angular/router';
 import { AuthorizationManager } from '../services/authorization-manager';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-organizations',
@@ -33,13 +33,13 @@ export class OrganizationsComponent implements OnInit {
 
   organizations: OrganizationListItem[];
 
-  constructor(private organizationService: OrganizationService,
+  constructor(private apiService: ApiService,
               public authorizationManager: AuthorizationManager,
               private router: Router) {
   }
 
   ngOnInit() {
-    this.organizationService.getOrganizationList().subscribe(organizationListItems => {
+    this.apiService.getOrganizationList().subscribe(organizationListItems => {
       this.organizations = organizationListItems;
     });
   }

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { LocationService } from '../services/location.service';
 import { SearchUserModalService } from './search-user-modal.component';
-import { OrganizationService } from '../services/organization.service';
 import { ignoreModalClose } from '../utils/modal';
 import { User } from '../entities/user';
 import { OrganizationDetails } from '../entities/organization-details';
 import { Router } from '@angular/router';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-new-organization',
@@ -41,7 +41,7 @@ export class NewOrganizationComponent {
 
   constructor(locationService: LocationService,
               private searchModal: SearchUserModalService,
-              private organizationService: OrganizationService,
+              private apiService: ApiService,
               private router: Router) {
 
     locationService.atAddNewOrganization();
@@ -57,7 +57,7 @@ export class NewOrganizationComponent {
   }
 
   saveOrganization() {
-    this.organizationService.createOrganization(this.organization, this.organizationAdminEmails).subscribe(id => {
+    this.apiService.createOrganization(this.organization, this.organizationAdminEmails).subscribe(id => {
       this.router.navigate(['/organization', id]);
     });
   }

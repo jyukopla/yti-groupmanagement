@@ -11,8 +11,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { AppComponent } from './components/app.component';
 import { ApinaConfig, ApinaModule } from './apina';
-import { UserService } from './services/user.service';
-import { OrganizationService } from './services/organization.service';
 import { FrontpageComponent } from './components/frontpage.component';
 import { LanguageService } from './services/language.service';
 import { NavigationBarComponent } from './components/navigation-bar.component';
@@ -26,10 +24,9 @@ import { OrganizationDetailsComponent } from './components/organization-details.
 import { NewOrganizationComponent } from './components/new-organization.component';
 import { SearchUserModalComponent, SearchUserModalService } from './components/search-user-modal.component';
 import { EditOrganizationComponent } from './components/edit-organization.component';
-import { UserOrganizationService } from "./services/userorganization.service";
 import { AuthorizationManager } from './services/authorization-manager';
-import { UserRequestService } from "./services/user-request.service";
 import { UserRequestsComponent } from './components/user-requests.component';
+import { ApiService } from './services/api.service';
 
 const localizations: { [lang: string]: string} = {
   fi: require('json-loader!po-loader?format=mf!../../po/fi.po'),
@@ -88,12 +85,9 @@ const appRoutes: Routes = [
     { provide: MissingTranslationHandler, useFactory: createMissingTranslationHandler },
     LanguageService,
     LocationService,
-    UserService,
+    ApiService,
     AuthorizationManager,
-    OrganizationService,
     SearchUserModalService,
-    UserOrganizationService,
-    UserRequestService
   ],
   entryComponents: [
     SearchUserModalComponent],

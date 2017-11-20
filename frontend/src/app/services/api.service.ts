@@ -82,13 +82,12 @@ export class ApiService {
   getAllRoles(): Observable<string[]> {
     return this.endpoint.getAllRoles();
   }
-  
+
   getUserRequests(organizationId: UUID): Observable<UserRequestWithOrganization[]> {
     return this.endpoint.getAllUserRequests();
   }
 
   getAllUserRequests(): Observable<UserRequestWithOrganization[]> {
-    console.log('get requests');
     return this.endpoint.getAllUserRequests();
   }
 

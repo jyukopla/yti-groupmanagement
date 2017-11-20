@@ -1,15 +1,28 @@
 import { Injectable } from '@angular/core';
 import {
-  CreateOrganization, OrganizationEndpoint, OrganizationListItem, UUID,
-  OrganizationWithUsers, UserWithRoles, UpdateOrganization, Organization, EmailRole
+  CreateOrganization,
+  EmailRole, FrontendEndpoint, Organization, OrganizationListItem, OrganizationWithUsers, UpdateOrganization,
+  UserOrganization,
+  UserRequestWithOrganization, UserWithRoles,
+  UUID
 } from '../apina';
 import { Observable } from 'rxjs/Observable';
+import { User } from '../entities/user';
 import { OrganizationDetails } from '../entities/organization-details';
 
 @Injectable()
-export class OrganizationService {
+export class ApiService {
 
-  constructor(private endpoint: OrganizationEndpoint) {
+  constructor(private endpoint: FrontendEndpoint) {
+  }
+
+  getUsers(): Observable<User[]> {
+    return this.endpoint.getUsers().map(users =>
+      users.map(userModel => new User(userModel)));
+  }
+
+  getUserOrganizations(): Observable<UserOrganization[]> {
+    return this.endpoint.getUserOrganizations();
   }
 
   getOrganizationList(): Observable<OrganizationListItem[]> {
@@ -64,5 +77,26 @@ export class OrganizationService {
 
   getOrganization(id: UUID): Observable<OrganizationWithUsers> {
     return this.endpoint.getOrganization(id);
+  }
+
+  getAllRoles(): Observable<string[]> {
+    return this.endpoint.getAllRoles();
+  }
+  
+  getUserRequests(organizationId: UUID): Observable<UserRequestWithOrganization[]> {
+    return this.endpoint.getAllUserRequests();
+  }
+
+  getAllUserRequests(): Observable<UserRequestWithOrganization[]> {
+    console.log('get requests');
+    return this.endpoint.getAllUserRequests();
+  }
+
+  declineRequest(id: number): Observable<void> {
+    return this.endpoint.declineUserRequest(id);
+  }
+
+  acceptRequest(id: number): Observable<void> {
+    return this.endpoint.acceptUserRequest(id);
   }
 }

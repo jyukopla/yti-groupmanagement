@@ -1,11 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from '../services/user.service';
+import { Component } from '@angular/core';
 import { User } from '../entities/user';
-import {OrganizationService} from "../services/organization.service";
-import {OrganizationListItem, UserOrganization} from "../apina";
-import {LocationService} from "../services/location.service";
-import {UserOrganizationService} from "../services/userorganization.service";
-import {stringDistance} from "codelyzer/util/utils";
+import { OrganizationListItem, UserOrganization } from '../apina';
+import { LocationService } from '../services/location.service';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-users',
@@ -57,48 +54,40 @@ import {stringDistance} from "codelyzer/util/utils";
 `,
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent {
 
   allUsers: User[];
-  //rolesFilter: UserViewModel[];
   roles: string[];
   rolesFilter: string[];
   selectedRole: string;
   selectedOrganization: string;
   organizationsFilter: string[];
   organizations: OrganizationListItem[];
-  userOrganizations : UserOrganization[];
   previousUO: UserOrganization;
+  userOrganizations: UserOrganization[];
 
 
-  constructor(private userService: UserService,
-              private organizationService: OrganizationService,
-              private userOrganizationService: UserOrganizationService,
+  constructor(private apiService: ApiService,
               private locationService: LocationService) {
 
     locationService.atUsers();
 
 
-    this.userOrganizationService.getUserOrganizations().subscribe( uos => {
+    this.apiService.getUserOrganizations().subscribe( uos => {
       this.userOrganizations = uos;
     });
 
-    this.userService.getUsers().subscribe(users => {
+    this.apiService.getUsers().subscribe(users => {
       this.allUsers = users;
     });
 
-    this.userOrganizationService.getAllRoles().subscribe( roles => {
+    this.apiService.getAllRoles().subscribe( roles => {
       this.rolesFilter = roles;
     });
 
-    this.organizationService.getOrganizationList().subscribe( organizations => {
+    this.apiService.getOrganizationList().subscribe( organizations => {
       this.organizations = organizations;
     });
-  }
-
-
-
-  ngOnInit() {
   }
 
   onRoleSelect(selectedRole: string) {
@@ -108,18 +97,4 @@ export class UsersComponent implements OnInit {
   onOrganizationSelect(selectedOrganization: string) {
 
   }
-}
-
-
-class UserViewModel {
-
-  firstName: string;
-  lastName: string;
-  email: string;
-  roles: string[];
-  organizations: string[];
-
-  constructor(/*public user: User, public roles: string[]*/) {
-  }
-
 }

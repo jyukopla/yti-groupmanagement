@@ -3,9 +3,9 @@ package fi.vm.yti.groupmanagement.model;
 import java.util.UUID;
 
 public class UserRequest {
-    public Integer id;
-    public String user_email;
-    public UUID organization_id;
-    public String role_name;
-    boolean sent;
+    public int id;
+    public String userEmail;
+    public UUID organizationId;
+    public String roleName;
+    public boolean sent;
 }

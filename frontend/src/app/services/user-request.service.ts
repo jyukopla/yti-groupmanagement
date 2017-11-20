@@ -12,7 +12,6 @@ export class UserRequestService {
   }
 
   getAllUserRequests(): Observable<UserRequestWithOrganization[]> {
-    console.log("get requests");
     return this.endpoint.getAllUserRequests();
   }
 

@@ -10,9 +10,11 @@ import {stringDistance} from "codelyzer/util/utils";
 @Component({
   selector: 'app-users',
   template: `  
-          <div class="col-md-12">
+          <!--div class="col-md-12"-->
             <h2 id="mainlabel" translate>Users</h2>
-            <div class="section" id="filters">
+            <div class="section" id="userlist">
+              <div class="row">
+                <div class="col-md-4">
               <label id="filterlabel" translate>Filter: </label>
               <select [(ngModel)]="selectedRole" (ngModelChange)="onRoleSelect(selectedRole)">
                 <option *ngFor="let role of rolesFilter" [ngValue]="role">
@@ -20,20 +22,38 @@ import {stringDistance} from "codelyzer/util/utils";
                 </option>
                         
               </select>
+                </div>
+                <div class="col-md-4">
               <select [(ngModel)]="selectedOrganization" (ngModelChange)="onOrganizationSelect(selectedOrganization)">
                 <option *ngFor="let organization of organizations" [value]="organization.name">
                   {{ organization.name | translateValue }}
                 </option>
               </select>
+                </div>
+              </div>
             </div>
-            <div class="section" id="userssection" width="75%">
-              <table width="75%" id="userstable" *ngFor="let userOrg of userOrganizations">
-                <td width="25%">{{ userOrg.userName }}</td>
+            <div class="section" id="userssection" width="75%" *ngFor="let userOrg of userOrganizations; let i = index;  ">
+              <!--table width="75%" id="userstable" *ngFor="let userOrg of userOrganizations">
+                <td width="25%">{{ userOrg.lastname }}, {{ userOrg.firstname }}</td>
                 <td width="25%">{{ userOrg.role | translate }}</td>
                 <td id="orgtd" width="25%" [routerLink]="['/organization', userOrg.id]">{{ userOrg.organizationName | translateValue}}</td>
-              </table>
+              </table-->
+              <div class="row" id="organizationrow" >
+              <div class="col-md-3">
+                {{ userOrg.lastname }}, {{ userOrg.firstname }}
+              </div>
+                <div class="col-md-3">
+                  {{ userOrg.userEmail }}
+                </div>
+              <div class="col-md-3">
+                {{ userOrg.role | translate }}
+              </div>
+              <div class="col-md-3">
+                <p [routerLink]="['/organization', userOrg.id]"> {{ userOrg.organizationName | translateValue }}</p>
+              </div>
+              </div>
             </div>
-          </div>       
+          <!--/div-->       
 `,
   styleUrls: ['./users.component.scss']
 })
@@ -48,6 +68,7 @@ export class UsersComponent implements OnInit {
   organizationsFilter: string[];
   organizations: OrganizationListItem[];
   userOrganizations : UserOrganization[];
+  previousUO: UserOrganization;
 
 
   constructor(private userService: UserService,

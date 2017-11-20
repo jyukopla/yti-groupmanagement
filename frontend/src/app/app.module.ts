@@ -24,7 +24,7 @@ import { OrganizationDetailsComponent } from './components/organization-details.
 import { NewOrganizationComponent } from './components/new-organization.component';
 import { SearchUserModalComponent, SearchUserModalService } from './components/search-user-modal.component';
 import { EditOrganizationComponent } from './components/edit-organization.component';
-import { AuthorizationManager } from './services/authorization-manager';
+import { AuthorizationManager } from './services/authorization-manager.service';
 import { UserRequestsComponent } from './components/user-requests.component';
 import { ApiService } from './services/api.service';
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrganizationListItem } from '../apina';
 import { Router } from '@angular/router';
-import { AuthorizationManager } from '../services/authorization-manager';
+import { AuthorizationManager } from '../services/authorization-manager.service';
 import { ApiService } from '../services/api.service';
 import {LanguageService} from "../services/language.service";
 

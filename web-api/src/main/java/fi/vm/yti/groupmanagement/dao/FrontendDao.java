@@ -40,7 +40,7 @@ public class FrontendDao {
     public @NotNull List<OrganizationListItem> getOrganizationList() {
 
         List<OrganizationListItemRow> rows =
-                db.findAll(OrganizationListItemRow.class, "SELECT id, name_en, name_fi, name_sv FROM organization");
+                db.findAll(OrganizationListItemRow.class, "SELECT id, name_en, name_fi, name_sv FROM organization ORDER BY name_fi");
 
         return mapToList(rows, row -> new OrganizationListItem(row.id, row.nameFi, row.nameEn, row.nameSv));
     }

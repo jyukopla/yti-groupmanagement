@@ -65,7 +65,7 @@ public class FrontendController {
     }
 
     @RequestMapping(value = "/users", method = GET, produces = APPLICATION_JSON_VALUE)
-    public List<User> getUsers() {
+    public List<UserWithRolesInOrganizations> getUsers() {
         return this.frontendService.getUsers();
     }
 

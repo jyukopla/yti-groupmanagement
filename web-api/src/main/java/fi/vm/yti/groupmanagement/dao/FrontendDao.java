@@ -9,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 import static fi.vm.yti.groupmanagement.util.CollectionUtil.mapToList;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.toList;
 
 @Repository
 public class FrontendDao {
@@ -24,8 +28,29 @@ public class FrontendDao {
         this.db = db;
     }
 
-    public List<User> getUsers() {
-        return db.findAll(User.class,"SELECT firstName, lastName, email, superuser FROM \"user\"");
+    public List<UserWithRolesInOrganizations> getUsers() {
+
+        List<UserRow> rows = db.findAll(UserRow.class,
+                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, array_agg(uo.role_name) AS roles \n" +
+                        "FROM \"user\" u \n" +
+                        "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
+                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id");
+
+        Map<UserRow.UserDetails, List<UserRow.OrganizationDetails>> grouped =
+                rows.stream().collect(groupingBy(row -> row.user, mapping(row -> row.organization, toList())));
+
+        return mapToList(grouped.entrySet(), entry -> {
+            UserRow.UserDetails user = entry.getKey();
+            List<UserRow.OrganizationDetails> organizations = entry.getValue();
+
+            return new UserWithRolesInOrganizations(
+                    user.email,
+                    user.firstName,
+                    user.lastName,
+                    user.superuser,
+                    mapToList(organizations, org -> new UserWithRolesInOrganizations.Organization(org.id, org.roles))
+            );
+        });
     }
 
     public @NotNull List<UserOrganization> getUserOrganizationList() {
@@ -51,23 +76,24 @@ public class FrontendDao {
 
     public @NotNull List<UserWithRoles> getOrganizationUsers(UUID organizationId) {
 
-        List<UserWithRolesRow> rows = db.findAll(UserWithRolesRow.class,
-                "SELECT u.email, u.firstName, u.lastName, u.superuser, array_agg(uo.role_name) AS roles \n" +
+        List<UserRow> rows = db.findAll(UserRow.class,
+                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
                         "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
                         "WHERE uo.organization_id = ? \n" +
-                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser", organizationId);
+                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id", organizationId);
 
         return mapToList(rows, row -> {
 
-            UserWithRoles result = new UserWithRoles();
             User user = new User();
-            user.email = row.email;
-            user.firstName = row.firstName;
-            user.lastName = row.lastName;
-            user.superuser = row.superuser;
+            user.firstName = row.user.firstName;
+            user.lastName = row.user.lastName;
+            user.email = row.user.email;
+
+            UserWithRoles result = new UserWithRoles();
+            result.roles = row.organization.roles;
             result.user = user;
-            result.roles = row.roles;
+
             return result;
         });
     }
@@ -136,14 +162,5 @@ public class FrontendDao {
         public String nameFi;
         public String nameEn;
         public String nameSv;
-    }
-
-    public static class UserWithRolesRow {
-
-        public String email;
-        public String firstName;
-        public String lastName;
-        public boolean superuser;
-        public List<String> roles;
     }
 }

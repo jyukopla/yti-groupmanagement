@@ -97,7 +97,7 @@ public class FrontendService {
     }
 
     @Transactional
-    public List<User> getUsers() {
+    public List<UserWithRolesInOrganizations> getUsers() {
         check(authorizationManager.canBrowseUsers());
         return frontendDao.getUsers();
     }

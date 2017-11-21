@@ -77,18 +77,24 @@ public class PublicApiDao {
         }).collect(toList());
     }
 
-    private static PublicApiUser entryToAuthorizationUser(Map.Entry<UserRow.UserDetails, List<PublicApiUserOrganization>> entry) {
+    private static PublicApiUser entryToAuthorizationUser(Map.Entry<UserRow.UserDetails, List<UserRow.OrganizationDetails>> entry) {
+
         UserRow.UserDetails user = entry.getKey();
-        List<PublicApiUserOrganization> nonNullOrganizations = entry.getValue().stream().filter(o -> o.getUuid() != null).collect(toList());
+
+        List<PublicApiUserOrganization> nonNullOrganizations = entry.getValue().stream()
+                .filter(org -> org.id != null)
+                .map(org -> new PublicApiUserOrganization(org.id, org.roles))
+                .collect(toList());
+
         return new PublicApiUser(user.email, user.firstName, user.lastName, user.superuser, false, nonNullOrganizations);
     }
 
     private static List<PublicApiUser> rowsToAuthorizationUsers(List<UserRow> rows) {
 
-        Map<UserRow.UserDetails, List<PublicApiUserOrganization>> grouped =
+        Map<UserRow.UserDetails, List<UserRow.OrganizationDetails>> grouped =
                 rows.stream().collect(
                         groupingBy(row -> row.user,
-                                mapping(row -> new PublicApiUserOrganization(row.organizationId, row.roles), toList())));
+                                mapping(row -> row.organization, toList())));
 
         return grouped.entrySet().stream().map(PublicApiDao::entryToAuthorizationUser).collect(toList());
     }
@@ -103,50 +109,5 @@ public class PublicApiDao {
         public String descriptionEn;
         public String descriptionFi;
         public String descriptionSv;
-    }
-
-    public static final class UserRow {
-
-        UserDetails user = new UserDetails();
-        UUID organizationId;
-        List<String> roles;
-
-        public UserRow(String email,
-                String firstName,
-                String lastName,
-                boolean superuser,
-                UUID organizationId,
-                List<String> roles) {
-
-            this.user.email = email;
-            this.user.firstName = firstName;
-            this.user.lastName = lastName;
-            this.user.superuser = superuser;
-            this.organizationId = organizationId;
-            this.roles = roles;
-        }
-
-        static final class UserDetails {
-
-            String email;
-            String firstName;
-            String lastName;
-            boolean superuser;
-
-            @Override
-            public boolean equals(Object o) {
-                if (this == o) return true;
-                if (o == null || getClass() != o.getClass()) return false;
-
-                UserDetails user = (UserDetails) o;
-
-                return email.equals(user.email);
-            }
-
-            @Override
-            public int hashCode() {
-                return email.hashCode();
-            }
-        }
     }
 }

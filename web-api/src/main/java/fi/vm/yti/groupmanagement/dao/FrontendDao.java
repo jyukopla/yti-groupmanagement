@@ -8,10 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static fi.vm.yti.groupmanagement.util.CollectionUtil.mapToList;
 import static java.util.stream.Collectors.groupingBy;
@@ -34,10 +31,12 @@ public class FrontendDao {
                 "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
                         "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
-                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id");
+                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id \n" +
+                        "ORDER BY u.lastName, u.firstName \n" +
+                        "");
 
         Map<UserRow.UserDetails, List<UserRow.OrganizationDetails>> grouped =
-                rows.stream().collect(groupingBy(row -> row.user, mapping(row -> row.organization, toList())));
+                rows.stream().collect(groupingBy(row -> row.user, LinkedHashMap::new, mapping(row -> row.organization, toList())));
 
         return mapToList(grouped.entrySet(), entry -> {
             UserRow.UserDetails user = entry.getKey();
@@ -48,7 +47,7 @@ public class FrontendDao {
                     user.firstName,
                     user.lastName,
                     user.superuser,
-                    mapToList(organizations, org -> new UserWithRolesInOrganizations.Organization(org.id, org.roles))
+                    mapToList(organizations, org -> new UserWithRolesInOrganizations.OrganizationRoles(org.id, org.roles))
             );
         });
     }

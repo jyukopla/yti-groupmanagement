@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
-import {User} from '../entities/user';
-import {Dictionary, OrganizationListItem, UserOrganization} from '../apina';
-import {LocationService} from '../services/location.service';
-import {ApiService} from '../services/api.service';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Observable} from "rxjs/Observable";
-import {LanguageService} from "../services/language.service";
+import { Component, OnInit } from '@angular/core';
+import { User} from '../entities/user';
+import { Dictionary, OrganizationListItem, UserOrganization } from '../apina';
+import { LocationService } from '../services/location.service';
+import { ApiService } from '../services/api.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-users',
@@ -62,7 +62,7 @@ import {LanguageService} from "../services/language.service";
   `,
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
 
   allUsers: User[];
   roles: string[];
@@ -72,7 +72,7 @@ export class UsersComponent {
   organizations: OrganizationListItem[];
   previousEmail: string;
   previousOrgId: string;
-  hideEmail: boolean = false;
+  hideEmail = false;
   search$ = new BehaviorSubject('');
   searchResults$: Observable<UserOrganization[]>;
 
@@ -105,14 +105,13 @@ export class UsersComponent {
       Observable.combineLatest(this.search$, this.apiService.getUserOrganizations()).map(([search, userOrgs]) => {
         if (this.selectedOrganization === undefined && this.selectedRole === undefined) {
           return userOrgs.filter(userOrg => userOrg.userEmail.toLowerCase().indexOf(search.toLowerCase()) !== -1);
-        }
-        else {
+        } else {
           return userOrgs.filter(userOrg => {
-            let emailCond = userOrg.userEmail.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-            let nameCond = userOrg.userName.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-            let roleCond = userOrg.userRole.indexOf(this.selectedRole) !== -1;
-            let translatedOrg = this.languageService.translate(userOrg.organizationName);
-            let orgCond = translatedOrg !== this.languageService.translate(this.selectedOrganization);
+            const emailCond = userOrg.userEmail.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+            const nameCond = userOrg.userName.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+            const roleCond = userOrg.userRole.indexOf(this.selectedRole) !== -1;
+            const translatedOrg = this.languageService.translate(userOrg.organizationName);
+            const orgCond = translatedOrg !== this.languageService.translate(this.selectedOrganization);
             return emailCond && roleCond && orgCond && nameCond;
           });
         }
@@ -123,10 +122,9 @@ export class UsersComponent {
     if (email !== this.previousEmail) {
       this.previousEmail = email;
       this.hideEmail = false;
-      this.previousOrgId = "";
+      this.previousOrgId = '';
       return false;
-    }
-    else {
+    } else {
       this.hideEmail = true;
       return true;
     }
@@ -142,8 +140,8 @@ export class UsersComponent {
   }
 
   get search() {
-    this.previousEmail = "";
-    this.previousOrgId = "";
+    this.previousEmail = '';
+    this.previousOrgId = '';
     return this.search$.getValue();
   }
 

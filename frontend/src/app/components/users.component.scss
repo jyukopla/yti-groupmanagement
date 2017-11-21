@@ -7,7 +7,7 @@
   float: right;
 }
 
-#orgtd {
+#divorg {
   cursor: pointer;
   color: blue;
   text-decoration: underline;
@@ -15,9 +15,14 @@
 
 #userlist {
   margin-left: 15px;
+  margin-bottom: 50px;
 }
 
 #organizationrow {
   margin-left: 20px;
+}
+
+#mainlabel {
+  margin-left: 15px;
 }
 

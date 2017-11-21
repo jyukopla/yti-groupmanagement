@@ -48,7 +48,7 @@ import {LanguageService} from "../services/language.service";
           <span [hidden]="hideEmail"> {{ userOrg.userEmail }}</span>
         </div>
         <div class="col-md-3">
-          <p [routerLink]="['/organization', userOrg.organizationId]" [hidden]="isHiddenOrg(userOrg.organizationId)">
+          <p id="divorg" [routerLink]="['/organization', userOrg.organizationId]" [hidden]="isHiddenOrg(userOrg.organizationId)">
             {{ userOrg.organizationName | translateValue
             }}</p>
         </div>
@@ -56,7 +56,9 @@ import {LanguageService} from "../services/language.service";
           {{ userOrg.userRole | translate }}
         </div>
       </div>
+      <hr>
     </div>
+    <br>
   `,
   styleUrls: ['./users.component.scss']
 })
@@ -106,14 +108,12 @@ export class UsersComponent {
         }
         else {
           return userOrgs.filter(userOrg => {
-            let emailCond;
-            let roleCond;
-            let orgCond;
-            emailCond = userOrg.userEmail.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-            roleCond = userOrg.userRole.indexOf(this.selectedRole) !== -1;
+            let emailCond = userOrg.userEmail.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+            let nameCond = userOrg.userName.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+            let roleCond = userOrg.userRole.indexOf(this.selectedRole) !== -1;
             let translatedOrg = this.languageService.translate(userOrg.organizationName);
-            orgCond = translatedOrg !== this.languageService.translate(this.selectedOrganization);
-            return emailCond && roleCond && orgCond;
+            let orgCond = translatedOrg !== this.languageService.translate(this.selectedOrganization);
+            return emailCond && roleCond && orgCond && nameCond;
           });
         }
       });

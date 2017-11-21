@@ -3,6 +3,7 @@ import { OrganizationListItem } from '../apina';
 import { Router } from '@angular/router';
 import { AuthorizationManager } from '../services/authorization-manager';
 import { ApiService } from '../services/api.service';
+import {LanguageService} from "../services/language.service";
 
 @Component({
   selector: 'app-organizations',
@@ -35,12 +36,18 @@ export class OrganizationsComponent implements OnInit {
 
   constructor(private apiService: ApiService,
               public authorizationManager: AuthorizationManager,
-              private router: Router) {
+              private router: Router,
+              private languageService: LanguageService) {
   }
 
   ngOnInit() {
     this.apiService.getOrganizationList().subscribe(organizationListItems => {
       this.organizations = organizationListItems;
+    });
+
+    this.languageService.languageChange$.asObservable().subscribe( lang => {
+      console.log("Lang changed");
+      console.log(lang);
     });
   }
 

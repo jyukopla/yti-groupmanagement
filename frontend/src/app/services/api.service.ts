@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   CreateOrganization,
   EmailRole, FrontendEndpoint, Organization, OrganizationListItem, OrganizationWithUsers, UpdateOrganization,
-  UserOrganization,
+  UserOrganization, UserRequestModel,
   UserRequestWithOrganization, UserWithRoles,
   UUID
 } from '../apina';
@@ -97,5 +97,9 @@ export class ApiService {
 
   acceptRequest(id: number): Observable<void> {
     return this.endpoint.acceptUserRequest(id);
+  }
+
+  createRequest(req: UserRequestModel): Observable<void> {
+    return this.endpoint.addUserRequest(req);
   }
 }

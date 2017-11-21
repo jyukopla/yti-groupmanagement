@@ -9,9 +9,9 @@ public class UserWithRolesInOrganizations {
     public String firstName;
     public String lastName;
     public boolean superuser;
-    public List<Organization> organizations;
+    public List<OrganizationRoles> organizations;
 
-    public UserWithRolesInOrganizations(String email, String firstName, String lastName, boolean superuser, List<Organization> organizations) {
+    public UserWithRolesInOrganizations(String email, String firstName, String lastName, boolean superuser, List<OrganizationRoles> organizations) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -19,12 +19,12 @@ public class UserWithRolesInOrganizations {
         this.organizations = organizations;
     }
 
-    public static class Organization {
+    public static class OrganizationRoles {
 
         public UUID id;
         public List<String> roles;
 
-        public Organization(UUID id, List<String> roles) {
+        public OrganizationRoles(UUID id, List<String> roles) {
             this.id = id;
             this.roles = roles;
         }

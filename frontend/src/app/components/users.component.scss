@@ -1,28 +1,23 @@
-#userstable {
-  background-color: #dbe4f2;
+h2 {
+  padding-bottom: 20px;
+
+  .email {
+    font-size: medium;
+  }
 }
 
-#filterlabel {
+.filters {
+
+  padding-bottom: 50px;
+
+  .filter {
+    width: 300px;
+    float: left;
+    margin-right: 20px;
+  }
+}
+
+.role {
   font-weight: bold;
-  float: right;
-}
-
-#divorg {
-  cursor: pointer;
-  color: blue;
-  text-decoration: underline;
-}
-
-#userlist {
-  margin-left: 15px;
-  margin-bottom: 50px;
-}
-
-#organizationrow {
-  margin-left: 20px;
-}
-
-#mainlabel {
-  margin-left: 15px;
 }
 

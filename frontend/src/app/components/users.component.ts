@@ -1,159 +1,162 @@
-import { Component, OnInit } from '@angular/core';
-import { User} from '../entities/user';
-import { Dictionary, OrganizationListItem, UserOrganization } from '../apina';
+import { Component } from '@angular/core';
+import { OrganizationListItem, UserWithRolesInOrganizations, UUID } from '../apina';
 import { LocationService } from '../services/location.service';
 import { ApiService } from '../services/api.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { LanguageService } from '../services/language.service';
+import { Localizable } from '../entities/localization';
+import { requireDefined } from '../utils/object';
+import { index } from '../utils/array';
 
 @Component({
   selector: 'app-users',
   template: `
-    <h2 id="mainlabel" translate>Users</h2>
-    <div class="section" id="userlist">
-      <div class="row">
-        <div class="col-md-3">
-          <input #searchInput id="usersearch" type="text" class="form-control"
+    <div class="container" *ngIf="!loading">
+      <h2 translate>Users</h2>
+
+      <div class="row filters">
+        <div class="col-12">
+
+          <input #searchInput
+                 type="text"
+                 class="form-control filter"
                  placeholder="{{'Search user...' | translate}}"
                  [(ngModel)]="search"/>
-        </div>
-        <div class="col-md-3">
-          <label id="filterlabel" translate>Filter: </label>
-        </div>
-        <div class="col-md-3">
-          <select [(ngModel)]="selectedOrganization" (ngModelChange)="onOrganizationSelect(selectedOrganization)">
-            <option *ngFor="let organization of organizations" [value]="organization.name">
-              {{ organization.name | translateValue }}
+
+          <select [(ngModel)]="organization" class="form-control filter">
+            <option [value]="''" translate>All organizations</option>
+            <option *ngFor="let o of organizations" [value]="o.id">
+              {{ o.name | translateValue }}
             </option>
           </select>
-          <i class="fa fa-close" (click)="selectedOrganization=undefined; this.updateUsers()"></i>
-        </div>
-        <div class="col-md-3">
-          <select [(ngModel)]="selectedRole" (ngModelChange)="onRoleSelect(selectedRole)">
-            <option *ngFor="let role of rolesFilter" [ngValue]="role">
-              {{ role | translate}}
+
+          <select [(ngModel)]="role" class="form-control filter">
+            <option [value]="''" translate>All roles</option>
+            <option *ngFor="let r of roles" [value]="r">
+              {{ r | translate}}
             </option>
           </select>
-          <i class="fa fa-close" (click)="selectedRole=undefined; this.updateUsers()"></i>
+        </div>
+
+      </div>
+
+      <div class="results">
+        <div class="result" *ngFor="let user of users$ | async">
+          <h4>{{user.displayName}} <span class="email">({{user.email}})</span></h4>
+          <ul>
+            <li *ngFor="let organization of user.organizations">
+              <a [routerLink]="['/organization', organization.id]">
+                {{organization.name | translateValue}}
+              </a>:
+              <span *ngFor="let role of organization.roles; let last = last">
+                <span class="role">{{role | translate}}</span><span [hidden]="last">,</span>
+              </span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-    <div class="section" id="userssection" width="75%" *ngFor="let userOrg of searchResults$ | async  ">
-      <div class="row" id="organizationrow">
-        <div class="col-md-3">
-          <span [hidden]="isHiddenEmail(userOrg.userEmail)">{{ userOrg.lastname }}, {{ userOrg.firstname }}</span>
-        </div>
-        <div class="col-md-3">
-          <span [hidden]="hideEmail"> {{ userOrg.userEmail }}</span>
-        </div>
-        <div class="col-md-3">
-          <p id="divorg" [routerLink]="['/organization', userOrg.organizationId]" [hidden]="isHiddenOrg(userOrg.organizationId)">
-            {{ userOrg.organizationName | translateValue
-            }}</p>
-        </div>
-        <div class="col-md-3">
-          {{ userOrg.userRole | translate }}
-        </div>
-      </div>
-      <hr>
-    </div>
-    <br>
   `,
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent {
 
-  allUsers: User[];
   roles: string[];
-  rolesFilter: string[];
-  selectedRole: string;
-  selectedOrganization: Dictionary<string>;
   organizations: OrganizationListItem[];
-  previousEmail: string;
-  previousOrgId: string;
-  hideEmail = false;
-  search$ = new BehaviorSubject('');
-  searchResults$: Observable<UserOrganization[]>;
 
+  search$ = new BehaviorSubject('');
+  role$ = new BehaviorSubject<string>('');
+  organization$ = new BehaviorSubject<string>('');
+
+  users$: Observable<UserViewModel[]>;
 
   constructor(private apiService: ApiService,
-              private locationService: LocationService,
-              private languageService: LanguageService) {
+              private locationService: LocationService) {
 
     locationService.atUsers();
 
-    this.apiService.getUsers().subscribe(users => {
-      this.allUsers = users;
-    });
-
     this.apiService.getAllRoles().subscribe(roles => {
-      this.rolesFilter = roles;
+      this.roles = roles;
     });
 
     this.apiService.getOrganizationList().subscribe(organizations => {
       this.organizations = organizations;
+
+      const organizationsById = index(organizations, org => org.id);
+
+      this.users$ = Observable.combineLatest(this.apiService.getUsers(), this.search$, this.role$, this.organization$)
+        .map(([users, search, role, organization]) => {
+
+          const roleMatches = (user: UserViewModel) =>
+            !role || user.organizations.find(org => org.roles.indexOf(role) !== -1);
+
+          const organizationMatches = (user: UserViewModel) =>
+            !organization || user.organizations.find(org => org.id === organization) != null;
+
+          const searchMatchesName = (user: UserViewModel) =>
+            !search || user.displayName.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+
+          const searchMatchesEmail = (user: UserViewModel) =>
+            !search || user.email.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+
+          const searchMatches = (user: UserViewModel) =>
+            searchMatchesName(user) || searchMatchesEmail(user);
+
+          return users.map(user => new UserViewModel(user, organizationsById))
+            .filter(user => roleMatches(user) && organizationMatches(user) && searchMatches(user));
+        });
     });
   }
 
-  ngOnInit() {
-    this.updateUsers();
+  get loading() {
+    return this.roles == null || this.organizations == null;
   }
 
-  updateUsers() {
-    this.searchResults$ =
-      Observable.combineLatest(this.search$, this.apiService.getUserOrganizations()).map(([search, userOrgs]) => {
-        if (this.selectedOrganization === undefined && this.selectedRole === undefined) {
-          return userOrgs.filter(userOrg => userOrg.userEmail.toLowerCase().indexOf(search.toLowerCase()) !== -1);
-        } else {
-          return userOrgs.filter(userOrg => {
-            const emailCond = userOrg.userEmail.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-            const nameCond = userOrg.userName.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-            const roleCond = userOrg.userRole.indexOf(this.selectedRole) !== -1;
-            const translatedOrg = this.languageService.translate(userOrg.organizationName);
-            const orgCond = translatedOrg !== this.languageService.translate(this.selectedOrganization);
-            return emailCond && roleCond && orgCond && nameCond;
-          });
-        }
-      });
+  get role(): string {
+    return this.role$.getValue();
   }
 
-  isHiddenEmail(email: string) {
-    if (email !== this.previousEmail) {
-      this.previousEmail = email;
-      this.hideEmail = false;
-      this.previousOrgId = '';
-      return false;
-    } else {
-      this.hideEmail = true;
-      return true;
-    }
-
+  set role(value: string) {
+    this.role$.next(value);
   }
 
-  isHiddenOrg(orgId: string) {
-    if (orgId !== this.previousOrgId) {
-      this.previousOrgId = orgId;
-      return false;
-    }
-    return true;
+  get organization(): string {
+    return this.organization$.getValue();
+  }
+
+  set organization(value: string) {
+    this.organization$.next(value);
   }
 
   get search() {
-    this.previousEmail = '';
-    this.previousOrgId = '';
     return this.search$.getValue();
   }
 
   set search(value: string) {
     this.search$.next(value);
   }
+}
 
-  onRoleSelect(selectedRole: string) {
-    this.updateUsers();
+class UserViewModel {
+
+  organizations: { id: UUID, name: Localizable, roles: string[] }[];
+
+  constructor(private user: UserWithRolesInOrganizations, organizations: Map<UUID, OrganizationListItem>) {
+
+    this.organizations = user.organizations.map(org => {
+      return {
+        id: org.id,
+        name: requireDefined(organizations.get(org.id)).name,
+        roles: org.roles
+      };
+    });
   }
 
-  onOrganizationSelect(selectedOrg: Dictionary<string>) {
-    this.updateUsers();
+  get email() {
+    return this.user.email;
+  }
+
+  get displayName() {
+    return this.user.lastName + ', ' + this.user.firstName;
   }
 }

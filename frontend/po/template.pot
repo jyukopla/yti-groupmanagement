@@ -4,6 +4,12 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Email: { email }"
+msgstr ""
+
+msgid "You are expected at {{time}}', {time: moment.format('H:mm"
+msgstr ""
+
 msgid "Edit organization"
 msgstr ""
 
@@ -79,7 +85,25 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-msgid "Filter:"
+msgid "Access requests"
+msgstr ""
+
+msgid "No requests"
+msgstr ""
+
+msgid "Organization"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "All organizations"
+msgstr ""
+
+msgid "All roles"
 msgstr ""
 
 msgid "Front page"
@@ -88,23 +112,11 @@ msgstr ""
 msgid "ADMIN"
 msgstr ""
 
-msgid "DATA_MODEL_ADMIN"
-msgstr ""
-
 msgid "DATA_MODEL_EDITOR"
-msgstr ""
-
-msgid "TERMINOLOGY_ADMIN"
 msgstr ""
 
 msgid "TERMINOLOGY_EDITOR"
 msgstr ""
 
-msgid "CODE_LIST_ADMIN"
-msgstr ""
-
 msgid "CODE_LIST_EDITOR"
-msgstr ""
-
-msgid "TRANSLATOR"
 msgstr ""

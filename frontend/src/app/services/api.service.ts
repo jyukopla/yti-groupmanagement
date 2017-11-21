@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
 import {
   CreateOrganization,
-  EmailRole, FrontendEndpoint, Organization, OrganizationListItem, OrganizationWithUsers, UpdateOrganization,
-  UserOrganization, UserRequestModel,
-  UserRequestWithOrganization, UserWithRoles,
+  EmailRole,
+  FrontendEndpoint,
+  Organization,
+  OrganizationListItem,
+  OrganizationWithUsers,
+  UpdateOrganization,
+  UserRequestModel,
+  UserRequestWithOrganization,
+  UserWithRoles,
   UUID
 } from '../apina';
 import { Observable } from 'rxjs/Observable';
@@ -19,10 +25,6 @@ export class ApiService {
   getUsers(): Observable<User[]> {
     return this.endpoint.getUsers().map(users =>
       users.map(userModel => new User(userModel)));
-  }
-
-  getUserOrganizations(): Observable<UserOrganization[]> {
-    return this.endpoint.getUserOrganizations();
   }
 
   getOrganizationList(): Observable<OrganizationListItem[]> {
@@ -81,10 +83,6 @@ export class ApiService {
 
   getAllRoles(): Observable<string[]> {
     return this.endpoint.getAllRoles();
-  }
-
-  getUserRequests(organizationId: UUID): Observable<UserRequestWithOrganization[]> {
-    return this.endpoint.getAllUserRequests();
   }
 
   getAllUserRequests(): Observable<UserRequestWithOrganization[]> {

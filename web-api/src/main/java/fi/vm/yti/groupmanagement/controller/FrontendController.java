@@ -54,11 +54,6 @@ public class FrontendController {
         this.frontendService.updateOrganization(updateOrganization);
     }
 
-    @RequestMapping(value = "/userorganizations", method = GET, produces = APPLICATION_JSON_VALUE)
-    public List<UserOrganization> getUserOrganizations() {
-        return this.frontendService.getUserOrganizationList();
-    }
-
     @RequestMapping(value = "/roles", method = GET, produces = APPLICATION_JSON_VALUE)
     public List<String> getAllRoles() {
         return this.frontendService.getAllRoles();

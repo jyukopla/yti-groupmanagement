@@ -76,7 +76,7 @@ public class FrontendService {
 
     @Transactional
     public List<OrganizationListItem> getOrganizationList() {
-        return authorizationManager.filterViewableOrganizations(frontendDao.getOrganizationList());
+        return frontendDao.getOrganizationList();
     }
 
     @Transactional

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static fi.vm.yti.groupmanagement.util.CollectionUtil.mapToList;
 import static java.util.stream.Collectors.groupingBy;
@@ -39,16 +40,15 @@ public class FrontendDao {
                 rows.stream().collect(groupingBy(row -> row.user, LinkedHashMap::new, mapping(row -> row.organization, toList())));
 
         return mapToList(grouped.entrySet(), entry -> {
-            UserRow.UserDetails user = entry.getKey();
-            List<UserRow.OrganizationDetails> organizations = entry.getValue();
 
-            return new UserWithRolesInOrganizations(
-                    user.email,
-                    user.firstName,
-                    user.lastName,
-                    user.superuser,
-                    mapToList(organizations, org -> new UserWithRolesInOrganizations.OrganizationRoles(org.id, org.roles))
-            );
+            UserRow.UserDetails user = entry.getKey();
+
+            List<UserWithRolesInOrganizations.OrganizationRoles> organizations = entry.getValue().stream()
+                    .filter(org -> org.id != null)
+                    .map(org -> new UserWithRolesInOrganizations.OrganizationRoles(org.id, org.roles))
+                    .collect(toList());
+
+            return new UserWithRolesInOrganizations(user.email, user.firstName, user.lastName, user.superuser, organizations);
         });
     }
 

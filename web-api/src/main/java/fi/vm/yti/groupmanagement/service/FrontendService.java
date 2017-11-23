@@ -102,11 +102,6 @@ public class FrontendService {
         return frontendDao.getUsers();
     }
 
-    @Transactional
-    public List<UserOrganization> getUserOrganizationList() {
-        check(authorizationManager.canBrowseUsers());
-        return frontendDao.getUserOrganizationList();
-    }
 
     @Transactional
     public List<String> getAllRoles() {

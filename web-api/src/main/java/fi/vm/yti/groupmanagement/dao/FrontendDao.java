@@ -49,15 +49,6 @@ public class FrontendDao {
         });
     }
 
-    public @NotNull List<UserOrganization> getUserOrganizationList() {
-
-        return db.findAll(UserOrganization.class, "SELECT uo.user_email, us.firstname, us.lastname, org.description_fi, org.description_en, org.description_sv, org.name_fi, org.name_en, org.name_sv, uo.organization_id AS orgids, \n" +
-                "uo.role_name AS roles FROM user_organization uo \n" +
-                "LEFT JOIN organization org ON (uo.organization_id = org.id) \n" +
-                "LEFT JOIN \"user\" us ON (us.email = uo.user_email) \n" +
-                "ORDER BY us.lastname;");
-    }
-
     public @NotNull List<OrganizationListItem> getOrganizationList() {
 
         List<OrganizationListItemRow> rows =

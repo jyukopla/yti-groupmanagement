@@ -69,6 +69,18 @@ public class FrontendDao {
         return mapToList(rows, row -> new OrganizationListItem(row.id, row.nameFi, row.nameEn, row.nameSv));
     }
 
+    public @NotNull List<OrganizationListItem> getOrganizationList(String lang) {
+        List<OrganizationListItemRow> rows;
+        if (lang.equals("en")) {
+            rows = db.findAll(OrganizationListItemRow.class, "SELECT id, name_en, name_fi, name_sv FROM organization ORDER BY name_en");
+        } else {
+            rows = db.findAll(OrganizationListItemRow.class, "SELECT id, name_en, name_fi, name_sv FROM organization ORDER BY name_fi");
+        }
+
+
+        return mapToList(rows, row -> new OrganizationListItem(row.id, row.nameFi, row.nameEn, row.nameSv));
+    }
+
     public @NotNull Organization getOrganization(UUID organizationId) {
         return db.findUnique(Organization.class,"SELECT id, name_en, name_fi, name_sv, description_en, description_fi, description_sv, url FROM organization where id = ?", organizationId);
     }

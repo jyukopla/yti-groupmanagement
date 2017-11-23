@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { OrganizationListItem } from '../apina';
-import { Router } from '@angular/router';
-import { AuthorizationManager } from '../services/authorization-manager.service';
-import { ApiService } from '../services/api.service';
+import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import {OrganizationListItem} from '../apina';
+import {Router} from '@angular/router';
+import {AuthorizationManager} from '../services/authorization-manager.service';
+import {ApiService} from '../services/api.service';
 import {LanguageService} from "../services/language.service";
 
 @Component({
@@ -12,7 +12,8 @@ import {LanguageService} from "../services/language.service";
       <div class="col-md-12">
 
         <h2 translate>Organizations</h2>
-        <button class="button btn-default" (click)="addOrganization()" *ngIf="authorizationManager.canCreateOrganization()">
+        <button class="button btn-default" (click)="addOrganization()"
+                *ngIf="authorizationManager.canCreateOrganization()">
           <span translate>Add new organization</span>
         </button>
 
@@ -22,7 +23,7 @@ import {LanguageService} from "../services/language.service";
       </div>
       <ul id="organizations-list">
         <a *ngFor="let organization of organizations" [routerLink]="['/organization', organization.id]">
-        {{organization.name | translateValue}} <br>
+          {{organization.name | translateValue}} <br>
         </a>
       </ul>
     </div>
@@ -33,6 +34,8 @@ import {LanguageService} from "../services/language.service";
 export class OrganizationsComponent implements OnInit {
 
   organizations: OrganizationListItem[];
+  currentLang: string;
+  apiSub: any;
 
   constructor(private apiService: ApiService,
               public authorizationManager: AuthorizationManager,
@@ -41,13 +44,23 @@ export class OrganizationsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.apiService.getOrganizationList().subscribe(organizationListItems => {
-      this.organizations = organizationListItems;
+    this.languageService.languageChange$.asObservable().subscribe(lang => {
+      if (this.currentLang === undefined)
+        lang = 'fi';
+      this.loadOrganizations(lang);
     });
+    this.loadOrganizations('fi');
+  }
 
-    this.languageService.languageChange$.asObservable().subscribe( lang => {
-      console.log("Lang changed");
-      console.log(lang);
+  loadOrganizations(lang: string) {
+    if (this.currentLang !== lang) {
+      this.currentLang = lang;
+    }
+    else
+      this.apiSub.unsubscribe();
+
+    this.apiSub = this.apiService.getOrganizationListLang(lang).subscribe(organizationListItems => {
+      this.organizations = organizationListItems;
     });
   }
 
@@ -59,3 +72,4 @@ export class OrganizationsComponent implements OnInit {
     this.router.navigate(['/users']);
   }
 }
+

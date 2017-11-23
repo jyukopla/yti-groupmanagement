@@ -75,11 +75,6 @@ public class FrontendService {
     }
 
     @Transactional
-    public List<OrganizationListItem> getOrganizationList(String lang) {
-        return frontendDao.getOrganizationList(lang);
-    }
-
-    @Transactional
     public List<OrganizationListItem> getOrganizationList() {
         return frontendDao.getOrganizationList();
     }

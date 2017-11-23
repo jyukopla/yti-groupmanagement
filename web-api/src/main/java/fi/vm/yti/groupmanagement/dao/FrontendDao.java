@@ -9,12 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import static fi.vm.yti.groupmanagement.util.CollectionUtil.mapToList;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.mapping;
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 @Repository
 public class FrontendDao {
@@ -65,18 +62,6 @@ public class FrontendDao {
 
         List<OrganizationListItemRow> rows =
                 db.findAll(OrganizationListItemRow.class, "SELECT id, name_en, name_fi, name_sv FROM organization ORDER BY name_fi");
-
-        return mapToList(rows, row -> new OrganizationListItem(row.id, row.nameFi, row.nameEn, row.nameSv));
-    }
-
-    public @NotNull List<OrganizationListItem> getOrganizationList(String lang) {
-        List<OrganizationListItemRow> rows;
-        if (lang.equals("en")) {
-            rows = db.findAll(OrganizationListItemRow.class, "SELECT id, name_en, name_fi, name_sv FROM organization ORDER BY name_en");
-        } else {
-            rows = db.findAll(OrganizationListItemRow.class, "SELECT id, name_en, name_fi, name_sv FROM organization ORDER BY name_fi");
-        }
-
 
         return mapToList(rows, row -> new OrganizationListItem(row.id, row.nameFi, row.nameEn, row.nameSv));
     }

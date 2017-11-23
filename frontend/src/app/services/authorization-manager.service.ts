@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthenticatedUser } from '../entities/authenticated-user';
-import { FrontendEndpoint } from '../apina';
+import { FrontendEndpoint, UUID } from '../apina';
 
 @Injectable()
 export class AuthorizationManager {
@@ -19,5 +19,9 @@ export class AuthorizationManager {
 
   canBrowseUsers(): boolean {
     return this.user ? !this.user.superuser || this.user.isAdminInAnyOrganization() : false;
+  }
+
+  canViewOrganization(organizationId: UUID) {
+    return this.user ? this.user.superuser || this.user.isAdmin(organizationId) : false;
   }
 }

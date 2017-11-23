@@ -24,9 +24,14 @@ import { Subscription } from 'rxjs/Subscription';
         </button>
       </div>
       <ul id="organizations-list">
-        <a *ngFor="let organization of organizations" [routerLink]="['/organization', organization.id]">
-          {{organization.name | translateValue}} <br>
-        </a>
+        <div *ngFor="let organization of organizations">
+          <span *ngIf="!canViewOrganization(organization)">
+            {{organization.name | translateValue}}
+          </span>
+          <a *ngIf="canViewOrganization(organization)" [routerLink]="['/organization', organization.id]">
+            {{organization.name | translateValue}}
+          </a>
+        </div>
       </ul>
     </div>
   `,
@@ -54,6 +59,10 @@ export class OrganizationsComponent implements OnDestroy {
 
   sortOrganizations() {
     this.organizations.sort(comparingLocalizable<OrganizationListItem>(this.languageService, org => org.name));
+  }
+
+  canViewOrganization(organization: OrganizationListItem): boolean {
+    return this.authorizationManager.canViewOrganization(organization.id);
   }
 
   addOrganization() {

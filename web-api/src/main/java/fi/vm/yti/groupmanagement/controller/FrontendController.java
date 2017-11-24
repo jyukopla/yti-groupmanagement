@@ -34,11 +34,6 @@ public class FrontendController {
         return new AuthenticatedUser(userProvider.getUser());
     }
 
-    @RequestMapping(value = "/organizations/{lang}", method = GET, produces = APPLICATION_JSON_VALUE)
-    public List<OrganizationListItem> getOrganizationsLang(@PathVariable("lang") String lang) {
-        return this.frontendService.getOrganizationList(lang);
-    }
-
     @RequestMapping(value = "/organizations", method = GET, produces = APPLICATION_JSON_VALUE)
     public List<OrganizationListItem> getOrganizations() {
         return this.frontendService.getOrganizationList();

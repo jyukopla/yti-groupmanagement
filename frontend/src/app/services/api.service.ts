@@ -27,10 +27,6 @@ export class ApiService {
       users.map(userModel => new User(userModel)));
   }
 
-  getOrganizationListLang(lang: string): Observable<OrganizationListItem[]> {
-    return this.endpoint.getOrganizationsLang(lang);
-  }
-
   getOrganizationList(): Observable<OrganizationListItem[]> {
     return this.endpoint.getOrganizations();
   }

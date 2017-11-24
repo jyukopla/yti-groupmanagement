@@ -9,12 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import static fi.vm.yti.groupmanagement.util.CollectionUtil.mapToList;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.mapping;
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 @Repository
 public class FrontendDao {
@@ -52,31 +49,10 @@ public class FrontendDao {
         });
     }
 
-    public @NotNull List<UserOrganization> getUserOrganizationList() {
-
-        return db.findAll(UserOrganization.class, "SELECT uo.user_email, us.firstname, us.lastname, org.description_fi, org.description_en, org.description_sv, org.name_fi, org.name_en, org.name_sv, uo.organization_id AS orgids, \n" +
-                "uo.role_name AS roles FROM user_organization uo \n" +
-                "LEFT JOIN organization org ON (uo.organization_id = org.id) \n" +
-                "LEFT JOIN \"user\" us ON (us.email = uo.user_email) \n" +
-                "ORDER BY us.lastname;");
-    }
-
     public @NotNull List<OrganizationListItem> getOrganizationList() {
 
         List<OrganizationListItemRow> rows =
                 db.findAll(OrganizationListItemRow.class, "SELECT id, name_en, name_fi, name_sv FROM organization ORDER BY name_fi");
-
-        return mapToList(rows, row -> new OrganizationListItem(row.id, row.nameFi, row.nameEn, row.nameSv));
-    }
-
-    public @NotNull List<OrganizationListItem> getOrganizationList(String lang) {
-        List<OrganizationListItemRow> rows;
-        if (lang.equals("en")) {
-            rows = db.findAll(OrganizationListItemRow.class, "SELECT id, name_en, name_fi, name_sv FROM organization ORDER BY name_en");
-        } else {
-            rows = db.findAll(OrganizationListItemRow.class, "SELECT id, name_en, name_fi, name_sv FROM organization ORDER BY name_fi");
-        }
-
 
         return mapToList(rows, row -> new OrganizationListItem(row.id, row.nameFi, row.nameEn, row.nameSv));
     }

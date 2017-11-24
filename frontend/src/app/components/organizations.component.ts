@@ -1,9 +1,11 @@
-import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
-import {OrganizationListItem} from '../apina';
-import {Router} from '@angular/router';
-import {AuthorizationManager} from '../services/authorization-manager.service';
-import {ApiService} from '../services/api.service';
-import {LanguageService} from "../services/language.service";
+import { Component, OnDestroy } from '@angular/core';
+import { OrganizationListItem } from '../apina';
+import { Router } from '@angular/router';
+import { AuthorizationManager } from '../services/authorization-manager.service';
+import { ApiService } from '../services/api.service';
+import { LanguageService } from '../services/language.service';
+import { comparingLocalizable } from '../utils/comparator';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-organizations',
@@ -22,46 +24,45 @@ import {LanguageService} from "../services/language.service";
         </button>
       </div>
       <ul id="organizations-list">
-        <a *ngFor="let organization of organizations" [routerLink]="['/organization', organization.id]">
-          {{organization.name | translateValue}} <br>
-        </a>
+        <div *ngFor="let organization of organizations">
+          <span *ngIf="!canViewOrganization(organization)">
+            {{organization.name | translateValue}}
+          </span>
+          <a *ngIf="canViewOrganization(organization)" [routerLink]="['/organization', organization.id]">
+            {{organization.name | translateValue}}
+          </a>
+        </div>
       </ul>
     </div>
   `,
   styleUrls: ['./organizations.component.scss']
 })
 
-export class OrganizationsComponent implements OnInit {
+export class OrganizationsComponent implements OnDestroy {
 
   organizations: OrganizationListItem[];
-  currentLang: string;
-  apiSub: any;
+
+  languageSubscription: Subscription;
 
   constructor(private apiService: ApiService,
               public authorizationManager: AuthorizationManager,
               private router: Router,
               private languageService: LanguageService) {
-  }
 
-  ngOnInit() {
-    this.languageService.languageChange$.asObservable().subscribe(lang => {
-      if (this.currentLang === undefined)
-        lang = 'fi';
-      this.loadOrganizations(lang);
-    });
-    this.loadOrganizations('fi');
-  }
-
-  loadOrganizations(lang: string) {
-    if (this.currentLang !== lang) {
-      this.currentLang = lang;
-    }
-    else
-      this.apiSub.unsubscribe();
-
-    this.apiSub = this.apiService.getOrganizationListLang(lang).subscribe(organizationListItems => {
+    this.apiService.getOrganizationList().subscribe(organizationListItems => {
       this.organizations = organizationListItems;
+      this.sortOrganizations();
     });
+
+    this.languageSubscription = languageService.languageChange$.subscribe(() => this.sortOrganizations());
+  }
+
+  sortOrganizations() {
+    this.organizations.sort(comparingLocalizable<OrganizationListItem>(this.languageService, org => org.name));
+  }
+
+  canViewOrganization(organization: OrganizationListItem): boolean {
+    return this.authorizationManager.canViewOrganization(organization.id);
   }
 
   addOrganization() {
@@ -70,6 +71,10 @@ export class OrganizationsComponent implements OnInit {
 
   browseUsers() {
     this.router.navigate(['/users']);
+  }
+
+  ngOnDestroy() {
+    this.languageSubscription.unsubscribe();
   }
 }
 

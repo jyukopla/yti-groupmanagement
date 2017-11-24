@@ -3,6 +3,7 @@ package fi.vm.yti.groupmanagement.dao;
 import fi.vm.yti.groupmanagement.model.PublicApiOrganization;
 import fi.vm.yti.groupmanagement.model.PublicApiUser;
 import fi.vm.yti.groupmanagement.model.PublicApiUserOrganization;
+import fi.vm.yti.groupmanagement.model.PublicApiUserRequest;
 import org.dalesbred.Database;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -40,12 +41,12 @@ public class PublicApiDao {
     }
 
     public @NotNull PublicApiUser getUser(@NotNull  String email) {
-        return requireNonNull(this.findUser(email));
+        return requireNonNull(findUser(email));
     }
 
     public @Nullable PublicApiUser findUser(@NotNull  String email) {
 
-        List<UserRow> rows = this.database.findAll(UserRow.class,
+        List<UserRow> rows = database.findAll(UserRow.class,
                 "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
                         "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
@@ -57,7 +58,7 @@ public class PublicApiDao {
 
     public @NotNull List<PublicApiOrganization> getOrganizations() {
 
-        List<OrganizationRow> rows = this.database.findAll(OrganizationRow.class, "select id, name_en, name_sv, name_fi, description_en, description_sv, description_fi, url from organization");
+        List<OrganizationRow> rows = database.findAll(OrganizationRow.class, "select id, name_en, name_sv, name_fi, description_en, description_sv, description_fi, url from organization");
 
         return rows.stream().map(row -> {
 
@@ -75,6 +76,11 @@ public class PublicApiDao {
             return new PublicApiOrganization(row.id, unmodifiableMap(prefLabel), unmodifiableMap(description), row.url);
 
         }).collect(toList());
+    }
+
+    public void addUserRequest(String email, UUID organizationId, String role) {
+        database.update("INSERT INTO request (user_email, organization_id, role_name, sent) VALUES (?,?,?,?)",
+                email, organizationId, role, false);
     }
 
     private static PublicApiUser entryToAuthorizationUser(Map.Entry<UserRow.UserDetails, List<UserRow.OrganizationDetails>> entry) {
@@ -97,6 +103,14 @@ public class PublicApiDao {
                                 mapping(row -> row.organization, toList())));
 
         return grouped.entrySet().stream().map(PublicApiDao::entryToAuthorizationUser).collect(toList());
+    }
+
+    public List<PublicApiUserRequest> getUserRequests(String email) {
+        return database.findAll(PublicApiUserRequest.class,
+                "SELECT organization_id, array_agg(role_name)\n" +
+                        "FROM request\n" +
+                        "WHERE user_email = ? \n" +
+                        "GROUP BY id, user_email, organization_id", email);
     }
 
     public static final class OrganizationRow {

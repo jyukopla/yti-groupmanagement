@@ -115,7 +115,6 @@ export class EditOrganizationComponent {
 
   saveOrganization() {
     this.apiService.updateOrganization(this.organizationId, this.organization, this.users).subscribe(() => {
-      console.log('saved');
     });
   }
 }

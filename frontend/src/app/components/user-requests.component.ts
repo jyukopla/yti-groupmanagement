@@ -73,8 +73,6 @@ export class UserRequestsComponent {
   }
 
   acceptRequest(userRequest: UserRequestWithOrganization) {
-    console.log('Adding user');
-    console.log(userRequest.email);
     this.apiService.acceptRequest(userRequest.id).subscribe(() => {
       this.userRequests.splice(this.userRequests.indexOf(userRequest), 1);
     });

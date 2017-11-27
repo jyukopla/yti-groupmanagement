@@ -36,7 +36,6 @@ public class FrontendController {
     }
     
     @RequestMapping(value = "/organizations", method = GET, produces = APPLICATION_JSON_VALUE)
-    @CrossOrigin
     public List<OrganizationListItem> getOrganizations() {
         return this.frontendService.getOrganizationList();
     }

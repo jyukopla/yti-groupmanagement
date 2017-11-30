@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +34,7 @@ public class FrontendController {
     public AuthenticatedUser getAuthenticatedUser() {
         return new AuthenticatedUser(userProvider.getUser());
     }
-
+    
     @RequestMapping(value = "/organizations", method = GET, produces = APPLICATION_JSON_VALUE)
     public List<OrganizationListItem> getOrganizations() {
         return this.frontendService.getOrganizationList();

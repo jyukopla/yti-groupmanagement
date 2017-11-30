@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.UUID;
@@ -44,6 +45,7 @@ public class PublicApiController {
     }
 
     @RequestMapping(value = "/organizations", method = GET, produces = APPLICATION_JSON_VALUE)
+    @CrossOrigin
     public List<PublicApiOrganization> getOrganizations() {
         return publicApiService.getOrganizations();
     }

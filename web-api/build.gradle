@@ -4,6 +4,9 @@ buildscript {
     }
     dependencies {
         classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '3.2.0')
+        classpath(group: 'javax.mail', name: 'javax.mail-api', version: '1.5.1')
+
+
     }
 }
 
@@ -56,6 +59,10 @@ dependencies {
 
     compile "io.springfox:springfox-swagger2:2.7.0"
     compile "io.springfox:springfox-swagger-ui:2.7.0"
+
+    compile group: 'javax.mail', name: 'mail', version: '1.4'
+    compile group: 'javax.mail', name: 'javax.mail-api', version: '1.5.1'
+    compile("org.springframework.boot:spring-boot-starter-mail")
 
     compileOnly "org.springframework.boot:spring-boot-configuration-processor"
 

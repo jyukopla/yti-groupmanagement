@@ -149,4 +149,19 @@ public class FrontendService {
         this.frontendDao.deleteUserRequest(requestId);
         this.frontendDao.addUserToRoleInOrganization(userRequest.userEmail, userRequest.roleName, userRequest.organizationId);
     }
+
+    @Transactional
+    public List<UserRequestWithOrganization> getUnsentRequests() {
+        return this.frontendDao.getUnsentRequests();
+    }
+
+    @Transactional
+    public List<String> getOrganizationAdminEmails(UUID orgId) {
+        return this.frontendDao.getOrganizationAdminEmails(orgId);
+    }
+
+    @Transactional
+    public void setRequestAsSent(int requestId) {
+        this.frontendDao.setRequestAsSent(requestId);
+    }
 }

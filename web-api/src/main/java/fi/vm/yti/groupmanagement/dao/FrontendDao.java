@@ -6,6 +6,7 @@ import org.dalesbred.query.QueryBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -141,6 +142,21 @@ public class FrontendDao {
         return db.findUnique(UserRequest.class,
                 "SELECT r.id, r.user_email, r.organization_id, r.role_name, r.sent FROM request r\n" +
                         "WHERE r.id = ?", requestId);
+    }
+
+    public List<UserRequestWithOrganization> getUnsentRequests() {
+        return db.findAll(UserRequestWithOrganization.class, "SELECT r.id, r.user_email, r.organization_id, r.role_name, us.firstName, us.lastName, org.name_fi, org.name_en, org.name_sv, r.sent \n" +
+                "FROM request r\n" +
+                "LEFT JOIN \"user\" us ON (us.email = r.user_email)\n" +
+                "LEFT JOIN organization org ON (org.id = r.organization_id) WHERE r.sent = 'false' ORDER BY r.organization_id\n");
+    }
+
+    public void setRequestAsSent(Integer requestId) {
+        db.update("UPDATE request SET sent='true' WHERE id = ?", requestId);
+    }
+
+    public List<String> getOrganizationAdminEmails(UUID orgID) {
+        return db.findAll(String.class,"SELECT user_email FROM user_organization WHERE role_name='ADMIN' AND organization_id=?", orgID);
     }
 
     public static class OrganizationListItemRow {

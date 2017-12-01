@@ -15,7 +15,7 @@ import java.util.UUID;
 @RestController
 public class SchedulerController {
     private final FrontendService frontendService;
-    private final SchedulerService schedulerService;
+    private SchedulerService schedulerService;
 
     private List<UserRequestWithOrganization> requests;
 
@@ -26,8 +26,8 @@ public class SchedulerController {
         this.schedulerService = schedulerService;
     }
 
-    //@Scheduled(cron = "0/59 * * * * *") //For testing
-    @Scheduled(cron = "0 0 0 1/1 * ?")
+    //@Scheduled(cron = "0/59 * * * * *", zone = "Europe/Helsinki") //For testing
+    @Scheduled(cron = "0 0 0 1/1 * ?", zone = "Europe/Helsinki")
     public void getNewAccessRequests() {
         System.out.println("Scheduled job started");
         this.requests = frontendService.getUnsentRequests();
@@ -42,7 +42,7 @@ public class SchedulerController {
         AdminEmail adminEmail = new AdminEmail();
 
         for(UserRequestWithOrganization request: requests) {
-            Boolean res = false;
+
             if (previousId == request.organizationId || tempList.size() < 1) {
                 tempList.add(request);
                 if (tempList.size() == requests.size()) {
@@ -52,10 +52,8 @@ public class SchedulerController {
                     adminEmail.organizationName_en = request.organizationName.get("en");
                     adminEmail.organizationName_sv = request.organizationName.get("sv");
                     try {
-                        res = this.schedulerService.sendAccessRequestEmail(adminEmail.adminEmails, adminEmail.requestCount, adminEmail.organizationName_fi);
-                        if (res)
-                            frontendService.setRequestAsSent(request.id);
-
+                        this.schedulerService.sendAccessRequestEmail(adminEmail.adminEmails, adminEmail.requestCount, adminEmail.organizationName_fi);
+                        frontendService.setRequestAsSent(request.id);
                     }
                     catch (InterruptedException | MailException ex) {
                         System.out.printf("Exception while sending access request email to administrator: %s\n", ex);
@@ -70,9 +68,8 @@ public class SchedulerController {
                 adminEmail.organizationName_en = request.organizationName.get("en");
                 adminEmail.organizationName_sv = request.organizationName.get("sv");
                 try {
-                    res =  this.schedulerService.sendAccessRequestEmail(adminEmail.adminEmails, adminEmail.requestCount, adminEmail.organizationName_fi);
-                        if (res)
-                            frontendService.setRequestAsSent(request.id);
+                    this.schedulerService.sendAccessRequestEmail(adminEmail.adminEmails, adminEmail.requestCount, adminEmail.organizationName_fi);
+                        frontendService.setRequestAsSent(request.id);
                 }
                 catch (InterruptedException | MailException ex) {
                     System.out.printf("Exception while sending access request email(s) to administrator(s): %s\n", ex);

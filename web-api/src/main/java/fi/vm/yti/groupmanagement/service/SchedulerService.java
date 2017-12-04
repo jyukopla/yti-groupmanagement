@@ -63,12 +63,12 @@ public class SchedulerService {
 
             //mail.addRecipient(Message.RecipientType.TO, new InternetAddress(""));
             mail.addRecipients(Message.RecipientType.TO, recipients);
-            mail.setFrom(new InternetAddress("do.not@reply"));
+            mail.setFrom(new InternetAddress("no.reply@vrk.fi"));
             mail.setSubject("New access request waiting");
             //String message= "You have " + requestNumber + " new access request(s) to "+ organizationName + " \n\n" + "https://rhp-dev.suomi.fi/";
             String message = "Sinulle on " + requestNumber + " uutta käyttöoikeuspyyntöä organisaatioon '" + organizationName + "':   " + "https://rhp-dev.suomi.fi/";
             mail.setContent(message, "text/html");
-            mail.setSender(new InternetAddress("do.not@reply"));
+            mail.setSender(new InternetAddress("no.reply@vrk.fi"));
 
             try {
                 Transport.send(mail);

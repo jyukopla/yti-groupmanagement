@@ -27,7 +27,7 @@ public class SchedulerController {
     }
 
     //@Scheduled(cron = "0/59 * * * * *", zone = "Europe/Helsinki") //For testing
-    @Scheduled(cron = "0 0 0 1/1 * ?", zone = "Europe/Helsinki")
+    @Scheduled(cron = "0 0/5 * * * ?", zone = "Europe/Helsinki")
     public void getNewAccessRequests() {
         System.out.println("Scheduled job started");
         this.requests = frontendService.getUnsentRequests();

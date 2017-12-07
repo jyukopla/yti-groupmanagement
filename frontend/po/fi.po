@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2017-12-07 20:58+0200\n"
+"PO-Revision-Date: 2017-12-07 21:15+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -58,6 +58,9 @@ msgstr "KIRJAUDU SISÄÄN"
 msgid "LOG OUT"
 msgstr "KIRJAUDU ULOS"
 
+msgid "User details"
+msgstr "Käyttäjätiedot"
+
 msgid "New organization"
 msgstr "Uusi organisaatio"
 
@@ -96,6 +99,12 @@ msgstr "Valitse käyttäjä"
 
 msgid "Cancel"
 msgstr "Peruuta"
+
+msgid "Organizations and roles"
+msgstr "Organisaatio ja roolit"
+
+msgid "Unknown organization"
+msgstr "Tuntematon organisaatio"
 
 msgid "Access requests"
 msgstr "Käyttöoikeuspyynnöt"

@@ -11,7 +11,6 @@ export interface Location {
 
 const frontPage = { localizationKey: 'Front page', route: [''] };
 const newOrganization = { localizationKey: 'Add new organization' };
-const users = { localizationKey: 'Users' };
 
 @Injectable()
 export class LocationService {
@@ -33,5 +32,9 @@ export class LocationService {
 
   atOrganization(organization: OrganizationDetails): void {
     this.changeLocation([{ label: organization.name }]);
+  }
+
+  atUserDetails() {
+    this.changeLocation([{ localizationKey: 'User details' }]);
   }
 }

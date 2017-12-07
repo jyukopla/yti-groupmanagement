@@ -49,6 +49,9 @@ msgstr ""
 msgid "LOG OUT"
 msgstr ""
 
+msgid "User details"
+msgstr ""
+
 msgid "New organization"
 msgstr ""
 
@@ -86,6 +89,12 @@ msgid "Select user"
 msgstr ""
 
 msgid "Cancel"
+msgstr ""
+
+msgid "Organizations and roles"
+msgstr ""
+
+msgid "Unknown organization"
 msgstr ""
 
 msgid "Access requests"

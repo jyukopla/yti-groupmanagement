@@ -34,6 +34,7 @@ import { AjaxLoadingIndicatorComponent } from 'yti-common-ui/components/ajax-loa
 import { DropdownComponent } from 'yti-common-ui/components/dropdown.component';
 import { FilterDropdownComponent } from 'yti-common-ui/components/filter-dropdown.component';
 import { BackButtonComponent } from 'yti-common-ui/components/back-button.component';
+import { UserDetailsComponent } from './components/user-details.component';
 
 const localizations: { [lang: string]: string} = {
   fi: Object.assign({},
@@ -70,7 +71,8 @@ export function createMissingTranslationHandler(): MissingTranslationHandler {
 const appRoutes: Routes = [
   { path: '', component: FrontpageComponent },
   { path: 'newOrganization', component: NewOrganizationComponent },
-  { path: 'organization/:id', component: EditOrganizationComponent}
+  { path: 'organization/:id', component: EditOrganizationComponent},
+  { path: 'userDetails', component: UserDetailsComponent }
 ];
 
 @NgModule({
@@ -93,7 +95,8 @@ const appRoutes: Routes = [
     AjaxLoadingIndicatorComponent,
     DropdownComponent,
     FilterDropdownComponent,
-    BackButtonComponent
+    BackButtonComponent,
+    UserDetailsComponent
   ],
   entryComponents: [
     LoginModalComponent,

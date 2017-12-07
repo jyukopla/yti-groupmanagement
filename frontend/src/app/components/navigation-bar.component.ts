@@ -47,7 +47,8 @@ import { LoginModalService } from 'yti-common-ui/components/login-modal.componen
               <i class="fa fa-sign-in"></i>
               <span translate>LOG IN</span>
             </a>
-            <div class="dropdown-divider" [hidden]="noMenuItemsAvailable"></div>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" [routerLink]="['/userDetails']" translate>User details</a>
           </div>
         </li>
       </ul>
@@ -65,10 +66,6 @@ export class NavigationBarComponent {
   constructor(private languageService: LanguageService,
               private userService: UserService,
               private loginModal: LoginModalService) {
-  }
-
-  get noMenuItemsAvailable() {
-    return true;
   }
 
   set language(language: Language) {

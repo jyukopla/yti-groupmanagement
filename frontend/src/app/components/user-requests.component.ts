@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { UserRequestWithOrganization } from '../apina';
 import { remove } from 'yti-common-ui/utils/array';
+import { comparingPrimitive } from 'yti-common-ui/utils/comparator';
 
 @Component({
   selector: 'app-user-requests',
@@ -33,7 +34,7 @@ import { remove } from 'yti-common-ui/utils/array';
         </tr>
         </tbody>
       </table>
-      
+
     </div>
   `,
   styleUrls: ['./user-requests.component.scss']
@@ -45,6 +46,10 @@ export class UserRequestsComponent {
   constructor(private apiService: ApiService) {
 
     this.apiService.getAllUserRequests().subscribe( requests => {
+      requests.sort(
+        comparingPrimitive<UserRequestWithOrganization>(r => r.lastName)
+          .andThen(comparingPrimitive<UserRequestWithOrganization>(r => r.firstName))
+      );
       this.userRequests = requests;
     });
   }

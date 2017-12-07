@@ -1,47 +1,41 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
-import {UserRequestModel, UserRequestWithOrganization} from '../apina';
+import { UserRequestWithOrganization } from '../apina';
+import { remove } from 'yti-common-ui/utils/array';
 
 @Component({
   selector: 'app-user-requests',
   template: `
-    <div class="container">
-      <div class="row">
-        <br>
-        <div id="accessrequests">
-          <h2 translate>Access requests</h2>
-          <p *ngIf="userRequests.length === 0" translate>No requests</p>          
-          <table *ngIf="userRequests.length > 0">
-            <thead>
-            <tr>
-              <th translate>Name</th>
-              <th translate>Email</th>
-              <th translate>Organization</th>
-              <th translate>Role</th>
-              <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let requests of userRequests">
-              <td style="white-space: nowrap">{{requests.fullName}}</td>
-              <td>{{requests.email}}</td>
-              <td>{{requests.organizationName | translateValue }}</td>
-              <td>{{requests.role | translate}}</td>
-              <div class="col-md-4">
-                <td><i class="fa fa-trash fa-lg" (click)="declineRequest(requests)"></i></td>
-                <td>
-                  <button id="acceptrequest"
-                          type="button"
-                          class="btn btn-default btn-sm"
-                          (click)="acceptRequest(requests)" translate>Add
-                  </button>
-                </td>
-              </div>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <div *ngIf="userRequests.length > 0">
+
+      <h2 translate>Access requests</h2>
+
+      <table class="table table-striped">
+        <tbody>
+        <tr *ngFor="let request of userRequests">
+          <td >{{request.fullName}}</td>
+          <td>{{request.email}}</td>
+          <td>{{request.organizationName | translateValue }}</td>
+          <td>{{request.role | translate}}</td>
+          <td class="actions">
+
+            <button type="button"
+                    class="btn btn-link"
+                    (click)="declineRequest(request)">
+              <i class="fa fa-trash"></i>
+              <span translate>Decline</span>
+            </button>
+
+            <button type="button"
+                    class="btn btn-action"
+                    (click)="acceptRequest(request)" translate>Accept</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <hr />
+      
     </div>
   `,
   styleUrls: ['./user-requests.component.scss']
@@ -58,15 +52,12 @@ export class UserRequestsComponent {
   }
 
   declineRequest(userRequest: UserRequestWithOrganization) {
-    this.apiService.declineRequest(userRequest.id).subscribe(() => {
-      this.userRequests.splice(this.userRequests.indexOf(userRequest), 1);
-    });
+    this.apiService.declineRequest(userRequest.id).subscribe(() =>
+      remove(this.userRequests, userRequest));
   }
 
   acceptRequest(userRequest: UserRequestWithOrganization) {
-    this.apiService.acceptRequest(userRequest.id).subscribe(() => {
-      this.userRequests.splice(this.userRequests.indexOf(userRequest), 1);
-    });
-    // Add notification for new user in organization
+    this.apiService.acceptRequest(userRequest.id).subscribe(() =>
+      remove(this.userRequests, userRequest));
   }
 }

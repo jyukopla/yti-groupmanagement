@@ -1,33 +1,24 @@
-.add-new-organization {
-  padding-top: 30px;
+@import '~yti-common-ui/theme/variables';
 
-  button {
-    padding: 10px;
-    margin: 5px;
-    background-color: #2A6EBB;
-    border-radius: 5px;
-    float: right;
+.input-group-search {
+  width: 400px;
+}
+
+.organization {
+
+  display: inline-block;
+  width: 100%;
+  padding: 5px 10px 5px 5px;
+  font-size: large;
+
+  border-left: $active-indicator-width solid $white;
+
+  &.viewable {
+    color: $primary;
+    cursor: pointer;
 
     &:hover {
-      background-color: #2562A7;
+      border-left: $active-indicator-width solid $primary;
     }
   }
-}
-li {
-  margin-left: 10px;
-}
-h2 {
-  display: inline-block;
-}
-
-#organizations-list {
-  padding: 10px;
-  border-style: solid;
-  border-color: lightgray;
-  border-radius: 5px;
-  width: 50%;
-  margin: 20px;
-  font-weight: bold;
-
-
 }

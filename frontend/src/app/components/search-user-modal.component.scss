@@ -1,33 +1,14 @@
-@import '../../variables';
+.modal-body.full-height .row.full-height {
+  height: calc(100% - 54px);
+}
+
+.content-box {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
 
 .search-results {
-  .search-result {
-    font-size: small;
-    cursor: pointer;
-    border: 1px solid #bbb;
-    margin-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    box-shadow: 2px 2px 2px #7e9cad;
-    overflow-wrap: break-word;
-
-    &.selected {
-      color: inherit;
-      background-color: $lighter;
-      border: 1px solid $dark;
-      box-shadow: 2px 2px 2px $dark;
-    }
-
-    h6 {
-      margin-top: 0.5rem;
-    }
-
-    .origin {
-      font-size: x-small;
-      border-top: #dddddd solid 1px;
-      margin: 0 10px 0 0;
-      width: calc(100% - 10px);
-      display: inline-block;
-    }
-  }
+  height: 100%;
+  overflow-y: auto;
 }

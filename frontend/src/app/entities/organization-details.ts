@@ -1,4 +1,4 @@
-import { Localizable } from './localization';
+import { Localizable } from 'yti-common-ui/types/localization';
 import { Organization } from '../apina';
 
 export class OrganizationDetails {

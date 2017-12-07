@@ -4,56 +4,52 @@ import { LocationService } from '../services/location.service';
 import { ApiService } from '../services/api.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { Localizable } from '../entities/localization';
-import { requireDefined } from '../utils/object';
-import { index } from '../utils/array';
+import { Localizable } from 'yti-common-ui/types/localization';
+import { requireDefined } from 'yti-common-ui/utils/object';
+import { index } from 'yti-common-ui/utils/array';
+import { FilterOptions } from 'yti-common-ui/components/filter-dropdown.component';
+import { LanguageService } from '../services/language.service';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-users',
   template: `
-    <div class="container" *ngIf="!loading">
-      <h2 translate>Users</h2>
+    <app-ajax-loading-indicator *ngIf="loading"></app-ajax-loading-indicator>
 
-      <div class="row filters">
-        <div class="col-12">
+    <h1 translate>Users</h1>
 
-          <input #searchInput
-                 type="text"
-                 class="form-control filter"
-                 placeholder="{{'Search user...' | translate}}"
-                 [(ngModel)]="search"/>
+    <div class="top-actions">
 
-          <select [(ngModel)]="organization" class="form-control filter">
-            <option [value]="''" translate>All organizations</option>
-            <option *ngFor="let o of organizations" [value]="o.id">
-              {{ o.name | translateValue }}
-            </option>
-          </select>
-
-          <select [(ngModel)]="role" class="form-control filter">
-            <option [value]="''" translate>All roles</option>
-            <option *ngFor="let r of roles" [value]="r">
-              {{ r | translate}}
-            </option>
-          </select>
-        </div>
-
+      <div class="input-group input-group-search pull-left">
+        <input #searchInput
+               type="text"
+               class="form-control"
+               placeholder="{{'Search user' | translate}}"
+               [(ngModel)]="search" />
       </div>
 
-      <div class="results">
-        <div class="result" *ngFor="let user of users$ | async">
-          <h4>{{user.displayName}} <span class="email">({{user.email}})</span></h4>
-          <ul>
-            <li *ngFor="let organization of user.organizations">
-              <a [routerLink]="['/organization', organization.id]">
-                {{organization.name | translateValue}}
-              </a>:
-              <span *ngFor="let role of organization.roles; let last = last">
+      <app-filter-dropdown [options]="organizationOptions"
+                           [filterSubject]="organization$"
+                           class="pull-left ml-2"></app-filter-dropdown>
+
+      <app-filter-dropdown [options]="roleOptions"
+                           [filterSubject]="role$"
+                           class="pull-left ml-2"></app-filter-dropdown>
+    </div>
+
+    <div class="results">
+      <div class="result" *ngFor="let user of users$ | async">
+        <h4>{{user.displayName}} <span class="email">({{user.email}})</span></h4>
+        <ul>
+          <li *ngFor="let organization of user.organizations">
+            <a [routerLink]="['/organization', organization.id]">
+              {{organization.name | translateValue}}
+            </a>:
+            <span *ngFor="let role of organization.roles; let last = last">
                 <span class="role">{{role | translate}}</span><span [hidden]="last">,</span>
               </span>
-            </li>
-          </ul>
-        </div>
+          </li>
+        </ul>
       </div>
     </div>
   `,
@@ -61,26 +57,33 @@ import { index } from '../utils/array';
 })
 export class UsersComponent {
 
-  roles: string[];
-  organizations: OrganizationListItem[];
+  roleOptions: FilterOptions<string>;
+  organizationOptions: FilterOptions<OrganizationListItem>;
 
   search$ = new BehaviorSubject('');
-  role$ = new BehaviorSubject<string>('');
-  organization$ = new BehaviorSubject<string>('');
+  role$ = new BehaviorSubject<string|null>(null);
+  organization$ = new BehaviorSubject<OrganizationListItem|null>(null);
 
   users$: Observable<UserViewModel[]>;
 
   constructor(private apiService: ApiService,
-              private locationService: LocationService) {
-
-    locationService.atUsers();
+              private locationService: LocationService,
+              languageService: LanguageService,
+              translateService: TranslateService) {
 
     this.apiService.getAllRoles().subscribe(roles => {
-      this.roles = roles;
+      this.roleOptions = [null, ...roles].map(role => ({
+        value: role,
+        name: () => translateService.instant(role ? role : 'All roles')
+      }));
     });
 
     this.apiService.getOrganizationList().subscribe(organizations => {
-      this.organizations = organizations;
+
+      this.organizationOptions = [null, ...organizations].map(org => ({
+        value: org,
+        name: () => org ? languageService.translate(org.name) : translateService.instant('All organizations')
+      }));
 
       const organizationsById = index(organizations, org => org.id);
 
@@ -91,7 +94,7 @@ export class UsersComponent {
             !role || user.organizations.find(org => org.roles.indexOf(role) !== -1);
 
           const organizationMatches = (user: UserViewModel) =>
-            !organization || user.organizations.find(org => org.id === organization) != null;
+            !organization || user.organizations.find(org => org.id === organization.id) != null;
 
           const searchMatchesName = (user: UserViewModel) =>
             !search || user.displayName.toLowerCase().indexOf(search.toLowerCase()) !== -1;
@@ -109,22 +112,22 @@ export class UsersComponent {
   }
 
   get loading() {
-    return this.roles == null || this.organizations == null;
+    return this.roleOptions == null || this.organizationOptions == null;
   }
 
-  get role(): string {
+  get role(): string|null {
     return this.role$.getValue();
   }
 
-  set role(value: string) {
+  set role(value: string|null) {
     this.role$.next(value);
   }
 
-  get organization(): string {
+  get organization(): OrganizationListItem|null {
     return this.organization$.getValue();
   }
 
-  set organization(value: string) {
+  set organization(value: OrganizationListItem|null) {
     this.organization$.next(value);
   }
 

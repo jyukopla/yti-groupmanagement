@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Localizable } from '../entities/localization';
+import { Localizable } from 'yti-common-ui/types/localization';
 import { Subject } from 'rxjs/Subject';
 import { OrganizationDetails } from '../entities/organization-details';
 
@@ -34,9 +34,4 @@ export class LocationService {
   atOrganization(organization: OrganizationDetails): void {
     this.changeLocation([{ label: organization.name }]);
   }
-
-  atUsers(): void {
-    this.changeLocation([users]);
-  }
-
 }

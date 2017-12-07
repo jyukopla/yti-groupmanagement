@@ -3,12 +3,12 @@ package fi.vm.yti.groupmanagement.controller;
 import fi.vm.yti.groupmanagement.model.*;
 import fi.vm.yti.groupmanagement.service.FrontendService;
 import fi.vm.yti.security.AuthenticatedUserProvider;
+import fi.vm.yti.security.YtiUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,8 +31,8 @@ public class FrontendController {
     }
 
     @RequestMapping(value = "/authenticated-user", method = GET, produces = APPLICATION_JSON_VALUE)
-    public AuthenticatedUser getAuthenticatedUser() {
-        return new AuthenticatedUser(userProvider.getUser());
+    public YtiUser getAuthenticatedUser() {
+        return userProvider.getUser();
     }
     
     @RequestMapping(value = "/organizations", method = GET, produces = APPLICATION_JSON_VALUE)

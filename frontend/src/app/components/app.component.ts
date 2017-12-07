@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LanguageService } from '../services/language.service';
+import { LocationService } from '../services/location.service';
 
 @Component({
   selector: 'app-root',
@@ -7,13 +7,19 @@ import { LanguageService } from '../services/language.service';
   template: `
     <ng-template ngbModalContainer></ng-template>
     <app-navigation-bar></app-navigation-bar>
-    <app-breadcrumb></app-breadcrumb>
-    <router-outlet></router-outlet>
-    <app-footer></app-footer>
+    <div class="container-fluid">
+      <app-breadcrumb [location]="location"></app-breadcrumb>
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer [title]="'Group management service' | translate"></app-footer>
   `
 })
 export class AppComponent {
 
-  constructor(languageService: LanguageService /* XXX: injected only to invoke construction logic */) {
+  constructor(private locationService: LocationService) {
+  }
+
+  get location() {
+    return this.locationService.location;
   }
 }

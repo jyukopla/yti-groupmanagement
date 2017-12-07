@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { AuthenticatedUser } from '../entities/authenticated-user';
-import { FrontendEndpoint, UUID } from '../apina';
+import { UUID } from '../apina';
+import { UserService, User } from 'yti-common-ui/services/user.service';
+import { contains } from 'yti-common-ui/utils/array';
 
 @Injectable()
 export class AuthorizationManager {
 
-  user?: AuthenticatedUser;
+  constructor(private userService: UserService) {
+  }
 
-  constructor(private endpoint: FrontendEndpoint) {
-    this.endpoint.getAuthenticatedUser()
-      .map(user => new AuthenticatedUser(user))
-      .subscribe(user => this.user = user);
+  get user(): User {
+    return this.userService.user;
   }
 
   canCreateOrganization(): boolean {
@@ -18,10 +18,14 @@ export class AuthorizationManager {
   }
 
   canBrowseUsers(): boolean {
-    return this.user ? !this.user.superuser || this.user.isAdminInAnyOrganization() : false;
+    return this.user.superuser || this.isAdminInAnyOrganization();
   }
 
   canViewOrganization(organizationId: UUID) {
-    return this.user ? this.user.superuser || this.user.isAdmin(organizationId) : false;
+    return this.user.superuser || this.user.isInRole('ADMIN', organizationId as string);
+  }
+
+  private isAdminInAnyOrganization() {
+    return contains(Array.from(this.user.organizationsInRole.keys()), 'ADMIN');
   }
 }

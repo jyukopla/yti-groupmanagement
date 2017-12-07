@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform, OnDestroy } from '@angular/core';
 import { LanguageService } from '../services/language.service';
-import { Subscription } from 'rxjs';
-import { Localizable } from '../entities/localization';
+import { Subscription } from 'rxjs/subscription';
+import { Localizable } from 'yti-common-ui/types/localization';
 
 @Pipe({
   name: 'translateValue',
@@ -19,7 +19,7 @@ export class TranslateValuePipe implements PipeTransform, OnDestroy {
 
     this.localization = this.languageService.translate(value);
 
-    this.languageService.languageChange$.subscribe(() => {
+    this.languageService.language$.subscribe(() => {
       this.localization = this.languageService.translate(value);
     });
 

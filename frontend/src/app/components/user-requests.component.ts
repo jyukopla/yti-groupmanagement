@@ -33,8 +33,6 @@ import { remove } from 'yti-common-ui/utils/array';
         </tr>
         </tbody>
       </table>
-
-      <hr />
       
     </div>
   `,

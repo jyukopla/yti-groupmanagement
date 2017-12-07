@@ -8,6 +8,8 @@ import { AuthorizationManager } from '../services/authorization-manager.service'
   template: `
     <div class="content-box">
 
+      <app-user-requests></app-user-requests>
+      
       <ngb-tabset>
         <ngb-tab>
           <ng-template ngbTabTitle>
@@ -15,7 +17,6 @@ import { AuthorizationManager } from '../services/authorization-manager.service'
           </ng-template>
 
           <ng-template ngbTabContent>
-            <app-user-requests></app-user-requests>
             <app-organizations></app-organizations>
           </ng-template>
         </ngb-tab>
@@ -26,7 +27,6 @@ import { AuthorizationManager } from '../services/authorization-manager.service'
           </ng-template>
 
           <ng-template ngbTabContent>
-            <app-user-requests></app-user-requests>
             <app-users></app-users>
           </ng-template>
         </ngb-tab>

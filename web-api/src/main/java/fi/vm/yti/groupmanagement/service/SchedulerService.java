@@ -1,6 +1,8 @@
 package fi.vm.yti.groupmanagement.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.MailException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,14 @@ import java.util.List;
 import java.util.Properties;
 
 @Service
+//@PropertySource("classpath:application.properties")
 public class SchedulerService {
+    @Value("${mail.smtp.host}")
+    String host;
+    @Value("${mail.smtp.port}")
+    String port;
+    @Value("${mail.smtp.auth}")
+    String auth;
 
 
     @Autowired
@@ -27,32 +36,11 @@ public class SchedulerService {
         try {
             Properties properties = System.getProperties();
 
-            properties.setProperty("mail.smtp.host", "smtp.pouta.csc.fi");
-            properties.setProperty("mail.smtp.port", "25");
-            properties.setProperty("mail.smtp.auth", "false");
-
-            //TEST google
-            /*final String fromEmail = "";
-            final String password = "";
-            final String toEmail = "";
-            properties.setProperty("mail.smtp.host", "smtp.gmail.com");
-            properties.setProperty("mail.smtp.port", "587");
-            properties.setProperty("mail.smtp.auth", "true");
-            properties.setProperty("mail.smtp.starttls.enable", "true");
-            Authenticator auth = new Authenticator() {
-                //override the getPasswordAuthentication method
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(fromEmail, password);
-                }
-            };
-            */
-            //TEST google
+            properties.setProperty("mail.smtp.host", host);
+            properties.setProperty("mail.smtp.port", port);
+            properties.setProperty("mail.smtp.auth", auth);
 
             Session session = Session.getInstance(properties);
-
-            //Test google
-            //Session session = Session.getInstance(properties, auth);
-            //Test google
 
             MimeMessage mail = new MimeMessage(session);
             InternetAddress[] recipients = new InternetAddress[adminEmails.size()];
@@ -61,7 +49,6 @@ public class SchedulerService {
                 recipients[i] = new InternetAddress(adminEmails.get(i));
             }
 
-            //mail.addRecipient(Message.RecipientType.TO, new InternetAddress(""));
             mail.addRecipients(Message.RecipientType.TO, recipients);
             mail.setFrom(new InternetAddress("no.reply@vrk.fi"));
             mail.setSubject("New access request waiting");

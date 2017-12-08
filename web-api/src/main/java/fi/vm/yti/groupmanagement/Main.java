@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @ComponentScan({"fi.vm.yti"})
 @EnableAsync
-@EnableScheduling
+//@EnableScheduling
 public class Main {
 
     public static void main(String[] args) {

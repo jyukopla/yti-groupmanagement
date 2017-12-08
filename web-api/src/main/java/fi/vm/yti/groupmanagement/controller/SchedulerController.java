@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
+//@RestController
 public class SchedulerController {
     private final FrontendService frontendService;
     private SchedulerService schedulerService;
@@ -26,8 +26,7 @@ public class SchedulerController {
         this.schedulerService = schedulerService;
     }
 
-    //@Scheduled(cron = "0/59 * * * * *", zone = "Europe/Helsinki") //For testing
-    @Scheduled(cron = "0 0/5 * * * ?", zone = "Europe/Helsinki")
+    @Scheduled(cron = "0 */5 * * * ?", zone = "Europe/Helsinki")
     public void getNewAccessRequests() {
         System.out.println("Scheduled job started");
         this.requests = frontendService.getUnsentRequests();

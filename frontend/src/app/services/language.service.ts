@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from 'ng2-translate';
-import { Subject } from 'rxjs/Subject';
-import { Localizable } from 'yti-common-ui/types/localization';
+import { Localizable, Localizer } from 'yti-common-ui/types/localization';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
 export type Language = string;
-
-export interface Localizer {
-  translate(localizable: Localizable): string;
-}
 
 @Injectable()
 export class LanguageService implements Localizer {
@@ -20,6 +16,10 @@ export class LanguageService implements Localizer {
     translateService.setDefaultLang('en');
 
     this.language$.subscribe(lang => this.translateService.use(lang));
+  }
+
+  get translateLanguage$(): Observable<Language> {
+    return this.language$;
   }
 
   get language(): Language {

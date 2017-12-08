@@ -13,8 +13,6 @@ import { ApinaConfig, ApinaModule } from './apina';
 import { FrontpageComponent } from './components/frontpage.component';
 import { LanguageService } from './services/language.service';
 import { NavigationBarComponent } from './components/navigation-bar.component';
-import { BreadcrumbComponent } from 'yti-common-ui/components/breadcrumb.component';
-import { FooterComponent } from 'yti-common-ui/components/footer.component';
 import { TranslateValuePipe } from './pipes/translate-value.pipe';
 import { LocationService } from './services/location.service';
 import { UsersComponent } from './components/users.component';
@@ -26,14 +24,7 @@ import { EditOrganizationComponent } from './components/edit-organization.compon
 import { AuthorizationManager } from './services/authorization-manager.service';
 import { UserRequestsComponent } from './components/user-requests.component';
 import { ApiService } from './services/api.service';
-import { AUTHENTICATED_USER_ENDPOINT } from 'yti-common-ui';
-import { UserService } from 'yti-common-ui/services/user.service';
-import { MenuComponent } from 'yti-common-ui/components/menu.component';
-import { LoginModalComponent, LoginModalService } from 'yti-common-ui/components/login-modal.component';
-import { AjaxLoadingIndicatorComponent } from 'yti-common-ui/components/ajax-loading-indicator.component';
-import { DropdownComponent } from 'yti-common-ui/components/dropdown.component';
-import { FilterDropdownComponent } from 'yti-common-ui/components/filter-dropdown.component';
-import { BackButtonComponent } from 'yti-common-ui/components/back-button.component';
+import { YtiCommonModule, AUTHENTICATED_USER_ENDPOINT, LOCALIZER } from 'yti-common-ui';
 import { UserDetailsComponent } from './components/user-details.component';
 
 const localizations: { [lang: string]: string} = {
@@ -80,8 +71,6 @@ const appRoutes: Routes = [
     AppComponent,
     FrontpageComponent,
     NavigationBarComponent,
-    BreadcrumbComponent,
-    FooterComponent,
     TranslateValuePipe,
     UsersComponent,
     OrganizationsComponent,
@@ -90,16 +79,9 @@ const appRoutes: Routes = [
     SearchUserModalComponent,
     OrganizationDetailsComponent,
     UserRequestsComponent,
-    MenuComponent,
-    LoginModalComponent,
-    AjaxLoadingIndicatorComponent,
-    DropdownComponent,
-    FilterDropdownComponent,
-    BackButtonComponent,
     UserDetailsComponent
   ],
   entryComponents: [
-    LoginModalComponent,
     SearchUserModalComponent
   ],
   imports: [
@@ -109,18 +91,18 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
     NgbModule.forRoot(),
-    TranslateModule.forRoot({ provide: TranslateLoader, useFactory: createTranslateLoader })
+    TranslateModule.forRoot({ provide: TranslateLoader, useFactory: createTranslateLoader }),
+    YtiCommonModule
   ],
   providers: [
     { provide: AUTHENTICATED_USER_ENDPOINT, useFactory: resolveAuthenticatedUserEndpoint },
+    { provide: LOCALIZER, useExisting: LanguageService },
     { provide: MissingTranslationHandler, useFactory: createMissingTranslationHandler },
     LanguageService,
     LocationService,
     ApiService,
     AuthorizationManager,
-    LoginModalService,
     SearchUserModalService,
-    UserService,
   ],
   bootstrap: [AppComponent]
 })

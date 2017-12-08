@@ -16,7 +16,7 @@ export class SearchUserModalService {
   }
 
   open(excludedUserEmails: string[]): Promise<User> {
-    const modalRef = this.modalService.open(SearchUserModalComponent, { size: 'lg' });
+    const modalRef = this.modalService.open(SearchUserModalComponent, { size: 'sm' });
     const instance = modalRef.componentInstance as SearchUserModalComponent;
     instance.excludedUserEmails = excludedUserEmails;
     return modalRef.result;
@@ -34,22 +34,31 @@ export class SearchUserModalService {
     </div>
 
     <div class="modal-body full-height">
-      <div class="row">
-        <div class="col-md-6">
+      <div class="row mb-2">
+        <div class="col-12">
           <div class="input-group input-group-lg input-group-search">
-            <input #searchInput type="text" class="form-control" placeholder="{{'Search user...' | translate}}"
+            <input #searchInput
+                   type="text"
+                   class="form-control"
+                   placeholder="{{'Search user' | translate}}"
                    [(ngModel)]="search"/>
           </div>
         </div>
+      </div>
 
-        <div class="col-md-6">
-          <div class="search-results">
-            <div class="search-result"
-                 *ngFor="let user of searchResults$ | async"
-                 (click)="selectUser(user)">
+      <div class="row full-height">
+        <div class="col-12">
+          <div class="content-box">
+            <div class="search-results">
+              <div *ngFor="let user of searchResults$ | async; let last = last"
+                   class="search-result"
+                   (click)="selectUser(user)">
 
-              <h6>{{user.name}}</h6>
-              <p>{{user.email}}</p>
+                <div class="content" [class.last]="last">
+                  <span class="title">{{user.name}}</span>
+                  <span class="body">{{user.email}}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -59,7 +68,7 @@ export class SearchUserModalService {
     <div class="modal-footer">
 
       <button type="button"
-              class="btn btn-secondary cancel"
+              class="btn btn-link cancel"
               (click)="cancel()" translate>Cancel
       </button>
 

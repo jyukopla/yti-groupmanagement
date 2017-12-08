@@ -10,7 +10,13 @@ msgstr ""
 msgid "You are expected at {{time}}', {time: moment.format('H:mm"
 msgstr ""
 
+msgid "Group management service"
+msgstr ""
+
 msgid "Edit organization"
+msgstr ""
+
+msgid "Save"
 msgstr ""
 
 msgid "Users"
@@ -25,25 +31,25 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
+msgid "Remove"
+msgstr ""
+
 msgid "Add user"
 msgstr ""
 
-msgid "Save"
+msgid "ORGANIZATIONS"
 msgstr ""
 
-msgid "Give feedback"
+msgid "USERS"
 msgstr ""
 
-msgid "Source code"
+msgid "LOG IN"
 msgstr ""
 
-msgid "Population Registry Center of Finland"
+msgid "LOG OUT"
 msgstr ""
 
-msgid "licensed under the"
-msgstr ""
-
-msgid "Group management service"
+msgid "User details"
 msgstr ""
 
 msgid "New organization"
@@ -67,16 +73,16 @@ msgstr ""
 msgid "In swedish"
 msgstr ""
 
+msgid "Search organization"
+msgstr ""
+
 msgid "Organizations"
 msgstr ""
 
 msgid "Add new organization"
 msgstr ""
 
-msgid "Browse users"
-msgstr ""
-
-msgid "Search user..."
+msgid "Search user"
 msgstr ""
 
 msgid "Select user"
@@ -85,25 +91,19 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+msgid "Organizations and roles"
+msgstr ""
+
+msgid "Unknown organization"
+msgstr ""
+
 msgid "Access requests"
 msgstr ""
 
-msgid "No requests"
+msgid "Decline"
 msgstr ""
 
-msgid "Organization"
-msgstr ""
-
-msgid "Role"
-msgstr ""
-
-msgid "Add"
-msgstr ""
-
-msgid "All organizations"
-msgstr ""
-
-msgid "All roles"
+msgid "Accept"
 msgstr ""
 
 msgid "Front page"
@@ -119,4 +119,10 @@ msgid "TERMINOLOGY_EDITOR"
 msgstr ""
 
 msgid "CODE_LIST_EDITOR"
+msgstr ""
+
+msgid "All roles"
+msgstr ""
+
+msgid "All organizations"
 msgstr ""

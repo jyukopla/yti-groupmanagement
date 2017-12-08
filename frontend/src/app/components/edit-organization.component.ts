@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { LocationService } from '../services/location.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationDetails } from '../entities/organization-details';
 import { UUID, User } from '../apina';
-import { ignoreModalClose } from '../utils/modal';
+import { ignoreModalClose } from 'yti-common-ui/utils/modal';
 import { SearchUserModalService } from './search-user-modal.component';
 import { ApiService } from '../services/api.service';
 
@@ -11,9 +11,17 @@ import { ApiService } from '../services/api.service';
   selector: 'app-edit-organization',
   styleUrls: ['./edit-organization.component.scss'],
   template: `
-    <div class="container" *ngIf="organization">
+    <div class="content-box" *ngIf="organization">
 
-      <h2 translate>Edit organization</h2>
+      <app-back-button (back)="back()"></app-back-button>
+
+      <div class="clearfix">
+        <h1 class="pull-left" translate>Edit organization</h1>
+        
+        <button type="submit"
+                class="btn btn-action pull-right"
+                (click)="saveOrganization()" translate>Save</button>
+      </div>
 
       <app-organization-details [organization]="organization" ></app-organization-details>
 
@@ -35,23 +43,26 @@ import { ApiService } from '../services/api.service';
           <td>{{user.email}}</td>
           <td *ngFor="let role of availableRoles" class="check">
             <input type="checkbox"
-                   [checked]="user.isInRole(role)" 
+                   [checked]="user.isInRole(role)"
                    [disabled]="isRoleDisabledForUser(user, role)"
                    (click)="user.toggleRole(role)" />
           </td>
-          <td><i class="fa fa-trash" (click)="removeUser(user)" *ngIf="canRemove(user)"></i></td>
+          <td>
+            <button class="btn btn-link btn-sm"
+                    (click)="removeUser(user)"
+                    *ngIf="canRemove(user)">
+              <i class="fa fa-trash"></i>
+              <span translate>Remove</span>
+            </button>
+          </td>
         </tr>
         </tbody>
       </table>
 
       <div class="actions">
-          <button type="button"
-                  class="btn btn-default"
-                  (click)="addUser()" translate>Add user</button>
-
-          <button type="submit"
-                  class="btn btn-success"
-                  (click)="saveOrganization()" translate>Save</button>
+        <button type="button"
+                class="btn btn-action"
+                (click)="addUser()" translate>Add user</button>
       </div>
     </div>
   `
@@ -66,7 +77,8 @@ export class EditOrganizationComponent {
   constructor(private route: ActivatedRoute,
               locationService: LocationService,
               private searchUserModal: SearchUserModalService,
-              private apiService: ApiService) {
+              private apiService: ApiService,
+              private router: Router) {
 
     const organizationWithUsers$ = route.params.flatMap(params => {
       const organizationId = params['id'];
@@ -116,6 +128,10 @@ export class EditOrganizationComponent {
   saveOrganization() {
     this.apiService.updateOrganization(this.organizationId, this.organization, this.users).subscribe(() => {
     });
+  }
+
+  back() {
+    this.router.navigate(['/']);
   }
 }
 

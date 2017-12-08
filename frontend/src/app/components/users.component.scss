@@ -1,28 +1,3 @@
-@import '../../variables';
-
-h2 {
-  padding-bottom: 20px;
-
-  .email {
-    font-size: medium;
-  }
-}
-
-.filters {
-
-  padding-bottom: 50px;
-
-  .filter {
-    width: 300px;
-    float: left;
-    margin-right: 20px;
-  }
-}
-
-.role {
-  font-weight: bold;
-}
-
-.container {
-  margin-bottom: $footer-height +10px;
+.input-group-search {
+  width: 400px;
 }

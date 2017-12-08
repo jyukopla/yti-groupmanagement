@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2017-11-21 15:45+0200\n"
+"PO-Revision-Date: 2017-12-07 21:15+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fi\n"
@@ -19,8 +19,14 @@ msgstr ""
 msgid "You are expected at {{time}}', {time: moment.format('H:mm"
 msgstr ""
 
+msgid "Group management service"
+msgstr "Ryhmienhallintapalvelu"
+
 msgid "Edit organization"
 msgstr "Muokkaa organisaatiota"
+
+msgid "Save"
+msgstr "Tallenna"
 
 msgid "Users"
 msgstr "Käyttäjät"
@@ -34,26 +40,26 @@ msgstr "Nimi"
 msgid "Email"
 msgstr "Sähköposti"
 
+msgid "Remove"
+msgstr "Poista"
+
 msgid "Add user"
 msgstr "Lisää käyttäjä"
 
-msgid "Save"
-msgstr "Tallenna"
+msgid "ORGANIZATIONS"
+msgstr "ORGANISAATIOT"
 
-msgid "Give feedback"
-msgstr "Anna palautetta"
+msgid "USERS"
+msgstr "KÄYTTÄJÄT"
 
-msgid "Source code"
-msgstr "Lähdekoodi"
+msgid "LOG IN"
+msgstr "KIRJAUDU SISÄÄN"
 
-msgid "Population Registry Center of Finland"
-msgstr "VRK - Väestörekisterikeskus"
+msgid "LOG OUT"
+msgstr "KIRJAUDU ULOS"
 
-msgid "licensed under the"
-msgstr "lisenssillä"
-
-msgid "Group management service"
-msgstr "Ryhmienhallintapalvelu"
+msgid "User details"
+msgstr "Käyttäjätiedot"
 
 msgid "New organization"
 msgstr "Uusi organisaatio"
@@ -76,17 +82,17 @@ msgstr "Englanniksi"
 msgid "In swedish"
 msgstr "Ruotsiksi"
 
+msgid "Search organization"
+msgstr "Hae organisaatiota"
+
 msgid "Organizations"
 msgstr "Organisaatiot"
 
 msgid "Add new organization"
 msgstr "Lisää uusi organisaatio"
 
-msgid "Browse users"
-msgstr "Selaa käyttäjiä"
-
-msgid "Search user..."
-msgstr "Hae käyttäjää..."
+msgid "Search user"
+msgstr "Hae käyttäjää"
 
 msgid "Select user"
 msgstr "Valitse käyttäjä"
@@ -94,26 +100,20 @@ msgstr "Valitse käyttäjä"
 msgid "Cancel"
 msgstr "Peruuta"
 
+msgid "Organizations and roles"
+msgstr "Organisaatio ja roolit"
+
+msgid "Unknown organization"
+msgstr "Tuntematon organisaatio"
+
 msgid "Access requests"
 msgstr "Käyttöoikeuspyynnöt"
 
-msgid "No requests"
-msgstr "Ei pyyntöjä"
+msgid "Decline"
+msgstr "Hylkää"
 
-msgid "Organization"
-msgstr "Organisaatio"
-
-msgid "Role"
-msgstr "Rooli"
-
-msgid "Add"
-msgstr "Lisää"
-
-msgid "All organizations"
-msgstr "Kaikki organisaatiot"
-
-msgid "All roles"
-msgstr "Kaikki roolit"
+msgid "Accept"
+msgstr "Hyväksy"
 
 msgid "Front page"
 msgstr "Etusivu"
@@ -129,6 +129,42 @@ msgstr "Sanastotyöntekijä"
 
 msgid "CODE_LIST_EDITOR"
 msgstr "Koodistotyöntekijä"
+
+msgid "All roles"
+msgstr "Kaikki roolit"
+
+msgid "All organizations"
+msgstr "Kaikki organisaatiot"
+
+#~ msgid "Browse users"
+#~ msgstr "Selaa käyttäjiä"
+
+#~ msgid "Search user..."
+#~ msgstr "Hae käyttäjää..."
+
+#~ msgid "Organization"
+#~ msgstr "Organisaatio"
+
+#~ msgid "Role"
+#~ msgstr "Rooli"
+
+#~ msgid "No requests"
+#~ msgstr "Ei pyyntöjä"
+
+#~ msgid "Add"
+#~ msgstr "Lisää"
+
+#~ msgid "Give feedback"
+#~ msgstr "Anna palautetta"
+
+#~ msgid "Source code"
+#~ msgstr "Lähdekoodi"
+
+#~ msgid "Population Registry Center of Finland"
+#~ msgstr "VRK - Väestörekisterikeskus"
+
+#~ msgid "licensed under the"
+#~ msgstr "lisenssillä"
 
 #~ msgid "User list"
 #~ msgstr "Käyttäjälistaus"

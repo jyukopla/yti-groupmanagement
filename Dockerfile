@@ -1,5 +1,7 @@
 FROM openjdk:8-jdk-alpine
 
+RUN apk add --update git
+
 ADD web-api/build/libs/yti-groupmanagement.jar yti-groupmanagement.jar
 
 ADD *.properties ./

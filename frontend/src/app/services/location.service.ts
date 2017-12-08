@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Localizable } from '../entities/localization';
+import { Localizable } from 'yti-common-ui/types/localization';
 import { Subject } from 'rxjs/Subject';
 import { OrganizationDetails } from '../entities/organization-details';
 
@@ -11,7 +11,6 @@ export interface Location {
 
 const frontPage = { localizationKey: 'Front page', route: [''] };
 const newOrganization = { localizationKey: 'Add new organization' };
-const users = { localizationKey: 'Users' };
 
 @Injectable()
 export class LocationService {
@@ -35,8 +34,7 @@ export class LocationService {
     this.changeLocation([{ label: organization.name }]);
   }
 
-  atUsers(): void {
-    this.changeLocation([users]);
+  atUserDetails() {
+    this.changeLocation([{ localizationKey: 'User details' }]);
   }
-
 }

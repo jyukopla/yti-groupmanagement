@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from 'ng2-translate';
-import { Subject } from 'rxjs';
-import { Localizable } from '../entities/localization';
+import { Subject } from 'rxjs/Subject';
+import { Localizable } from 'yti-common-ui/types/localization';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export type Language = string;
 
@@ -12,24 +13,23 @@ export interface Localizer {
 @Injectable()
 export class LanguageService implements Localizer {
 
-  private _language: Language;
-  languageChange$ = new Subject<Language>();
+  language$ = new BehaviorSubject<Language>('fi');
 
   constructor(private translateService: TranslateService) {
-    this._language = 'fi';
     translateService.addLangs(['fi', 'en']);
-    translateService.use('fi');
     translateService.setDefaultLang('en');
+
+    this.language$.subscribe(lang => this.translateService.use(lang));
   }
 
   get language(): Language {
-    return this._language;
+    return this.language$.getValue();
   }
 
   set language(language: Language) {
-    this._language = language;
-    this.translateService.use(language);
-    this.languageChange$.next(language);
+    if (this.language !== language) {
+      this.language$.next(language);
+    }
   }
 
   translate(localizable: Localizable) {

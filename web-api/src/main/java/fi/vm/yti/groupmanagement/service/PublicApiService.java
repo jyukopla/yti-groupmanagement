@@ -3,6 +3,7 @@ package fi.vm.yti.groupmanagement.service;
 import fi.vm.yti.groupmanagement.dao.PublicApiDao;
 import fi.vm.yti.groupmanagement.model.PublicApiOrganization;
 import fi.vm.yti.groupmanagement.model.PublicApiUser;
+import fi.vm.yti.groupmanagement.model.PublicApiUserListItem;
 import fi.vm.yti.groupmanagement.model.PublicApiUserRequest;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,10 @@ public class PublicApiService {
     @Transactional
     public List<PublicApiUserRequest> getUserRequests(String email) {
         return this.publicApiDao.getUserRequests(email);
+    }
+
+    @Transactional
+    public List<PublicApiUserListItem> getUsers() {
+        return this.publicApiDao.getUsers();
     }
 }

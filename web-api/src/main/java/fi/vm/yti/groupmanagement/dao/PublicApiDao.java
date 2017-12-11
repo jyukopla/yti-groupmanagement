@@ -1,9 +1,6 @@
 package fi.vm.yti.groupmanagement.dao;
 
-import fi.vm.yti.groupmanagement.model.PublicApiOrganization;
-import fi.vm.yti.groupmanagement.model.PublicApiUser;
-import fi.vm.yti.groupmanagement.model.PublicApiUserOrganization;
-import fi.vm.yti.groupmanagement.model.PublicApiUserRequest;
+import fi.vm.yti.groupmanagement.model.*;
 import org.dalesbred.Database;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -54,6 +51,10 @@ public class PublicApiDao {
                         "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id", email);
 
         return requireSingleOrNone(rowsToAuthorizationUsers(rows));
+    }
+
+    public List<PublicApiUserListItem> getUsers() {
+        return database.findAll(PublicApiUserListItem.class, "SELECT u.email, u.firstName, u.lastName FROM \"user\" u");
     }
 
     public @NotNull List<PublicApiOrganization> getOrganizations() {

@@ -2,6 +2,7 @@ package fi.vm.yti.groupmanagement.controller;
 
 import fi.vm.yti.groupmanagement.model.PublicApiOrganization;
 import fi.vm.yti.groupmanagement.model.PublicApiUser;
+import fi.vm.yti.groupmanagement.model.PublicApiUserListItem;
 import fi.vm.yti.groupmanagement.model.PublicApiUserRequest;
 import fi.vm.yti.groupmanagement.service.PublicApiService;
 import org.jetbrains.annotations.NotNull;
@@ -42,6 +43,11 @@ public class PublicApiController {
         } else {
             return this.publicApiService.getUser(email);
         }
+    }
+
+    @RequestMapping(value = "/users", method = GET, produces = APPLICATION_JSON_VALUE)
+    public List<PublicApiUserListItem> getUsers() {
+        return this.publicApiService.getUsers();
     }
 
     @RequestMapping(value = "/organizations", method = GET, produces = APPLICATION_JSON_VALUE)

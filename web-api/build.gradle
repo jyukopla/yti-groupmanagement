@@ -4,9 +4,6 @@ buildscript {
     }
     dependencies {
         classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '3.2.0')
-        classpath(group: 'javax.mail', name: 'javax.mail-api', version: '1.5.1')
-
-
     }
 }
 
@@ -62,7 +59,7 @@ dependencies {
 
     compile group: 'javax.mail', name: 'mail', version: '1.4'
     compile group: 'javax.mail', name: 'javax.mail-api', version: '1.5.1'
-    compile("org.springframework.boot:spring-boot-starter-mail")
+    compile "org.springframework.boot:spring-boot-starter-mail"
 
     compileOnly "org.springframework.boot:spring-boot-configuration-processor"
 

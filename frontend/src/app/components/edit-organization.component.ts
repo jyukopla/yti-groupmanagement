@@ -51,7 +51,7 @@ import { ApiService } from '../services/api.service';
             <button class="btn btn-link btn-sm"
                     (click)="removeUser(user)"
                     *ngIf="canRemove(user)">
-              <i class="fa fa-trash"></i>
+              <span class="fa fa-trash"></span>
               <span translate>Remove</span>
             </button>
           </td>

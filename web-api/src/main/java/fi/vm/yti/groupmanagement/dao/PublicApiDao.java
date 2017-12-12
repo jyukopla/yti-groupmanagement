@@ -54,7 +54,8 @@ public class PublicApiDao {
     }
 
     public List<PublicApiUserListItem> getUsers() {
-        return database.findAll(PublicApiUserListItem.class, "SELECT u.email, u.firstName, u.lastName FROM \"user\" u");
+        return database.findAll(PublicApiUserListItem.class,
+                "SELECT email, firstName, lastName FROM \"user\" ORDER BY lastname, firstname");
     }
 
     public @NotNull List<PublicApiOrganization> getOrganizations() {

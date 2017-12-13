@@ -130,6 +130,15 @@ msgstr "Terminology editor"
 msgid "CODE_LIST_EDITOR"
 msgstr "Code list editor"
 
+msgid "Confirm remove"
+msgstr ""
+
+msgid "This user will be removed from organization after the changes are saved."
+msgstr ""
+
+msgid "Are you sure that you want to remove?"
+msgstr ""
+
 #~ msgid "User list"
 #~ msgstr "Users"
 

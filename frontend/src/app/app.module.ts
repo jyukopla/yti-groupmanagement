@@ -26,6 +26,10 @@ import { UserRequestsComponent } from './components/user-requests.component';
 import { ApiService } from './services/api.service';
 import { YtiCommonModule, AUTHENTICATED_USER_ENDPOINT, LOCALIZER } from 'yti-common-ui';
 import { UserDetailsComponent } from './components/user-details.component';
+import {
+  DeleteConfirmationModalComponent,
+  DeleteConfirmationModalService
+} from './components/delete-confirmation-modal.component'
 
 const localizations: { [lang: string]: string} = {
   fi: Object.assign({},
@@ -79,10 +83,12 @@ const appRoutes: Routes = [
     SearchUserModalComponent,
     OrganizationDetailsComponent,
     UserRequestsComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    DeleteConfirmationModalComponent
   ],
   entryComponents: [
-    SearchUserModalComponent
+    SearchUserModalComponent,
+    DeleteConfirmationModalComponent
   ],
   imports: [
     BrowserModule,
@@ -103,6 +109,7 @@ const appRoutes: Routes = [
     ApiService,
     AuthorizationManager,
     SearchUserModalService,
+    DeleteConfirmationModalService
   ],
   bootstrap: [AppComponent]
 })

@@ -6,6 +6,7 @@ import { UUID, User } from '../apina';
 import { ignoreModalClose } from 'yti-common-ui/utils/modal';
 import { SearchUserModalService } from './search-user-modal.component';
 import { ApiService } from '../services/api.service';
+import {DeleteConfirmationModalService} from "./delete-confirmation-modal.component";
 
 @Component({
   selector: 'app-edit-organization',
@@ -77,6 +78,7 @@ export class EditOrganizationComponent {
   constructor(private route: ActivatedRoute,
               locationService: LocationService,
               private searchUserModal: SearchUserModalService,
+              private deleteUserModal: DeleteConfirmationModalService,
               private apiService: ApiService,
               private router: Router) {
 
@@ -122,7 +124,8 @@ export class EditOrganizationComponent {
   }
 
   removeUser(user: UserViewModel) {
-    this.users.splice(this.users.indexOf(user), 1);
+    this.deleteUserModal.open(user.name)
+      .then( () => this.users.splice(this.users.indexOf(user), 1)).catch(reason => 'cancel');
   }
 
   saveOrganization() {

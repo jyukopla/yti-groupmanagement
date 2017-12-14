@@ -6,7 +6,7 @@ import { UUID, User } from '../apina';
 import { ignoreModalClose } from 'yti-common-ui/utils/modal';
 import { SearchUserModalService } from './search-user-modal.component';
 import { ApiService } from '../services/api.service';
-import {DeleteConfirmationModalService} from "./delete-confirmation-modal.component";
+import { DeleteConfirmationModalService } from './delete-confirmation-modal.component';
 
 @Component({
   selector: 'app-edit-organization',
@@ -125,7 +125,7 @@ export class EditOrganizationComponent {
 
   removeUser(user: UserViewModel) {
     this.deleteUserModal.open(user.name)
-      .then( () => this.users.splice(this.users.indexOf(user), 1)).catch(reason => 'cancel');
+      .then(() => this.users.splice(this.users.indexOf(user), 1)).catch(ignoreModalClose);
   }
 
   saveOrganization() {

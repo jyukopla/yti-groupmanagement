@@ -1,6 +1,5 @@
 import { Component, Injectable, Input } from '@angular/core';
-import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 export class DeleteConfirmationModalService {
@@ -15,7 +14,6 @@ export class DeleteConfirmationModalService {
     return modalRef.result;
   }
 }
-
 
 @Component({
   selector: 'app-delete-confirmation-modal',

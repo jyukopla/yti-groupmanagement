@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { LocationService } from '../services/location.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { OrganizationDetails } from '../entities/organization-details';
-import { UUID, User } from '../apina';
-import { ignoreModalClose } from 'yti-common-ui/utils/modal';
-import { SearchUserModalService } from './search-user-modal.component';
-import { ApiService } from '../services/api.service';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {LocationService} from '../services/location.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {OrganizationDetails} from '../entities/organization-details';
+import {UUID, User} from '../apina';
+import {ignoreModalClose} from 'yti-common-ui/utils/modal';
+import {SearchUserModalService} from './search-user-modal.component';
+import {ApiService} from '../services/api.service';
 import {DeleteConfirmationModalService} from "./delete-confirmation-modal.component";
 
 @Component({
@@ -18,13 +18,22 @@ import {DeleteConfirmationModalService} from "./delete-confirmation-modal.compon
 
       <div class="clearfix">
         <h1 class="pull-left" translate>Edit organization</h1>
-        
+
         <button type="submit"
+                id="savebutton"
                 class="btn btn-action pull-right"
-                (click)="saveOrganization()" translate>Save</button>
+                [disabled]="!hasDetailsChanged"
+                (click)="saveOrganization()" translate>Save
+        </button>
+
+        <button type="submit"
+                class="btn btn-link cancel pull-right"
+                (click)="back()" translate>Cancel
+        </button>
       </div>
 
-      <app-organization-details [organization]="organization" ></app-organization-details>
+      <app-organization-details [organization]="organization"
+                                (onDataChanged)="detailsChanged()"></app-organization-details>
 
       <h3 translate>Users</h3>
 
@@ -34,7 +43,9 @@ import {DeleteConfirmationModalService} from "./delete-confirmation-modal.compon
         <tr>
           <th translate>Name</th>
           <th translate>Email</th>
-          <th class="rotate" *ngFor="let role of availableRoles"><div><span>{{role | translate}}</span></div></th>
+          <th class="rotate" *ngFor="let role of availableRoles">
+            <div><span>{{role | translate}}</span></div>
+          </th>
           <th></th>
         </tr>
         </thead>
@@ -46,7 +57,7 @@ import {DeleteConfirmationModalService} from "./delete-confirmation-modal.compon
             <input type="checkbox"
                    [checked]="user.isInRole(role)"
                    [disabled]="isRoleDisabledForUser(user, role)"
-                   (click)="user.toggleRole(role)" />
+                   (click)="user.toggleRole(role) ; detailsChanged()"/>
           </td>
           <td>
             <button class="btn btn-link btn-sm"
@@ -63,7 +74,8 @@ import {DeleteConfirmationModalService} from "./delete-confirmation-modal.compon
       <div class="actions">
         <button type="button"
                 class="btn btn-action"
-                (click)="addUser()" translate>Add user</button>
+                (click)="addUser()" translate>Add user
+        </button>
       </div>
     </div>
   `
@@ -74,6 +86,7 @@ export class EditOrganizationComponent {
   organization: OrganizationDetails;
   users: UserViewModel[];
   availableRoles: string[];
+  public hasDetailsChanged: boolean = false;
 
   constructor(private route: ActivatedRoute,
               locationService: LocationService,
@@ -120,21 +133,27 @@ export class EditOrganizationComponent {
 
   addUser() {
     this.searchUserModal.open(this.organizationUserEmails)
-      .then(user => this.users.push(new UserViewModel(user, [])), ignoreModalClose);
+      .then(user => (this.users.push(new UserViewModel(user, [])), ignoreModalClose, this.hasDetailsChanged = true ));
   }
 
   removeUser(user: UserViewModel) {
     this.deleteUserModal.open(user.name)
-      .then( () => this.users.splice(this.users.indexOf(user), 1)).catch(reason => 'cancel');
+      .then(() => (this.users.splice(this.users.indexOf(user)), 1, this.hasDetailsChanged = true)).catch(reason => 'cancel');
+    this.hasDetailsChanged = true;
   }
 
   saveOrganization() {
     this.apiService.updateOrganization(this.organizationId, this.organization, this.users).subscribe(() => {
     });
+    this.hasDetailsChanged = false;
   }
 
   back() {
     this.router.navigate(['/']);
+  }
+
+  detailsChanged() {
+    this.hasDetailsChanged = true;
   }
 }
 
@@ -144,7 +163,7 @@ class UserViewModel {
   }
 
   get name() {
-    return this.user.firstName +  ' ' + this.user.lastName;
+    return this.user.firstName + ' ' + this.user.lastName;
   }
 
   get email() {
@@ -156,7 +175,6 @@ class UserViewModel {
   }
 
   toggleRole(role: string) {
-
     if (this.isInRole(role)) {
       this.removeRole(role);
     } else {

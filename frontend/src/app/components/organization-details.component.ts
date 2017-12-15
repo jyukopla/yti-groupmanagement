@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input } from '@angular/core';
 import { OrganizationDetails } from '../entities/organization-details';
 
 @Component({
@@ -8,8 +8,7 @@ import { OrganizationDetails } from '../entities/organization-details';
       <div class="col-md-4">
 
         <h4 translate>In finnish</h4>
-
-        <div class="form-group section">
+        <div class="form-group section" name="details" (change)="(dataChanged())" >
           <label for="name_fi" translate>Name</label>
           <input type="text" class="form-control" id="name_fi" [(ngModel)]="organization.nameFi" required>
           <label for="description_fi" translate>Description</label>
@@ -45,10 +44,17 @@ import { OrganizationDetails } from '../entities/organization-details';
       </div>
     </div>
   `,
-  styleUrls: ['./organization-details.component.scss']
+  styleUrls: ['./organization-details.component.scss'],
+  outputs:['onDataChanged']
 })
 export class OrganizationDetailsComponent {
 
   @Input()
   organization: OrganizationDetails;
+
+  public onDataChanged = new EventEmitter();
+
+  dataChanged() {
+    this.onDataChanged.emit();
+  }
 }

@@ -20,7 +20,13 @@ import { ApiService } from '../services/api.service';
         <button type="submit"
                 class="btn btn-action pull-right"
                 [disabled]="organizationAdminUsers.length === 0"
-                (click)="saveOrganization()" translate>Save</button>
+                (click)="saveOrganization()" translate>Save
+        </button>
+
+        <button type="submit"
+                class="btn btn-link cancel pull-right"
+                (click)="back()" translate>Cancel
+        </button>
       </div>
 
       <app-organization-details [organization]="organization" ></app-organization-details>

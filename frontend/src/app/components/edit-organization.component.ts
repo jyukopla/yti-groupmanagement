@@ -1,12 +1,12 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {LocationService} from '../services/location.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {OrganizationDetails} from '../entities/organization-details';
-import {UUID, User} from '../apina';
-import {ignoreModalClose} from 'yti-common-ui/utils/modal';
-import {SearchUserModalService} from './search-user-modal.component';
-import {ApiService} from '../services/api.service';
-import {DeleteConfirmationModalService} from "./delete-confirmation-modal.component";
+import { Component } from '@angular/core';
+import { LocationService } from '../services/location.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { OrganizationDetails } from '../entities/organization-details';
+import { UUID, User } from '../apina';
+import { ignoreModalClose } from 'yti-common-ui/utils/modal';
+import { SearchUserModalService } from './search-user-modal.component';
+import { ApiService } from '../services/api.service';
+import { DeleteConfirmationModalService } from './delete-confirmation-modal.component';
 
 @Component({
   selector: 'app-edit-organization',
@@ -138,8 +138,9 @@ export class EditOrganizationComponent {
 
   removeUser(user: UserViewModel) {
     this.deleteUserModal.open(user.name)
-      .then(() => (this.users.splice(this.users.indexOf(user)), 1, this.hasDetailsChanged = true)).catch(reason => 'cancel');
-    this.hasDetailsChanged = true;
+
+      .then(() => (this.users.splice(this.users.indexOf(user)), 1, this.hasDetailsChanged = true)).catch(ignoreModalClose);
+    //this.hasDetailsChanged = true;
   }
 
   saveOrganization() {

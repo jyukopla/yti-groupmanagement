@@ -38,8 +38,8 @@ export class DeleteConfirmationModalService {
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary confirm" (click)="confirm()" translate>Yes</button>
-      <button type="button" class="btn btn-default cancel" (click)="cancel()" translate>Cancel</button>
+      <button type="button" class="btn btn-action confirm" (click)="confirm()" translate>Yes</button>
+      <button type="button" class="btn btn-link cancel" (click)="cancel()" translate>Cancel</button>
     </div>
   `
 })

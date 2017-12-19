@@ -17,9 +17,9 @@ import { ApiService } from '../services/api.service';
       <div class="clearfix">
         <h1 class="pull-left" translate>New organization</h1>
 
-        <button type="submit"
-                class="btn btn-action pull-right"
+        <button type="submit"  class="btn btn-action pull-right" placement="top" triggers="manual" #p="ngbPopover" (click)="p.open();saveOrganization()" triggers=":mouseleave"
                 [disabled]="organizationAdminUsers.length === 0"
+                ngbPopover="{{'Changes saved' | translate}}"
                 (click)="saveOrganization()" translate>Save
         </button>
 
@@ -68,9 +68,11 @@ export class NewOrganizationComponent {
   }
 
   saveOrganization() {
-    this.apiService.createOrganization(this.organization, this.organizationAdminEmails).subscribe(id => {
-      this.router.navigate(['/organization', id]);
-    });
+    setTimeout(() => {
+      this.apiService.createOrganization(this.organization, this.organizationAdminEmails).subscribe(id => {
+        this.router.navigate(['/organization', id]);
+      });
+    }, 2000)
   }
 
   back() {

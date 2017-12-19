@@ -7,6 +7,7 @@ import { ignoreModalClose } from 'yti-common-ui/utils/modal';
 import { SearchUserModalService } from './search-user-modal.component';
 import { ApiService } from '../services/api.service';
 import { DeleteConfirmationModalService } from './delete-confirmation-modal.component';
+//import { PopoverSaveButton } from "./popover-save.component";
 
 @Component({
   selector: 'app-edit-organization',
@@ -19,13 +20,17 @@ import { DeleteConfirmationModalService } from './delete-confirmation-modal.comp
       <div class="clearfix">
         <h1 class="pull-left" translate>Edit organization</h1>
 
-        <button type="submit"
+        <!--popover-save-button
                 id="savebutton"
-                class="btn btn-action pull-right"
-                [disabled]="!hasDetailsChanged"
+                [disabled] = "!hasDetailsChanged"
                 (click)="saveOrganization()" translate>Save
-        </button>
+        </popover-save-button-->
 
+        <button type="button" class="btn btn-action pull-right" placement="top" triggers="manual" #p="ngbPopover" (click)="p.open();saveOrganization()" triggers=":mouseleave"
+                [disabled] = "!hasDetailsChanged"
+                ngbPopover="{{'Changes saved' | translate}}"
+                translate>Save
+        </button>
         <button type="submit"
                 class="btn btn-link cancel pull-right"
                 (click)="back()" translate>Cancel

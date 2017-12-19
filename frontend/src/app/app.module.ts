@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule, NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 import {
   TranslateModule, TranslateLoader, MissingTranslationHandler,
   MissingTranslationHandlerParams
@@ -30,6 +30,7 @@ import {
   DeleteConfirmationModalComponent,
   DeleteConfirmationModalService
 } from './components/delete-confirmation-modal.component'
+import {PopoverSaveButton} from "./components/popover-save.component";
 
 const localizations: { [lang: string]: string} = {
   fi: Object.assign({},
@@ -84,7 +85,8 @@ const appRoutes: Routes = [
     OrganizationDetailsComponent,
     UserRequestsComponent,
     UserDetailsComponent,
-    DeleteConfirmationModalComponent
+    DeleteConfirmationModalComponent,
+    PopoverSaveButton
   ],
   entryComponents: [
     SearchUserModalComponent,
@@ -99,6 +101,7 @@ const appRoutes: Routes = [
     NgbModule.forRoot(),
     TranslateModule.forRoot({ provide: TranslateLoader, useFactory: createTranslateLoader }),
     YtiCommonModule
+
   ],
   providers: [
     { provide: AUTHENTICATED_USER_ENDPOINT, useFactory: resolveAuthenticatedUserEndpoint },
@@ -109,7 +112,9 @@ const appRoutes: Routes = [
     ApiService,
     AuthorizationManager,
     SearchUserModalService,
-    DeleteConfirmationModalService
+    DeleteConfirmationModalService,
+    NgbPopover
+
   ],
   bootstrap: [AppComponent]
 })

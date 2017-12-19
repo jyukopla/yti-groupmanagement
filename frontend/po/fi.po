@@ -145,6 +145,9 @@ msgstr "Tämä käyttäjä poistetaan organisaatiosta kun muutokset talletetaan.
 msgid "Are you sure that you want to remove?"
 msgstr "Poistetaanko?"
 
+msgid "Changes saved"
+msgstr "Muutokset tallennettu"
+
 #~ msgid "Browse users"
 #~ msgstr "Selaa käyttäjiä"
 

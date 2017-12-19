@@ -139,6 +139,9 @@ msgstr ""
 msgid "Are you sure that you want to remove?"
 msgstr ""
 
+msgid "Changes saved"
+msgstr ""
+
 #~ msgid "User list"
 #~ msgstr "Users"
 

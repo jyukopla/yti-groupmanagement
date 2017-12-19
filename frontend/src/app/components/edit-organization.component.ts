@@ -142,8 +142,9 @@ export class EditOrganizationComponent {
   }
 
   removeUser(user: UserViewModel) {
-    this.deleteUserModal.open(user.name)
-      .then(() => (this.users.splice(this.users.indexOf(user)), 1, this.hasDetailsChanged = true)).catch(ignoreModalClose);
+    this.deleteUserModal.open(user.name, user.email)
+      .then(() => this.users.splice(this.users.indexOf(user), 1)).catch(ignoreModalClose);
+    this.hasDetailsChanged = true;
   }
 
   saveOrganization() {

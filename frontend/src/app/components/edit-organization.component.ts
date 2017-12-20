@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { LocationService } from '../services/location.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationDetails } from '../entities/organization-details';
@@ -7,7 +7,8 @@ import { ignoreModalClose } from 'yti-common-ui/utils/modal';
 import { SearchUserModalService } from './search-user-modal.component';
 import { ApiService } from '../services/api.service';
 import { DeleteConfirmationModalService } from './delete-confirmation-modal.component';
-//import { PopoverSaveButton } from "./popover-save.component";
+import { NotificationDirective } from 'yti-common-ui/components/notification.component';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-edit-organization',
@@ -19,16 +20,13 @@ import { DeleteConfirmationModalService } from './delete-confirmation-modal.comp
 
       <div class="clearfix">
         <h1 class="pull-left" translate>Edit organization</h1>
-
-        <!--popover-save-button
-                id="savebutton"
+        
+        <button type="button" 
+                class="btn btn-action pull-right"
+                appNotification
+                #notification="notification"
+                (click)="saveOrganization()"
                 [disabled] = "!hasDetailsChanged"
-                (click)="saveOrganization()" translate>Save
-        </popover-save-button-->
-
-        <button type="button" class="btn btn-action pull-right" placement="top" triggers="manual" #p="ngbPopover" (click)="p.open();saveOrganization()" triggers=":mouseleave"
-                [disabled] = "!hasDetailsChanged"
-                ngbPopover="{{'Changes saved' | translate}}"
                 translate>Save
         </button>
         <button type="submit"
@@ -87,18 +85,21 @@ import { DeleteConfirmationModalService } from './delete-confirmation-modal.comp
 })
 export class EditOrganizationComponent {
 
+  @ViewChild('notification') notification: NotificationDirective;
+
   organizationId: UUID;
   organization: OrganizationDetails;
   users: UserViewModel[];
   availableRoles: string[];
-  public hasDetailsChanged: boolean = false;
+  public hasDetailsChanged = false;
 
   constructor(private route: ActivatedRoute,
               locationService: LocationService,
               private searchUserModal: SearchUserModalService,
               private deleteUserModal: DeleteConfirmationModalService,
               private apiService: ApiService,
-              private router: Router) {
+              private router: Router,
+              private translateService: TranslateService) {
 
     const organizationWithUsers$ = route.params.flatMap(params => {
       const organizationId = params['id'];
@@ -138,7 +139,10 @@ export class EditOrganizationComponent {
 
   addUser() {
     this.searchUserModal.open(this.organizationUserEmails)
-      .then(user => (this.users.push(new UserViewModel(user, [])), ignoreModalClose, this.hasDetailsChanged = true ));
+      .then(user => {
+        this.users.push(new UserViewModel(user, []));
+        this.hasDetailsChanged = true;
+      }, ignoreModalClose);
   }
 
   removeUser(user: UserViewModel) {
@@ -148,8 +152,11 @@ export class EditOrganizationComponent {
   }
 
   saveOrganization() {
-    this.apiService.updateOrganization(this.organizationId, this.organization, this.users).subscribe(() => {
+    this.apiService.updateOrganization(this.organizationId, this.organization, this.users).subscribe({
+      next: () => this.notification.showSuccess(this.translateService.instant('Changes saved'), 3000, 'left'),
+      error: () => this.notification.showFailure(this.translateService.instant('Save failed'), 3000, 'left')
     });
+
     this.hasDetailsChanged = false;
   }
 

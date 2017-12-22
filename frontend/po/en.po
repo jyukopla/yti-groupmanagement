@@ -142,6 +142,10 @@ msgstr ""
 msgid "Changes saved"
 msgstr ""
 
+msgid "SuperUser"
+msgstr ""
+
+
 #~ msgid "User list"
 #~ msgstr "Users"
 

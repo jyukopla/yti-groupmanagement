@@ -148,6 +148,9 @@ msgstr "Poistetaanko?"
 msgid "Changes saved"
 msgstr "Muutokset tallennettu"
 
+msgid "SuperUser"
+msgstr "Pääkäyttäjä"
+
 #~ msgid "Browse users"
 #~ msgstr "Selaa käyttäjiä"
 

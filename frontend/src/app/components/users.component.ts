@@ -39,8 +39,12 @@ import { TranslateService } from 'ng2-translate';
 
     <div class="results">
       <div class="result" *ngFor="let user of users$ | async">
-        <h4>{{user.displayName}} <span class="email">({{user.email}})</span></h4>
-        <ul>
+        <h4>{{user.displayName}} <span class="email">({{user.email}})
+          
+          <span *ngIf="user.superuser" id="superuser"><br translate>SuperUser</span>
+        </span></h4>
+                
+        <ul>                    
           <li *ngFor="let organization of user.organizations">
             <a [routerLink]="['/organization', organization.id]">
               {{organization.name | translateValue}}
@@ -50,11 +54,13 @@ import { TranslateService } from 'ng2-translate';
               </span>
           </li>
         </ul>
+        <br>
       </div>
     </div>
   `,
   styleUrls: ['./users.component.scss']
 })
+
 export class UsersComponent {
 
   roleOptions: FilterOptions<string>;
@@ -162,4 +168,9 @@ class UserViewModel {
   get displayName() {
     return this.user.lastName + ', ' + this.user.firstName;
   }
+
+  get superuser() {
+    return this.user.superuser;
+  }
+
 }

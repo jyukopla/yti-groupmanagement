@@ -49,8 +49,8 @@ public class EmailSenderService {
             String message = "Sinulle on " + requestCount + " uutta käyttöoikeuspyyntöä organisaatioon '" + organizationNameFi + "':   " + environmentUrl;
             mail.setFrom(createAddress(from));
             mail.setSender(createAddress(from));
-            mail.setSubject("Sinulle on uusia käyttöoikeuspyyntöjä", "text/html; charset=utf-8");
-            mail.setContent(message, "text/html; charset=utf-8");
+            mail.setSubject("Sinulle on uusia käyttöoikeuspyyntöjä", "UTF-8");
+            mail.setText(message, "UTF-8");
 
             javaMailSender.send(mail);
 

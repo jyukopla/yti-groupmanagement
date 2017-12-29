@@ -31,6 +31,8 @@ import {
   DeleteConfirmationModalService
 } from './components/delete-confirmation-modal.component'
 import {PopoverSaveButton} from "./components/popover-save.component";
+import {OrganizationComponent} from "./components/organization.component";
+import {EditOrganizationDetailsComponent} from "./components/edit-organization-details.component";
 
 const localizations: { [lang: string]: string} = {
   fi: Object.assign({},
@@ -67,7 +69,8 @@ export function createMissingTranslationHandler(): MissingTranslationHandler {
 const appRoutes: Routes = [
   { path: '', component: FrontpageComponent },
   { path: 'newOrganization', component: NewOrganizationComponent },
-  { path: 'organization/:id', component: EditOrganizationComponent},
+  { path: 'organization/:id', component: OrganizationComponent},
+  { path: 'editOrganization/:id', component: EditOrganizationComponent},
   { path: 'userDetails', component: UserDetailsComponent }
 ];
 
@@ -86,7 +89,9 @@ const appRoutes: Routes = [
     UserRequestsComponent,
     UserDetailsComponent,
     DeleteConfirmationModalComponent,
-    PopoverSaveButton
+    PopoverSaveButton,
+    OrganizationComponent,
+    EditOrganizationDetailsComponent
   ],
   entryComponents: [
     SearchUserModalComponent,

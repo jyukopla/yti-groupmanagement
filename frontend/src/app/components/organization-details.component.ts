@@ -10,13 +10,13 @@ import { OrganizationDetails } from '../entities/organization-details';
         <h4 translate>In finnish</h4>
         <div class="form-group section" name="details" (change)="(dataChanged())" >
           <label for="name_fi" translate>Name</label>
-          <input type="text" class="form-control" id="name_fi" [(ngModel)]="organization.nameFi" required>
+          <input type="text" class="form-control" id="name_fi" [(ngModel)]="organization.nameFi" disabled>
           <label for="description_fi" translate>Description</label>
-          <textarea id="description_fi" class="form-control" rows="4" [(ngModel)]="organization.descriptionFi"></textarea>
+          <textarea id="description_fi" class="form-control" rows="4" [(ngModel)]="organization.descriptionFi" disabled></textarea>
         </div>
         <p></p>
         <label for="url_input">Url: </label>
-        <input type="text" class="form-control" id="url_input" [(ngModel)]="organization.url">
+        <input type="text" class="form-control" id="url_input" [(ngModel)]="organization.url" disabled>
       </div>
 
       <div class="col-md-4">
@@ -25,9 +25,9 @@ import { OrganizationDetails } from '../entities/organization-details';
 
         <div class="form-group section">
           <label for="name_en" translate>Name</label>
-          <input type="text" class="form-control" id="name_en" [(ngModel)]="organization.nameEn" required>
+          <input type="text" class="form-control" id="name_en" [(ngModel)]="organization.nameEn" disabled>
           <label for="description_en" translate>Description</label>
-          <textarea id="description_en" class="form-control" rows="4" [(ngModel)]="organization.descriptionEn"></textarea>
+          <textarea id="description_en" class="form-control" rows="4" [(ngModel)]="organization.descriptionEn" disabled></textarea>
         </div>
       </div>
 
@@ -37,9 +37,9 @@ import { OrganizationDetails } from '../entities/organization-details';
 
         <div class="form-group section">
           <label for="name_sv" translate>Name</label>
-          <input type="text" class="form-control" id="name_sv" [(ngModel)]="organization.nameSv" required>
+          <input type="text" class="form-control" id="name_sv" [(ngModel)]="organization.nameSv" disabled>
           <label for="description_sv" translate>Description</label>
-          <textarea id="description_sv" class="form-control" rows="4" [(ngModel)]="organization.descriptionSv"></textarea>
+          <textarea id="description_sv" class="form-control" rows="4" [(ngModel)]="organization.descriptionSv" disabled></textarea>
         </div>
       </div>
     </div>

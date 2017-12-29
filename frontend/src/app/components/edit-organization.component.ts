@@ -21,12 +21,12 @@ import { TranslateService } from 'ng2-translate';
       <div class="clearfix">
         <h1 class="pull-left" translate>Edit organization</h1>
         
-        <button type="button" 
+        <button type="button"
+                [disabled] = "!hasDetailsChanged"
                 class="btn btn-action pull-right"
                 appNotification
                 #notification="notification"
-                (click)="saveOrganization()"
-                [disabled] = "!hasDetailsChanged"
+                (click)="hasDetailsChanged=false; saveOrganization();"
                 translate>Save
         </button>
         <button type="submit"
@@ -35,8 +35,8 @@ import { TranslateService } from 'ng2-translate';
         </button>
       </div>
 
-      <app-organization-details [organization]="organization"
-                                (onDataChanged)="detailsChanged()"></app-organization-details>
+      <app-edit-organization-details [organization]="organization"
+                                (onDataChanged)="detailsChanged()"></app-edit-organization-details>
 
       <h3 translate>Users</h3>
 
@@ -158,10 +158,11 @@ export class EditOrganizationComponent {
     });
 
     this.hasDetailsChanged = false;
+  setTimeout(() => {this.router.navigate(['/organization', this.organizationId]);}, 3000);
   }
 
   back() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/organization', this.organizationId]);
   }
 
   detailsChanged() {

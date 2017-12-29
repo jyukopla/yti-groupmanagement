@@ -145,6 +145,8 @@ msgstr ""
 msgid "SuperUser"
 msgstr ""
 
+msgid "Organization"
+msgstr ""
 
 #~ msgid "User list"
 #~ msgstr "Users"

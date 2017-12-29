@@ -151,6 +151,9 @@ msgstr "Muutokset tallennettu"
 msgid "SuperUser"
 msgstr "Pääkäyttäjä"
 
+msgid "Organization"
+msgstr "Organisaatio"
+
 #~ msgid "Browse users"
 #~ msgstr "Selaa käyttäjiä"
 

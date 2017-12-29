@@ -25,6 +25,10 @@ export class AuthorizationManager {
     return this.user.superuser || this.user.isInRole('ADMIN', organizationId as string);
   }
 
+  canEditOrganization(organizationId: UUID) {
+    return this.user.superuser || this.user.isInRole('ADMIN', organizationId as string);
+  }
+
   private isAdminInAnyOrganization() {
     return contains(Array.from(this.user.organizationsInRole.keys()), 'ADMIN');
   }

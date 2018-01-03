@@ -29,7 +29,7 @@ import { ApiService } from '../services/api.service';
         </button>
       </div>
 
-      <app-organization-details [organization]="organization" ></app-organization-details>
+      <app-edit-organization-details [organization]="organization" ></app-edit-organization-details>
 
       <h3 class="mt-4" translate>Admin users</h3>
 

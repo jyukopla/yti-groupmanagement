@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import {Component, Injectable, ViewChild} from '@angular/core';
 import { LocationService } from '../services/location.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, CanDeactivate, Router} from '@angular/router';
 import { OrganizationDetails } from '../entities/organization-details';
 import { UUID, User } from '../apina';
 import { ignoreModalClose } from 'yti-common-ui/utils/modal';
@@ -9,6 +9,7 @@ import { ApiService } from '../services/api.service';
 import { DeleteConfirmationModalService } from './delete-confirmation-modal.component';
 import { NotificationDirective } from 'yti-common-ui/components/notification.component';
 import { TranslateService } from 'ng2-translate';
+import { ConfirmationModalService } from 'yti-common-ui/components/confirmation-modal.component';
 
 @Component({
   selector: 'app-edit-organization',
@@ -83,7 +84,9 @@ import { TranslateService } from 'ng2-translate';
     </div>
   `
 })
-export class EditOrganizationComponent {
+
+@Injectable()
+export class EditOrganizationComponent implements CanDeactivate<EditOrganizationComponent> {
 
   @ViewChild('notification') notification: NotificationDirective;
 
@@ -99,7 +102,8 @@ export class EditOrganizationComponent {
               private deleteUserModal: DeleteConfirmationModalService,
               private apiService: ApiService,
               private router: Router,
-              private translateService: TranslateService) {
+              private translateService: TranslateService,
+              private confirmationModalService: ConfirmationModalService) {
 
     const organizationWithUsers$ = route.params.flatMap(params => {
       const organizationId = params['id'];
@@ -167,6 +171,19 @@ export class EditOrganizationComponent {
 
   detailsChanged() {
     this.hasDetailsChanged = true;
+  }
+
+  canDeactivate() {
+    if (!this.isEditing()) {
+      return Promise.resolve(true);
+    } else {
+      return this.confirmationModalService.openEditInProgress().then(() => true, () => false);
+    }
+  }
+
+  isEditing(): boolean {
+    return this.hasDetailsChanged;
+    //return true;
   }
 }
 

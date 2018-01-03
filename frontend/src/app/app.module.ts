@@ -69,8 +69,8 @@ export function createMissingTranslationHandler(): MissingTranslationHandler {
 const appRoutes: Routes = [
   { path: '', component: FrontpageComponent },
   { path: 'newOrganization', component: NewOrganizationComponent },
-  { path: 'organization/:id', component: OrganizationComponent},
-  { path: 'editOrganization/:id', component: EditOrganizationComponent},
+  { path: 'organization/:id', component: OrganizationComponent },
+  { path: 'editOrganization/:id', component: EditOrganizationComponent, pathMatch: 'full', canDeactivate: [EditOrganizationComponent] },
   { path: 'userDetails', component: UserDetailsComponent }
 ];
 
@@ -118,7 +118,8 @@ const appRoutes: Routes = [
     AuthorizationManager,
     SearchUserModalService,
     DeleteConfirmationModalService,
-    NgbPopover
+    NgbPopover,
+    EditOrganizationComponent
 
   ],
   bootstrap: [AppComponent]

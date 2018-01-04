@@ -20,7 +20,7 @@ import { ApiService } from '../services/api.service';
         <button type="submit"  class="btn btn-action pull-right" placement="top" triggers="manual" #p="ngbPopover" (click)="p.open();saveOrganization()" triggers=":mouseleave"
                 [disabled]="organizationAdminUsers.length === 0"
                 ngbPopover="{{'Changes saved' | translate}}"
-                (click)="saveOrganization()" translate>Save
+                translate>Save
         </button>
 
         <button type="submit"

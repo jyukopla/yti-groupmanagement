@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { LocationService } from '../services/location.service';
 import { SearchUserModalService } from './search-user-modal.component';
 import { ignoreModalClose } from 'yti-common-ui/utils/modal';
@@ -6,6 +6,9 @@ import { User } from '../entities/user';
 import { OrganizationDetails } from '../entities/organization-details';
 import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
+import {NotificationDirective} from "yti-common-ui/components/notification.component";
+import {TranslateService} from "ng2-translate";
+import {UUID} from "../apina";
 
 @Component({
   selector: 'app-new-organization',
@@ -15,11 +18,13 @@ import { ApiService } from '../services/api.service';
       <app-back-button (back)="back()"></app-back-button>
 
       <div class="clearfix">
-        <h1 class="pull-left" translate>New organization</h1>
-
-        <button type="submit"  class="btn btn-action pull-right" placement="top" triggers="manual" #p="ngbPopover" (click)="p.open();saveOrganization()" triggers=":mouseleave"
+        <h1 class="pull-left" translate>New organization</h1>        
+        <button type="button"
                 [disabled]="organizationAdminUsers.length === 0"
-                ngbPopover="{{'Changes saved' | translate}}"
+                class="btn btn-action pull-right"
+                appNotification
+                #notification="notification"
+                (click)="hasDetailsChanged=false; saveOrganization();"
                 translate>Save
         </button>
 
@@ -49,11 +54,14 @@ export class NewOrganizationComponent {
 
   organization = OrganizationDetails.empty();
   organizationAdminUsers: User[] = [];
+  public hasDetailsChanged = false;
+  @ViewChild('notification') notification: NotificationDirective;
 
   constructor(locationService: LocationService,
               private searchModal: SearchUserModalService,
               private apiService: ApiService,
-              private router: Router) {
+              private router: Router,
+              private translateService: TranslateService) {
 
     locationService.atAddNewOrganization();
   }
@@ -68,11 +76,12 @@ export class NewOrganizationComponent {
   }
 
   saveOrganization() {
-    setTimeout(() => {
-      this.apiService.createOrganization(this.organization, this.organizationAdminEmails).subscribe(id => {
-        this.router.navigate(['/organization', id]);
+      this.apiService.createOrganization(this.organization, this.organizationAdminEmails).subscribe( {
+        next: () => this.notification.showSuccess(this.translateService.instant('Changes saved'), 3000, 'left'),
+        error: () => this.notification.showFailure(this.translateService.instant('Save failed'), 3000, 'left'),
       });
-    }, 2000)
+
+    this.hasDetailsChanged = false;
   }
 
   back() {

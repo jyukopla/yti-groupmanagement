@@ -112,7 +112,7 @@ public class PublicApiDao {
                 "SELECT organization_id, array_agg(role_name)\n" +
                         "FROM request\n" +
                         "WHERE user_email = ? \n" +
-                        "GROUP BY id, user_email, organization_id", email);
+                        "GROUP BY organization_id", email);
     }
 
     public static final class OrganizationRow {

@@ -141,12 +141,15 @@ msgstr "Poistamisen hyväksyntä"
 
 msgid "This user will be removed from organization after the changes are saved."
 msgstr "Tämä käyttäjä poistetaan organisaatiosta kun muutokset talletetaan."
-?
+
 msgid "Are you sure that you want to remove?"
 msgstr "Poistetaanko?"
 
 msgid "Changes saved"
 msgstr "Muutokset tallennettu"
+
+msgid "Save failed"
+msgstr "Tallennus epäonnistui"
 
 msgid "SuperUser"
 msgstr "Pääkäyttäjä"

@@ -1,4 +1,5 @@
-import { OrganizationRoles, UserWithRolesInOrganizations } from '../apina';
+import {OrganizationRoles, UserWithRolesInOrganizations} from '../apina';
+
 
 export class User {
 
@@ -6,6 +7,7 @@ export class User {
   lastName: string;
   email: string;
   superuser: boolean;
+  creationDateTime: string;
   organizations: OrganizationRoles[];
 
   constructor(user: UserWithRolesInOrganizations) {
@@ -13,6 +15,7 @@ export class User {
     this.lastName = user.lastName;
     this.email = user.email;
     this.superuser = user.superuser;
+    this.creationDateTime = user.creationDateTime;
     this.organizations = user.organizations;
   }
 

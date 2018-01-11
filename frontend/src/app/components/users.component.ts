@@ -39,10 +39,10 @@ import { TranslateService } from 'ng2-translate';
 
     <div class="results">
       <div class="result" *ngFor="let user of users$ | async">
-        <h4>{{user.displayName}} <span class="email">({{user.email}})
-          
-          <span *ngIf="user.superuser" id="superuser"><br translate>SuperUser</span>
-        </span></h4>
+        <h4>{{user.displayName}} <span class="email">({{user.email}})</span>
+          <div id="time">{{user.creationDateTime}}</div>
+          <div *ngIf="user.superuser" id="superuser"><br translate>SuperUser</div>
+        </h4>
                 
         <ul>                    
           <li *ngFor="let organization of user.organizations">
@@ -171,6 +171,10 @@ class UserViewModel {
 
   get superuser() {
     return this.user.superuser;
+  }
+
+  get creationDateTime() {
+    return this.user.creationDateTime;
   }
 
 }

@@ -9,13 +9,15 @@ public class UserWithRolesInOrganizations {
     public String firstName;
     public String lastName;
     public boolean superuser;
+    public String creationDateTime;
     public List<OrganizationRoles> organizations;
 
-    public UserWithRolesInOrganizations(String email, String firstName, String lastName, boolean superuser, List<OrganizationRoles> organizations) {
+    public UserWithRolesInOrganizations(String email, String firstName, String lastName, boolean superuser, String creationDateTime, List<OrganizationRoles> organizations) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.superuser = superuser;
+        this.creationDateTime = creationDateTime;
         this.organizations = organizations;
     }
 

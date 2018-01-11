@@ -2,15 +2,13 @@ package fi.vm.yti.groupmanagement.dao;
 
 import fi.vm.yti.groupmanagement.model.*;
 import org.dalesbred.Database;
+import org.dalesbred.query.SqlQuery;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static fi.vm.yti.groupmanagement.util.CollectionUtil.requireSingleOrNone;
 import static java.util.Collections.emptyList;
@@ -19,6 +17,7 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.toList;
+import static org.dalesbred.query.SqlQuery.query;
 
 @Repository
 public class PublicApiDao {
@@ -31,10 +30,12 @@ public class PublicApiDao {
     }
 
     public @NotNull PublicApiUser createUser(@NotNull String email, @NotNull String firstName, @NotNull String lastName) {
-        this.database.update("INSERT INTO \"user\" (email, firstName, lastName, superuser) VALUES (?,?,?,?)",
+        SqlQuery query = query("INSERT INTO \"user\" (email, firstName, lastName, superuser) VALUES (?,?,?,?) returning timestamp",
                 email, firstName, lastName, false);
+        String date = this.database.findUnique(Date.class, query).toString();
+        date = date.substring(0, date.length() - 7);
 
-        return new PublicApiUser(email, firstName, lastName, false, true, emptyList());
+        return new PublicApiUser(email, firstName, lastName, false, true, date, emptyList());
     }
 
     public @NotNull PublicApiUser getUser(@NotNull  String email) {
@@ -44,11 +45,11 @@ public class PublicApiDao {
     public @Nullable PublicApiUser findUser(@NotNull  String email) {
 
         List<UserRow> rows = database.findAll(UserRow.class,
-                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, array_agg(uo.role_name) AS roles \n" +
+                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.timestamp, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
                         "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
                         "WHERE u.email = ? \n" +
-                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id", email);
+                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.timestamp", email);
 
         return requireSingleOrNone(rowsToAuthorizationUsers(rows));
     }
@@ -94,7 +95,7 @@ public class PublicApiDao {
                 .map(org -> new PublicApiUserOrganization(org.id, org.roles))
                 .collect(toList());
 
-        return new PublicApiUser(user.email, user.firstName, user.lastName, user.superuser, false, nonNullOrganizations);
+        return new PublicApiUser(user.email, user.firstName, user.lastName, user.superuser, false, user.creationDateTime.toString(), nonNullOrganizations);
     }
 
     private static List<PublicApiUser> rowsToAuthorizationUsers(List<UserRow> rows) {

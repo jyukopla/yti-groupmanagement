@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { OrganizationListItem, UserWithRolesInOrganizations, UUID } from '../apina';
+import { OrganizationListItem, UUID } from '../apina';
 import { LocationService } from '../services/location.service';
 import { ApiService } from '../services/api.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -10,6 +10,7 @@ import { index } from 'yti-common-ui/utils/array';
 import { FilterOptions } from 'yti-common-ui/components/filter-dropdown.component';
 import { LanguageService } from '../services/language.service';
 import { TranslateService } from 'ng2-translate';
+import { User } from '../entities/user';
 
 @Component({
   selector: 'app-users',
@@ -40,7 +41,7 @@ import { TranslateService } from 'ng2-translate';
     <div class="results">
       <div class="result" *ngFor="let user of users$ | async">
         <h4>{{user.displayName}} <span class="email">({{user.email}})</span>
-          <div id="time">{{user.creationDateTime}}</div>
+          <div id="time">{{user.creationDateTime | dateTime }}</div>
           <div *ngIf="user.superuser" id="superuser"><br translate>SuperUser</div>
         </h4>
                 
@@ -150,7 +151,7 @@ class UserViewModel {
 
   organizations: { id: UUID, name: Localizable, roles: string[] }[];
 
-  constructor(private user: UserWithRolesInOrganizations, organizations: Map<UUID, OrganizationListItem>) {
+  constructor(private user: User, organizations: Map<UUID, OrganizationListItem>) {
 
     this.organizations = user.organizations.map(org => {
       return {
@@ -176,5 +177,4 @@ class UserViewModel {
   get creationDateTime() {
     return this.user.creationDateTime;
   }
-
 }

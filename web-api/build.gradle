@@ -46,6 +46,8 @@ dependencies {
     compile "org.flywaydb:flyway-core:3.2.1"
 
     compile "com.fasterxml.jackson.core:jackson-databind"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8"
 
     compile "org.jetbrains:annotations:15.0"
 

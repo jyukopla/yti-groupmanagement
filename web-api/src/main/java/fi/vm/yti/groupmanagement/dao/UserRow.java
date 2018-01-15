@@ -1,6 +1,6 @@
 package fi.vm.yti.groupmanagement.dao;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ public final class UserRow {
                    String lastName,
                    boolean superuser,
                    UUID organizationId,
-                   Date creationDateTime,
+                   LocalDateTime creationDateTime,
                    List<String> roles) {
 
         this.user.email = email;
@@ -31,7 +31,7 @@ public final class UserRow {
         String email;
         String firstName;
         String lastName;
-        Date creationDateTime;
+        LocalDateTime creationDateTime;
         boolean superuser;
 
         @Override

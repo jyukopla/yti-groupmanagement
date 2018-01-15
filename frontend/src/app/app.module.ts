@@ -31,6 +31,7 @@ import {
 } from './components/delete-confirmation-modal.component';
 import { OrganizationComponent } from './components/organization.component';
 import { ConfirmationModalService } from 'yti-common-ui/components/confirmation-modal.component';
+import { FormatDateTimePipe } from './pipes/format-date-time.pipe';
 
 const localizations: { [lang: string]: string} = {
   fi: Object.assign({},
@@ -100,7 +101,8 @@ const appRoutes: Routes = [
     UserRequestsComponent,
     UserDetailsComponent,
     DeleteConfirmationModalComponent,
-    OrganizationComponent
+    OrganizationComponent,
+    FormatDateTimePipe
   ],
   entryComponents: [
     SearchUserModalComponent,

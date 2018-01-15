@@ -1,5 +1,6 @@
-import {OrganizationRoles, UserWithRolesInOrganizations} from '../apina';
-
+import { OrganizationRoles, UserWithRolesInOrganizations } from '../apina';
+import { Moment } from 'moment';
+import * as moment from 'moment';
 
 export class User {
 
@@ -7,7 +8,7 @@ export class User {
   lastName: string;
   email: string;
   superuser: boolean;
-  creationDateTime: string;
+  creationDateTime: Moment;
   organizations: OrganizationRoles[];
 
   constructor(user: UserWithRolesInOrganizations) {
@@ -15,7 +16,7 @@ export class User {
     this.lastName = user.lastName;
     this.email = user.email;
     this.superuser = user.superuser;
-    this.creationDateTime = user.creationDateTime;
+    this.creationDateTime = moment(user.creationDateTime);
     this.organizations = user.organizations;
   }
 

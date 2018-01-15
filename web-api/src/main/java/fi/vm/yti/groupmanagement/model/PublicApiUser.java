@@ -1,7 +1,7 @@
 package fi.vm.yti.groupmanagement.model;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public final class PublicApiUser {
@@ -11,10 +11,10 @@ public final class PublicApiUser {
     private final String lastName;
     private final boolean superuser;
     private final boolean newlyCreated;
-    private final String creationDateTime;
+    private final LocalDateTime creationDateTime;
     private final List<PublicApiUserOrganization> organization;
 
-    public PublicApiUser(String email, String firstName, String lastName, boolean superuser, boolean newlyCreated, String creationDateTime, List<PublicApiUserOrganization> organization) {
+    public PublicApiUser(String email, String firstName, String lastName, boolean superuser, boolean newlyCreated, LocalDateTime creationDateTime, List<PublicApiUserOrganization> organization) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,7 +44,7 @@ public final class PublicApiUser {
         return newlyCreated;
     }
 
-    public String getCreationDateTime() { return creationDateTime; }
+    public LocalDateTime getCreationDateTime() { return creationDateTime; }
 
     public List<PublicApiUserOrganization> getOrganization() {
         return organization;

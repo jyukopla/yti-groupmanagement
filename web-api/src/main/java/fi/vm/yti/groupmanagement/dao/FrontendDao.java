@@ -46,10 +46,8 @@ public class FrontendDao {
                     .filter(org -> org.id != null)
                     .map(org -> new UserWithRolesInOrganizations.OrganizationRoles(org.id, org.roles))
                     .collect(toList());
-            String date = user.creationDateTime.toString();
-            date = date.substring(0, date.length() -7);
 
-            return new UserWithRolesInOrganizations(user.email, user.firstName, user.lastName, user.superuser, date, organizations);
+            return new UserWithRolesInOrganizations(user.email, user.firstName, user.lastName, user.superuser, user.creationDateTime, organizations);
         });
     }
 

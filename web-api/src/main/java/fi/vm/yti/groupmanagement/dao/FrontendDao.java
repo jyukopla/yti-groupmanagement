@@ -28,10 +28,10 @@ public class FrontendDao {
     public List<UserWithRolesInOrganizations> getUsers() {
 
         List<UserRow> rows = db.findAll(UserRow.class,
-                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.timestamp, array_agg(uo.role_name) AS roles \n" +
+                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
                         "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
-                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.timestamp \n" +
+                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at \n" +
                         "ORDER BY u.lastName, u.firstName \n" +
                         "");
 
@@ -68,11 +68,11 @@ public class FrontendDao {
     public @NotNull List<UserWithRoles> getOrganizationUsers(UUID organizationId) {
 
         List<UserRow> rows = db.findAll(UserRow.class,
-                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.timestamp, array_agg(uo.role_name) AS roles \n" +
+                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
                         "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
                         "WHERE uo.organization_id = ? \n" +
-                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.timestamp", organizationId);
+                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at", organizationId);
 
         return mapToList(rows, row -> {
 

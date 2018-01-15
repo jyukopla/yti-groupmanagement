@@ -30,7 +30,7 @@ public class PublicApiDao {
     }
 
     public @NotNull PublicApiUser createUser(@NotNull String email, @NotNull String firstName, @NotNull String lastName) {
-        SqlQuery query = query("INSERT INTO \"user\" (email, firstName, lastName, superuser) VALUES (?,?,?,?) returning timestamp",
+        SqlQuery query = query("INSERT INTO \"user\" (email, firstName, lastName, superuser) VALUES (?,?,?,?) returning created_at",
                 email, firstName, lastName, false);
         String date = this.database.findUnique(Date.class, query).toString();
         date = date.substring(0, date.length() - 7);
@@ -45,11 +45,11 @@ public class PublicApiDao {
     public @Nullable PublicApiUser findUser(@NotNull  String email) {
 
         List<UserRow> rows = database.findAll(UserRow.class,
-                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.timestamp, array_agg(uo.role_name) AS roles \n" +
+                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
                         "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
                         "WHERE u.email = ? \n" +
-                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.timestamp", email);
+                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at", email);
 
         return requireSingleOrNone(rowsToAuthorizationUsers(rows));
     }

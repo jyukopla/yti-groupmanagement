@@ -9,7 +9,6 @@ import {
   UpdateOrganization,
   UserRequestModel,
   UserRequestWithOrganization,
-  UserWithRoles,
   UUID
 } from '../apina';
 import { Observable } from 'rxjs/Observable';
@@ -47,7 +46,7 @@ export class ApiService {
     return this.endpoint.createOrganization(model);
   }
 
-  updateOrganization(id: UUID, org: OrganizationDetails, users: UserWithRoles[]): Observable<void> {
+  updateOrganization(id: UUID, org: OrganizationDetails, userRoles: EmailRole[]): Observable<void> {
 
     const model = new UpdateOrganization();
     const organization = new Organization();
@@ -59,18 +58,6 @@ export class ApiService {
     organization.descriptionEn = org.descriptionEn;
     organization.descriptionFi = org.descriptionFi;
     organization.descriptionSv = org.descriptionSv;
-
-    const userRoles: EmailRole[] = [];
-
-    for (const user of users) {
-      for (const role of user.roles) {
-        const emailRole = new EmailRole();
-        emailRole.role = role;
-        emailRole.userEmail = user.user.email;
-        userRoles.push(emailRole);
-      }
-    }
-
     model.organization = organization;
     model.userRoles = userRoles;
 

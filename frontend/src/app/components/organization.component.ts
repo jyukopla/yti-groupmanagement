@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { LocationService } from '../services/location.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationDetails } from '../entities/organization-details';
-import { User, UUID } from '../apina';
+import { EmailRole, UUID } from '../apina';
 import { ignoreModalClose } from 'yti-common-ui/utils/modal';
 import { SearchUserModalService } from './search-user-modal.component';
 import { ApiService } from '../services/api.service';
@@ -137,7 +137,8 @@ export class OrganizationComponent {
       locationService.atOrganization(organizationDetails);
       this.organizationId = organizationWithUsers.organization.id;
       this.organization = organizationDetails;
-      this.users = organizationWithUsers.users.map(user => new UserViewModel(user.user, user.roles));
+      this.users = organizationWithUsers.users.map(user =>
+        new UserViewModel(user.user.firstName, user.user.lastName, user.user.email, user.roles));
       this.availableRoles = organizationWithUsers.availableRoles;
     });
   }
@@ -200,7 +201,7 @@ export class OrganizationComponent {
   addUser() {
     this.searchUserModal.open(this.organizationUserEmails)
       .then(user => {
-        this.users.push(new UserViewModel(user, []));
+        this.users.push(new UserViewModel(user.firstName, user.lastName, user.email, []));
         this.usersAddedOrRemoved = true;
       }, ignoreModalClose);
   }
@@ -214,7 +215,19 @@ export class OrganizationComponent {
   }
 
   saveOrganization() {
-    this.apiService.updateOrganization(this.organizationId, this.organization, this.users).subscribe({
+
+    const userRoles: EmailRole[] = [];
+
+    for (const user of this.users) {
+      for (const role of user.roles) {
+        const emailRole = new EmailRole();
+        emailRole.role = role;
+        emailRole.userEmail = user.email;
+        userRoles.push(emailRole);
+      }
+    }
+
+    this.apiService.updateOrganization(this.organizationId, this.organization, userRoles).subscribe({
       next: () => {
         this.notification.showSuccess(this.translateService.instant('Changes saved'), 3000, 'left');
         this.editing = false;
@@ -237,15 +250,14 @@ class UserViewModel {
 
   rolesChanged = false;
 
-  constructor(public user: User, public roles: string[]) {
+  constructor(public firstName: string,
+              public lastName: string,
+              public email: string,
+              public roles: string[]) {
   }
 
   get name() {
-    return this.user.firstName + ' ' + this.user.lastName;
-  }
-
-  get email() {
-    return this.user.email;
+    return this.firstName + ' ' + this.lastName;
   }
 
   isInRole(role: string) {
@@ -265,7 +277,7 @@ class UserViewModel {
   }
 
   clone() {
-    return new UserViewModel(this.user, this.roles.slice());
+    return new UserViewModel(this.firstName, this.lastName, this.email, this.roles.slice());
   }
 
   private removeRole(role: string) {

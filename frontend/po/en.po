@@ -151,6 +151,9 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
+msgid "Interoperability platform´s user right management"
+msgstr ""
+
 #~ msgid "User list"
 #~ msgstr "Users"
 

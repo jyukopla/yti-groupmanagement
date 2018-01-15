@@ -157,6 +157,9 @@ msgstr "Pääkäyttäjä"
 msgid "Organization"
 msgstr "Organisaatio"
 
+msgid "Interoperability platform´s user right management"
+msgstr "Yhteentoimivuusvälineistön oikeuksienhallinta"
+
 #~ msgid "Browse users"
 #~ msgstr "Selaa käyttäjiä"
 

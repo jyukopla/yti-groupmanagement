@@ -11,7 +11,7 @@ import { LocationService } from '../services/location.service';
       <app-breadcrumb [location]="location"></app-breadcrumb>
       <router-outlet></router-outlet>
     </div>
-    <app-footer [title]="'Group management service' | translate"></app-footer>
+    <app-footer [title]="'Interoperability platform´s user right management' | translate"></app-footer>
   `
 })
 export class AppComponent {

@@ -15,6 +15,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
 
+import static javax.mail.Message.RecipientType.BCC;
 import static javax.mail.Message.RecipientType.TO;
 
 @Service
@@ -44,8 +45,8 @@ public class EmailSenderService {
     private void sendAccessRequestEmail(List<String> adminEmails, int requestCount, String organizationNameFi) {
         try {
             MimeMessage mail = javaMailSender.createMimeMessage();
-            mail.addRecipients(TO, adminEmails.stream().map(EmailSenderService::createAddress).toArray(Address[]::new));
-            String from = "no.reply@vrk.fi";
+            mail.addRecipients(BCC, adminEmails.stream().map(EmailSenderService::createAddress).toArray(Address[]::new));
+            String from = "yhteentoimivuus@vrk.fi";
             String message = "Sinulle on " + requestCount + " uutta käyttöoikeuspyyntöä organisaatioon '" + organizationNameFi + "':   " + environmentUrl;
             mail.setFrom(createAddress(from));
             mail.setSender(createAddress(from));

@@ -4,11 +4,11 @@ import { OrganizationDetails } from '../entities/organization-details';
 @Component({
   selector: 'app-edit-organization-details',
   template: `
-    <div class="row">
+    <div class="row" (change)="(dataChanged())">
       <div class="col-md-4">
 
         <h4 translate>In finnish</h4>
-        <div class="form-group section" name="details" (change)="(dataChanged())" >
+        <div class="form-group section" name="details">
           <label for="name_fi" translate>Name</label>
           <input type="text" class="form-control" id="name_fi" [(ngModel)]="organization.nameFi" required>
           <label for="description_fi" translate>Description</label>

@@ -2,14 +2,17 @@ import { Component, ViewChild } from '@angular/core';
 import { LocationService } from '../services/location.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationDetails } from '../entities/organization-details';
-import { UUID, User } from '../apina';
+import { User, UUID } from '../apina';
 import { ignoreModalClose } from 'yti-common-ui/utils/modal';
 import { SearchUserModalService } from './search-user-modal.component';
 import { ApiService } from '../services/api.service';
 import { DeleteConfirmationModalService } from './delete-confirmation-modal.component';
 import { NotificationDirective } from 'yti-common-ui/components/notification.component';
 import { TranslateService } from 'ng2-translate';
-import {AuthorizationManager} from "../services/authorization-manager.service";
+import { AuthorizationManager } from '../services/authorization-manager.service';
+import { anyMatching, remove } from 'yti-common-ui/utils/array';
+import { ConfirmationModalService } from 'yti-common-ui/components/confirmation-modal.component';
+import { OrganizationDetailsComponent } from './organization-details.component';
 
 @Component({
   selector: 'app-organization',
@@ -18,18 +21,36 @@ import {AuthorizationManager} from "../services/authorization-manager.service";
     <div class="content-box" *ngIf="organization">
 
       <app-back-button (back)="back()"></app-back-button>
-
+      
       <div class="clearfix">
         <h1 class="pull-left" translate>Organization</h1>
 
-        <button class="btn btn-action pull-right" (click)="editOrganization()"
-                *ngIf="canEditOrganization()">
+        <button class="btn btn-action pull-right" (click)="startEditing()"
+                *ngIf="!editing && !notificationVisible && canEditOrganization()">
           <span translate>Edit organization</span>
         </button>
+
+        <button type="button"
+                *ngIf="editing || notificationVisible"
+                [disabled]="!hasChanges() || !isValid() || notificationVisible"
+                appNotification
+                #notification="notification"
+                class="btn btn-action pull-right"
+                (click)="saveOrganization()"
+                translate>Save
+        </button>
+
+        <button type="submit"
+                class="btn btn-link cancel pull-right"
+                *ngIf="editing || notificationVisible"
+                (click)="cancelEditing()" translate>Cancel
+        </button>
+
       </div>
 
-      <app-organization-details [organization]="organization"
-                                (onDataChanged)="detailsChanged()"></app-organization-details>
+      <app-organization-details #details="details"
+                                [organization]="organization"
+                                [editing]="editing"></app-organization-details>
 
       <h3 translate>Users</h3>
 
@@ -52,13 +73,13 @@ import {AuthorizationManager} from "../services/authorization-manager.service";
           <td *ngFor="let role of availableRoles" class="check">
             <input type="checkbox"
                    [checked]="user.isInRole(role)"
-                   [disabled]="true"
-                   (click)="user.toggleRole(role) ; detailsChanged()"/>
+                   [disabled]="!editing || isRoleDisabledForUser(user, role)"
+                   (click)="user.toggleRole(role)"/>
           </td>
           <td>
             <button class="btn btn-link btn-sm"
                     (click)="removeUser(user)"
-                    *ngIf="canRemove(user)" disabled>
+                    *ngIf="canRemove(user)">
               <span class="fa fa-trash"></span>
               <span translate>Remove</span>
             </button>
@@ -66,24 +87,40 @@ import {AuthorizationManager} from "../services/authorization-manager.service";
         </tr>
         </tbody>
       </table>
-      
+
+      <div *ngIf="editing" class="actions">
+        <button type="button"
+                class="btn btn-action"
+                (click)="addUser()" translate>Add user
+        </button>
+      </div>
+
     </div>
   `
 })
 export class OrganizationComponent {
 
   @ViewChild('notification') notification: NotificationDirective;
+  @ViewChild('details') details: OrganizationDetailsComponent;
 
   organizationId: UUID;
+
   organization: OrganizationDetails;
+  organizationBeforeEditing: OrganizationDetails;
+
   users: UserViewModel[];
+  usersBeforeEditing: UserViewModel[];
+
+  usersAddedOrRemoved = false;
+
   availableRoles: string[];
-  public hasDetailsChanged = false;
+  editing = false;
 
   constructor(private route: ActivatedRoute,
               locationService: LocationService,
               private searchUserModal: SearchUserModalService,
               private deleteUserModal: DeleteConfirmationModalService,
+              private confirmationModalService: ConfirmationModalService,
               private apiService: ApiService,
               private router: Router,
               private translateService: TranslateService,
@@ -105,6 +142,41 @@ export class OrganizationComponent {
     });
   }
 
+  startEditing() {
+    this.editing = true;
+    this.usersBeforeEditing = this.users.map(user => user.clone());
+    this.organizationBeforeEditing = this.organization.clone();
+  }
+
+  cancelEditing() {
+    this.editing = false;
+    this.users = this.usersBeforeEditing;
+    this.organization = this.organizationBeforeEditing;
+    this.setPristine();
+  }
+
+  isValid() {
+    return this.details.isValid();
+  }
+
+  hasChanges() {
+    return this.details.hasChanges() || this.usersAddedOrRemoved || anyMatching(this.users, user => user.rolesChanged);
+  }
+
+  setPristine() {
+
+    this.details.reset();
+    this.usersAddedOrRemoved = false;
+
+    for (const user of this.users) {
+      user.setPristine();
+    }
+  }
+
+  get notificationVisible() {
+    return this.notification ? this.notification.isOpen() : false;
+  }
+
   get adminUserCount() {
     return this.users.filter(user => user.isInRole('ADMIN')).length;
   }
@@ -118,7 +190,7 @@ export class OrganizationComponent {
   }
 
   canRemove(user: UserViewModel) {
-    return !this.isUserLastAdmin(user);
+    return this.editing && !this.isUserLastAdmin(user);
   }
 
   get organizationUserEmails() {
@@ -129,43 +201,41 @@ export class OrganizationComponent {
     this.searchUserModal.open(this.organizationUserEmails)
       .then(user => {
         this.users.push(new UserViewModel(user, []));
-        this.hasDetailsChanged = true;
+        this.usersAddedOrRemoved = true;
       }, ignoreModalClose);
   }
 
   removeUser(user: UserViewModel) {
     this.deleteUserModal.open(user.name, user.email)
-      .then(() => this.users.splice(this.users.indexOf(user), 1)).catch(ignoreModalClose);
-    this.hasDetailsChanged = true;
+      .then(() => {
+        remove(this.users, user);
+        this.usersAddedOrRemoved = true;
+      }, ignoreModalClose);
   }
 
   saveOrganization() {
     this.apiService.updateOrganization(this.organizationId, this.organization, this.users).subscribe({
-      next: () => this.notification.showSuccess(this.translateService.instant('Changes saved'), 3000, 'left'),
+      next: () => {
+        this.notification.showSuccess(this.translateService.instant('Changes saved'), 3000, 'left');
+        this.editing = false;
+        this.setPristine();
+      },
       error: () => this.notification.showFailure(this.translateService.instant('Save failed'), 3000, 'left')
     });
-
-    this.hasDetailsChanged = false;
   }
 
   back() {
     this.router.navigate(['/']);
   }
 
-  detailsChanged() {
-    this.hasDetailsChanged = true;
-  }
-
   canEditOrganization(): boolean {
     return this.authorizationManager.canEditOrganization(this.organizationId);
-  }
-
-  editOrganization() {
-    this.router.navigate(['/editOrganization', this.organizationId]);
   }
 }
 
 class UserViewModel {
+
+  rolesChanged = false;
 
   constructor(public user: User, public roles: string[]) {
   }
@@ -190,11 +260,21 @@ class UserViewModel {
     }
   }
 
+  setPristine() {
+    this.rolesChanged = false;
+  }
+
+  clone() {
+    return new UserViewModel(this.user, this.roles.slice());
+  }
+
   private removeRole(role: string) {
+    this.rolesChanged = true;
     this.roles.splice(this.roles.indexOf(role), 1);
   }
 
   private addRole(role: string) {
+    this.rolesChanged = true;
     this.roles.push(role);
   }
 }

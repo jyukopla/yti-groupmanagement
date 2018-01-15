@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Injectable, NgModule } from '@angular/core';
+import { Routes, RouterModule, CanDeactivate } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {NgbModule, NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -20,7 +20,6 @@ import { OrganizationsComponent } from './components/organizations.component';
 import { OrganizationDetailsComponent } from './components/organization-details.component';
 import { NewOrganizationComponent } from './components/new-organization.component';
 import { SearchUserModalComponent, SearchUserModalService } from './components/search-user-modal.component';
-import { EditOrganizationComponent } from './components/edit-organization.component';
 import { AuthorizationManager } from './services/authorization-manager.service';
 import { UserRequestsComponent } from './components/user-requests.component';
 import { ApiService } from './services/api.service';
@@ -29,10 +28,9 @@ import { UserDetailsComponent } from './components/user-details.component';
 import {
   DeleteConfirmationModalComponent,
   DeleteConfirmationModalService
-} from './components/delete-confirmation-modal.component'
-import {PopoverSaveButton} from "./components/popover-save.component";
-import {OrganizationComponent} from "./components/organization.component";
-import {EditOrganizationDetailsComponent} from "./components/edit-organization-details.component";
+} from './components/delete-confirmation-modal.component';
+import { OrganizationComponent } from './components/organization.component';
+import { ConfirmationModalService } from 'yti-common-ui/components/confirmation-modal.component';
 
 const localizations: { [lang: string]: string} = {
   fi: Object.assign({},
@@ -66,11 +64,25 @@ export function createMissingTranslationHandler(): MissingTranslationHandler {
   };
 }
 
+@Injectable()
+export class ConfirmCancelEditGuard implements CanDeactivate<{ hasChanges(): boolean }> {
+
+  constructor(private confirmationModalService: ConfirmationModalService) {
+  }
+
+  canDeactivate(target: { hasChanges(): boolean }) {
+    if (!target.hasChanges()) {
+      return Promise.resolve(true);
+    } else {
+      return this.confirmationModalService.openEditInProgress().then(() => true, () => false);
+    }
+  }
+}
+
 const appRoutes: Routes = [
   { path: '', component: FrontpageComponent },
-  { path: 'newOrganization', component: NewOrganizationComponent },
-  { path: 'organization/:id', component: OrganizationComponent },
-  { path: 'editOrganization/:id', component: EditOrganizationComponent, pathMatch: 'full', canDeactivate: [EditOrganizationComponent] },
+  { path: 'newOrganization', component: NewOrganizationComponent, canDeactivate: [ConfirmCancelEditGuard] },
+  { path: 'organization/:id', component: OrganizationComponent, canDeactivate: [ConfirmCancelEditGuard] },
   { path: 'userDetails', component: UserDetailsComponent }
 ];
 
@@ -83,15 +95,12 @@ const appRoutes: Routes = [
     UsersComponent,
     OrganizationsComponent,
     NewOrganizationComponent,
-    EditOrganizationComponent,
     SearchUserModalComponent,
     OrganizationDetailsComponent,
     UserRequestsComponent,
     UserDetailsComponent,
     DeleteConfirmationModalComponent,
-    PopoverSaveButton,
-    OrganizationComponent,
-    EditOrganizationDetailsComponent
+    OrganizationComponent
   ],
   entryComponents: [
     SearchUserModalComponent,
@@ -119,8 +128,7 @@ const appRoutes: Routes = [
     SearchUserModalService,
     DeleteConfirmationModalService,
     NgbPopover,
-    EditOrganizationComponent
-
+    ConfirmCancelEditGuard
   ],
   bootstrap: [AppComponent]
 })

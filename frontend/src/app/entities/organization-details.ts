@@ -43,4 +43,16 @@ export class OrganizationDetails {
       'sv': this.descriptionSv
     };
   }
+
+  clone() {
+    return new OrganizationDetails(
+      this.url,
+      this.nameFi,
+      this.nameEn,
+      this.nameSv,
+      this.descriptionFi,
+      this.descriptionEn,
+      this.descriptionSv
+    );
+  }
 }

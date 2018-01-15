@@ -52,7 +52,7 @@ msgstr ""
 msgid "licensed under the"
 msgstr ""
 
-msgid "Group management service"
+msgid "Interoperability platform's user right management"
 msgstr ""
 
 msgid "New organization"

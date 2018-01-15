@@ -19,8 +19,8 @@ msgstr ""
 msgid "You are expected at {{time}}', {time: moment.format('H:mm"
 msgstr ""
 
-msgid "Group management service"
-msgstr "Ryhmienhallintapalvelu"
+msgid "Interoperability platform's user right management"
+msgstr "Yhteentoimivuusvälineistön oikeuksienhallinta"
 
 msgid "Edit organization"
 msgstr "Muokkaa organisaatiota"

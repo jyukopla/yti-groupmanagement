@@ -9,7 +9,7 @@ import { LoginModalService } from 'yti-common-ui/components/login-modal.componen
   template: `
     <nav class="navbar navbar-expand-md navbar-light">
 
-      <a class="navbar-brand" [routerLink]="['/']"><span translate>Group management service</span></a>
+      <a class="navbar-brand" [routerLink]="['/']"><span translate>Interoperability platform's user right management</span></a>
 
       <ul class="navbar-nav ml-auto">
 

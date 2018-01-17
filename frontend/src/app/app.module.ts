@@ -82,8 +82,8 @@ export class ConfirmCancelEditGuard implements CanDeactivate<{ hasChanges(): boo
 
 const appRoutes: Routes = [
   { path: '', component: FrontpageComponent },
-  { path: 'newOrganization', component: NewOrganizationComponent, canDeactivate: [ConfirmCancelEditGuard], runGuardsAndResolvers: always },
-  { path: 'organization/:id', component: OrganizationComponent, canDeactivate: [ConfirmCancelEditGuard], runGuardsAndResolvers: always },
+  { path: 'newOrganization', component: NewOrganizationComponent, canDeactivate: [ConfirmCancelEditGuard] },
+  { path: 'organization/:id', component: OrganizationComponent, canDeactivate: [ConfirmCancelEditGuard] },
   { path: 'userDetails', component: UserDetailsComponent }
 ];
 

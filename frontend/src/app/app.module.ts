@@ -32,6 +32,7 @@ import {
 import { OrganizationComponent } from './components/organization.component';
 import { ConfirmationModalService } from 'yti-common-ui/components/confirmation-modal.component';
 import { FormatDateTimePipe } from './pipes/format-date-time.pipe';
+import { InformationAboutServiceComponent } from './components/information/information-about-service.component';
 
 const localizations: { [lang: string]: string} = {
   fi: Object.assign({},
@@ -84,7 +85,9 @@ const appRoutes: Routes = [
   { path: '', component: FrontpageComponent },
   { path: 'newOrganization', component: NewOrganizationComponent, canDeactivate: [ConfirmCancelEditGuard], runGuardsAndResolvers: "always" },
   { path: 'organization/:id', component: OrganizationComponent, canDeactivate: [ConfirmCancelEditGuard], runGuardsAndResolvers: "always" },
-  { path: 'userDetails', component: UserDetailsComponent }
+  { path: 'userDetails', component: UserDetailsComponent },
+  //{ path: 'information', redirectTo: '#' } // Use null-link as there is no content for the page for now.
+  { path: 'information', component: InformationAboutServiceComponent }
 ];
 
 @NgModule({
@@ -102,7 +105,8 @@ const appRoutes: Routes = [
     UserDetailsComponent,
     DeleteConfirmationModalComponent,
     OrganizationComponent,
-    FormatDateTimePipe
+    FormatDateTimePipe,
+    InformationAboutServiceComponent
   ],
   entryComponents: [
     SearchUserModalComponent,

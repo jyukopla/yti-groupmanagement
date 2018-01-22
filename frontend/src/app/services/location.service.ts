@@ -37,4 +37,11 @@ export class LocationService {
   atUserDetails() {
     this.changeLocation([{ localizationKey: 'User details' }]);
   }
+
+  atInformationAboutService(): void {
+    this.changeLocation([{
+      localizationKey: 'Information about the web service',
+        route: ['information']
+    }]);
+  }
 }

@@ -97,6 +97,12 @@ public class FrontendService {
     }
 
     @Transactional
+    public List<UserWithRolesInOrganizations> getUsersMatchingOrganization(String adminEmail) {
+        check(authorizationManager.canBrowseUsers());
+        return frontendDao.getUsersMatchingOrganization(adminEmail);
+    }
+
+    @Transactional
     public List<UserWithRolesInOrganizations> getUsers() {
         check(authorizationManager.canBrowseUsers());
         return frontendDao.getUsers();

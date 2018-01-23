@@ -15,6 +15,7 @@ import java.util.*;
 import static fi.vm.yti.groupmanagement.util.CollectionUtil.mapToList;
 import static java.util.stream.Collectors.*;
 
+
 @Repository
 public class FrontendDao {
 
@@ -23,6 +24,34 @@ public class FrontendDao {
     @Autowired
     public FrontendDao(Database db) {
         this.db = db;
+    }
+
+    public List<UserWithRolesInOrganizations> getUsersMatchingOrganization(String adminEmail) {
+
+        // Get only users for the organizations which the user is in admin-role
+        List<UserRow> rows = db.findAll(UserRow.class,
+                    "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, array_agg(uo.role_name) AS roles \n" +
+                            "FROM \"user\" u \n" +
+                            "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
+                            "WHERE uo.organization_id IN (SELECT organization_id FROM user_organization WHERE user_email = ? and role_name='ADMIN') \n" +
+                            "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at \n" +
+                            "ORDER BY u.lastName, u.firstName \n" +
+                            "", adminEmail);
+
+        Map<UserRow.UserDetails, List<UserRow.OrganizationDetails>> grouped =
+                rows.stream().collect(groupingBy(row -> row.user, LinkedHashMap::new, mapping(row -> row.organization, toList())));
+
+        return mapToList(grouped.entrySet(), entry -> {
+
+            UserRow.UserDetails user = entry.getKey();
+
+            List<UserWithRolesInOrganizations.OrganizationRoles> organizations = entry.getValue().stream()
+                    .filter(org -> org.id != null)
+                    .map(org -> new UserWithRolesInOrganizations.OrganizationRoles(org.id, org.roles))
+                    .collect(toList());
+
+            return new UserWithRolesInOrganizations(user.email, user.firstName, user.lastName, user.superuser, user.creationDateTime, organizations);
+        });
     }
 
     public List<UserWithRolesInOrganizations> getUsers() {

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import { LocationService } from '../services/location.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationDetails } from '../entities/organization-details';
@@ -98,7 +98,7 @@ import { OrganizationDetailsComponent } from './organization-details.component';
     </div>
   `
 })
-export class OrganizationComponent {
+export class OrganizationComponent implements OnDestroy{
 
   @ViewChild('notification') notification: NotificationDirective;
   @ViewChild('details') details: OrganizationDetailsComponent;
@@ -115,6 +115,8 @@ export class OrganizationComponent {
 
   availableRoles: string[];
   editing = false;
+
+  isModalOpen = false;
 
   constructor(private route: ActivatedRoute,
               locationService: LocationService,
@@ -161,13 +163,15 @@ export class OrganizationComponent {
   }
 
   hasChanges() {
-    return this.details.hasChanges() || this.usersAddedOrRemoved || anyMatching(this.users, user => user.rolesChanged);
+    return this.details.hasChanges() || this.usersAddedOrRemoved || anyMatching(this.users, user => user.rolesChanged) || this.isModalOpen;
   }
 
   setPristine() {
 
     this.details.reset();
     this.usersAddedOrRemoved = false;
+    this.searchUserModal.close();
+    this.isModalOpen=false;
 
     for (const user of this.users) {
       user.setPristine();
@@ -199,11 +203,12 @@ export class OrganizationComponent {
   }
 
   addUser() {
+    this.isModalOpen = true;
     this.searchUserModal.open(this.organizationUserEmails)
       .then(user => {
         this.users.push(new UserViewModel(user.firstName, user.lastName, user.email, []));
         this.usersAddedOrRemoved = true;
-      }, ignoreModalClose);
+      }, ignoreModalClose).then(() => this.isModalOpen=false);
   }
 
   removeUser(user: UserViewModel) {
@@ -243,6 +248,10 @@ export class OrganizationComponent {
 
   canEditOrganization(): boolean {
     return this.authorizationManager.canEditOrganization(this.organizationId);
+  }
+
+  ngOnDestroy() {
+    this.searchUserModal.dismiss();
   }
 }
 

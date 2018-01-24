@@ -86,7 +86,6 @@ const appRoutes: Routes = [
   { path: 'newOrganization', component: NewOrganizationComponent, canDeactivate: [ConfirmCancelEditGuard], runGuardsAndResolvers: "always" },
   { path: 'organization/:id', component: OrganizationComponent, canDeactivate: [ConfirmCancelEditGuard], runGuardsAndResolvers: "always" },
   { path: 'userDetails', component: UserDetailsComponent },
-  //{ path: 'information', redirectTo: '#' } // Use null-link as there is no content for the page for now.
   { path: 'information', component: InformationAboutServiceComponent }
 ];
 

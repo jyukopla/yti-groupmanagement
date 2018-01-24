@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import { LocationService } from '../services/location.service';
 import { SearchUserModalService } from './search-user-modal.component';
 import { ignoreModalClose } from 'yti-common-ui/utils/modal';
@@ -53,11 +53,12 @@ import { OrganizationDetailsComponent } from './organization-details.component';
   `,
   styleUrls: ['./new-organization.component.scss']
 })
-export class NewOrganizationComponent {
+export class NewOrganizationComponent implements OnDestroy{
 
   organization = OrganizationDetails.empty();
   organizationAdminUsers: User[] = [];
   successfullySaved = false;
+  isModalOpen = false;
 
   @ViewChild('notification') notification: NotificationDirective;
   @ViewChild('details') details: OrganizationDetailsComponent;
@@ -80,12 +81,13 @@ export class NewOrganizationComponent {
   }
 
   hasChanges() {
-    return !this.successfullySaved && (this.details.hasChanges() || this.organizationAdminUsers.length > 0);
+    return !this.successfullySaved && (this.details.hasChanges() || this.organizationAdminUsers.length > 0 || this.isModalOpen);
   }
 
   addUser() {
+    this.isModalOpen = true;
     this.searchModal.open(this.organizationAdminEmails)
-      .then(user => this.organizationAdminUsers.push(user), ignoreModalClose);
+      .then(user => this.organizationAdminUsers.push(user), ignoreModalClose).then(() => this.isModalOpen=false);
   }
 
   saveOrganization() {
@@ -100,5 +102,9 @@ export class NewOrganizationComponent {
 
   back() {
     this.router.navigate(['/']);
+  }
+
+  ngOnDestroy() {
+    this.searchModal.close();
   }
 }

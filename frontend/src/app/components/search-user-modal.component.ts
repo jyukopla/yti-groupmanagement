@@ -12,14 +12,25 @@ import { ApiService } from '../services/api.service';
 @Injectable()
 export class SearchUserModalService {
 
+  mdRef: any;
+
   constructor(private modalService: NgbModal) {
   }
 
   open(excludedUserEmails: string[]): Promise<User> {
     const modalRef = this.modalService.open(SearchUserModalComponent, { size: 'sm' });
+    this.mdRef = modalRef;
     const instance = modalRef.componentInstance as SearchUserModalComponent;
     instance.excludedUserEmails = excludedUserEmails;
     return modalRef.result;
+  }
+
+  close() {
+    this.mdRef.close();
+  }
+
+  dismiss() {
+    this.mdRef.dismiss();
   }
 }
 

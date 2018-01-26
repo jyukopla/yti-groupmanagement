@@ -70,7 +70,7 @@ public class EmailSenderService {
             MimeMessage mail = javaMailSender.createMimeMessage();
             mail.addRecipient(TO, createAddress(userEmail));
             String from = "yhteentoimivuus@vrk.fi";
-            String message = "Teille on myönnetty käyttöoikeus yhteentoimivusalustan organisaatioon '" + organizationNameFi + "':   " + environmentUrl;
+            String message = "Teille on myönnetty käyttöoikeus yhteentoimivuusalustan organisaatioon '" + organizationNameFi + "':   " + environmentUrl;
             mail.setFrom(createAddress(from));
             mail.setSender(createAddress(from));
             mail.setSubject("Ilmoitus käyttöoikeuden hyväksymisestä", "UTF-8");

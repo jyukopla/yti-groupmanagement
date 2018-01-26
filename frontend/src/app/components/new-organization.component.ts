@@ -105,6 +105,6 @@ export class NewOrganizationComponent implements OnDestroy{
   }
 
   ngOnDestroy() {
-    this.searchModal.close();
+    if (this.isModalOpen) { this.searchModal.close(); }
   }
 }

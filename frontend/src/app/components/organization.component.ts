@@ -251,7 +251,7 @@ export class OrganizationComponent implements OnDestroy{
   }
 
   ngOnDestroy() {
-    this.searchUserModal.dismiss();
+    if (this.isModalOpen) { this.searchUserModal.dismiss(); }
   }
 }
 

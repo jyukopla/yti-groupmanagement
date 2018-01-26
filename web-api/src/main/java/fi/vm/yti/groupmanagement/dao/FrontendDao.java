@@ -144,6 +144,8 @@ public class FrontendDao {
         return db.findAll(String.class,"SELECT name FROM role");
     }
 
+    public String getOrganizationNameFI(UUID id ) { return db.findUnique(String.class,"SELECT name_fi FROM organization WHERE id=?", id);}
+
     public void addUserRequest(UserRequestModel userRequest) {
         db.update("INSERT INTO request (user_email, organization_id, role_name, sent) VALUES (?,?,?,?)",
                 userRequest.email, userRequest.organizationId, userRequest.role, false);

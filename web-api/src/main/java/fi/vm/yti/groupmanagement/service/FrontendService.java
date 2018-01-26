@@ -23,14 +23,17 @@ public class FrontendService {
     private final FrontendDao frontendDao;
     private final AuthorizationManager authorizationManager;
     private final AuthenticatedUserProvider userProvider;
+    private final EmailSenderService emailSenderService;
 
     @Autowired
     public FrontendService(FrontendDao frontendDao,
                            AuthorizationManager authorizationManager,
-                           AuthenticatedUserProvider userProvider) {
+                           AuthenticatedUserProvider userProvider,
+                           EmailSenderService emailSenderService) {
         this.frontendDao = frontendDao;
         this.authorizationManager = authorizationManager;
         this.userProvider = userProvider;
+        this.emailSenderService = emailSenderService;
     }
 
     @Transactional
@@ -154,5 +157,7 @@ public class FrontendService {
 
         this.frontendDao.deleteUserRequest(requestId);
         this.frontendDao.addUserToRoleInOrganization(userRequest.userEmail, userRequest.roleName, userRequest.organizationId);
+        String name = this.frontendDao.getOrganizationNameFI(userRequest.organizationId);
+        this.emailSenderService.sendEmailToUserOnAcceptance(userRequest.userEmail, name);
     }
 }

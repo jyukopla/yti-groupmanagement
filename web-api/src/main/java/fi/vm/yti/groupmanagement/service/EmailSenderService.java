@@ -42,6 +42,11 @@ public class EmailSenderService {
         }
     }
 
+    @Transactional
+    public void sendEmailToUserOnAcceptance(String userEmail, String organizationNameFi) {
+        sendAccessRequestAcceptedEmail(userEmail, organizationNameFi);
+    }
+
     private void sendAccessRequestEmail(List<String> adminEmails, int requestCount, String organizationNameFi) {
         try {
             MimeMessage mail = javaMailSender.createMimeMessage();
@@ -59,6 +64,25 @@ public class EmailSenderService {
             throw new RuntimeException(e);
         }
     }
+
+    private void sendAccessRequestAcceptedEmail(String userEmail, String organizationNameFi) {
+        try {
+            MimeMessage mail = javaMailSender.createMimeMessage();
+            mail.addRecipient(TO, createAddress(userEmail));
+            String from = "yhteentoimivuus@vrk.fi";
+            String message = "Teille on myönnetty käyttöoikeus yhteentoimivusalustan organisaatioon '" + organizationNameFi + "':   " + environmentUrl;
+            mail.setFrom(createAddress(from));
+            mail.setSender(createAddress(from));
+            mail.setSubject("Ilmoitus käyttöoikeuden hyväksymisestä", "UTF-8");
+            mail.setText(message, "UTF-8");
+
+            javaMailSender.send(mail);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     private static Address createAddress(String address) {
         try {

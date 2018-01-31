@@ -1,11 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { Injectable, NgModule } from '@angular/core';
-import { Routes, RouterModule, CanDeactivate } from '@angular/router';
+import { CanDeactivate, ResolveEnd, Router, RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {NgbModule, NgbPopover} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import {
-  TranslateModule, TranslateLoader, MissingTranslationHandler,
-  MissingTranslationHandlerParams
+  MissingTranslationHandler,
+  MissingTranslationHandlerParams,
+  TranslateLoader,
+  TranslateModule
 } from 'ng2-translate';
 import { Observable } from 'rxjs/Observable';
 import { AppComponent } from './components/app.component';
@@ -23,7 +25,7 @@ import { SearchUserModalComponent, SearchUserModalService } from './components/s
 import { AuthorizationManager } from './services/authorization-manager.service';
 import { UserRequestsComponent } from './components/user-requests.component';
 import { ApiService } from './services/api.service';
-import { YtiCommonModule, AUTHENTICATED_USER_ENDPOINT, LOCALIZER } from 'yti-common-ui';
+import { AUTHENTICATED_USER_ENDPOINT, LOCALIZER, YtiCommonModule } from 'yti-common-ui';
 import { UserDetailsComponent } from './components/user-details.component';
 import {
   DeleteConfirmationModalComponent,
@@ -33,6 +35,7 @@ import { OrganizationComponent } from './components/organization.component';
 import { ConfirmationModalService } from 'yti-common-ui/components/confirmation-modal.component';
 import { FormatDateTimePipe } from './pipes/format-date-time.pipe';
 import { InformationAboutServiceComponent } from './components/information/information-about-service.component';
+import { ModalService } from './services/modal.service';
 
 const localizations: { [lang: string]: string} = {
   fi: Object.assign({},
@@ -81,10 +84,36 @@ export class ConfirmCancelEditGuard implements CanDeactivate<{ hasChanges(): boo
   }
 }
 
+@Injectable()
+export class ConfirmModalCloseEditGuard implements CanDeactivate<void> {
+
+  constructor(private modalService: ModalService,
+              private confirmationModalService: ConfirmationModalService) {
+  }
+
+  canDeactivate(target: void) {
+    if (!this.modalService.isModalOpen()) {
+      return Promise.resolve(true);
+    } else {
+      return this.confirmationModalService.openModalClose().then(() => true, () => false);
+    }
+  }
+}
+
 const appRoutes: Routes = [
   { path: '', component: FrontpageComponent },
-  { path: 'newOrganization', component: NewOrganizationComponent, canDeactivate: [ConfirmCancelEditGuard], runGuardsAndResolvers: "always" },
-  { path: 'organization/:id', component: OrganizationComponent, canDeactivate: [ConfirmCancelEditGuard], runGuardsAndResolvers: "always" },
+  {
+    path: 'newOrganization',
+    component: NewOrganizationComponent,
+    canDeactivate: [ConfirmModalCloseEditGuard, ConfirmCancelEditGuard],
+    runGuardsAndResolvers: 'always'
+  },
+  {
+    path: 'organization/:id',
+    component: OrganizationComponent,
+    canDeactivate: [ConfirmModalCloseEditGuard, ConfirmCancelEditGuard],
+    runGuardsAndResolvers: 'always'
+  },
   { path: 'userDetails', component: UserDetailsComponent },
   { path: 'information', component: InformationAboutServiceComponent }
 ];
@@ -133,13 +162,24 @@ const appRoutes: Routes = [
     SearchUserModalService,
     DeleteConfirmationModalService,
     NgbPopover,
-    ConfirmCancelEditGuard
+    ConfirmCancelEditGuard,
+    ConfirmModalCloseEditGuard,
+    ModalService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 
-  constructor(apinaConfig: ApinaConfig) {
+  constructor(apinaConfig: ApinaConfig,
+              router: Router,
+              modalService: ModalService) {
+
     apinaConfig.registerIdentitySerializer('Dictionary<string>');
+
+    router.events.subscribe(event => {
+      if (event instanceof ResolveEnd) {
+        modalService.closeAllModals();
+      }
+    });
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, ViewChild} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { LocationService } from '../services/location.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationDetails } from '../entities/organization-details';
@@ -98,7 +98,7 @@ import { OrganizationDetailsComponent } from './organization-details.component';
     </div>
   `
 })
-export class OrganizationComponent implements OnDestroy{
+export class OrganizationComponent {
 
   @ViewChild('notification') notification: NotificationDirective;
   @ViewChild('details') details: OrganizationDetailsComponent;
@@ -115,8 +115,6 @@ export class OrganizationComponent implements OnDestroy{
 
   availableRoles: string[];
   editing = false;
-
-  isModalOpen = false;
 
   constructor(private route: ActivatedRoute,
               locationService: LocationService,
@@ -163,15 +161,13 @@ export class OrganizationComponent implements OnDestroy{
   }
 
   hasChanges() {
-    return this.details.hasChanges() || this.usersAddedOrRemoved || anyMatching(this.users, user => user.rolesChanged) || this.isModalOpen;
+    return this.details.hasChanges() || this.usersAddedOrRemoved || anyMatching(this.users, user => user.rolesChanged);
   }
 
   setPristine() {
 
     this.details.reset();
     this.usersAddedOrRemoved = false;
-    this.searchUserModal.close();
-    this.isModalOpen=false;
 
     for (const user of this.users) {
       user.setPristine();
@@ -203,12 +199,11 @@ export class OrganizationComponent implements OnDestroy{
   }
 
   addUser() {
-    this.isModalOpen = true;
     this.searchUserModal.open(this.organizationUserEmails)
       .then(user => {
         this.users.push(new UserViewModel(user.firstName, user.lastName, user.email, []));
         this.usersAddedOrRemoved = true;
-      }, ignoreModalClose).then(() => this.isModalOpen=false);
+      }, ignoreModalClose);
   }
 
   removeUser(user: UserViewModel) {
@@ -248,10 +243,6 @@ export class OrganizationComponent implements OnDestroy{
 
   canEditOrganization(): boolean {
     return this.authorizationManager.canEditOrganization(this.organizationId);
-  }
-
-  ngOnDestroy() {
-    if (this.isModalOpen) { this.searchUserModal.dismiss(); }
   }
 }
 

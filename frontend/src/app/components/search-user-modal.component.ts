@@ -3,34 +3,24 @@ import {
   Component, ElementRef, Injectable, Input, OnInit, Renderer,
   ViewChild
 } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { User } from '../entities/user';
 import { Observable } from 'rxjs/Observable';
 import { ApiService } from '../services/api.service';
+import { ModalService } from '../services/modal.service';
 
 @Injectable()
 export class SearchUserModalService {
 
-  mdRef: any;
-
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: ModalService) {
   }
 
   open(excludedUserEmails: string[]): Promise<User> {
     const modalRef = this.modalService.open(SearchUserModalComponent, { size: 'sm' });
-    this.mdRef = modalRef;
     const instance = modalRef.componentInstance as SearchUserModalComponent;
     instance.excludedUserEmails = excludedUserEmails;
     return modalRef.result;
-  }
-
-  close() {
-    this.mdRef.close();
-  }
-
-  dismiss() {
-    this.mdRef.dismiss();
   }
 }
 

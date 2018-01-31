@@ -13,7 +13,7 @@ import { LocationService } from '../services/location.service';
       <router-outlet></router-outlet>
     </div>
     <app-footer [title]="'Interoperability platform´s user right management' | translate" 
-                [onInformationClick]="navigateToInformation"></app-footer>
+                (informationClick)="navigateToInformation()"></app-footer>
   `
 })
 export class AppComponent {
@@ -26,5 +26,7 @@ export class AppComponent {
     return this.locationService.location;
   }
 
-  navigateToInformation = () => this.router.navigate(['/information']);
+  navigateToInformation() {
+    this.router.navigate(['/information']);
+  }
 }

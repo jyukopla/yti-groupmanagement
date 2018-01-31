@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { LocationService } from '../services/location.service';
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,8 @@ import {Router} from "@angular/router";
       <app-breadcrumb [location]="location"></app-breadcrumb>
       <router-outlet></router-outlet>
     </div>
-    <app-footer [title]="'Interoperability platform´s user right management' | translate" [onInformationClick]="navigateToInformation"></app-footer>
+    <app-footer [title]="'Interoperability platform´s user right management' | translate" 
+                [onInformationClick]="navigateToInformation"></app-footer>
   `
 })
 export class AppComponent {

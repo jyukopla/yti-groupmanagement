@@ -60,9 +60,9 @@ public class FrontendController {
         return this.frontendService.getAllRoles();
     }
 
-    @RequestMapping(value = "/users/{adminEmail:.+}", method = GET, produces = APPLICATION_JSON_VALUE)
-    public List<UserWithRolesInOrganizations> getUsersMatchingOrganization(@PathVariable("adminEmail") String adminEmail) {
-        return this.frontendService.getUsersMatchingOrganization(adminEmail);
+    @RequestMapping(value = "/usersForOwnOrganizations", method = GET, produces = APPLICATION_JSON_VALUE)
+    public List<UserWithRolesInOrganizations> getUsersForOwnOrganizations() {
+        return this.frontendService.getUsersForOwnOrganizations();
     }
 
     @RequestMapping(value = "/users", method = GET, produces = APPLICATION_JSON_VALUE)

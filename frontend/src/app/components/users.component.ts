@@ -11,7 +11,7 @@ import { FilterOptions } from 'yti-common-ui/components/filter-dropdown.componen
 import { LanguageService } from '../services/language.service';
 import { TranslateService } from 'ng2-translate';
 import { User } from '../entities/user';
-import {AuthorizationManager} from "../services/authorization-manager.service";
+import { UserService } from 'yti-common-ui/services/user.service';
 
 @Component({
   selector: 'app-users',
@@ -78,7 +78,7 @@ export class UsersComponent {
               private locationService: LocationService,
               languageService: LanguageService,
               translateService: TranslateService,
-              private authorizationManager: AuthorizationManager) {
+              userService: UserService) {
 
     this.apiService.getAllRoles().subscribe(roles => {
       this.roleOptions = [null, ...roles].map(role => ({
@@ -89,14 +89,20 @@ export class UsersComponent {
 
     this.apiService.getOrganizationList().subscribe(organizations => {
 
-      this.organizationOptions = [null, ...organizations].map(org => ({
+      const ownOrganizations = organizations.filter(org => {
+
+        const user = userService.user;
+        return user.superuser || user.isInRole('ADMIN', org.id as string);
+      });
+
+      this.organizationOptions = [null, ...ownOrganizations].map(org => ({
         value: org,
         name: () => org ? languageService.translate(org.name) : translateService.instant('All organizations')
       }));
 
       const organizationsById = index(organizations, org => org.id);
 
-      this.users$ = Observable.combineLatest(this.apiService.getUsersMatchingOrganization(this.authorizationManager.user.email), this.search$, this.role$, this.organization$)
+      this.users$ = Observable.combineLatest(this.apiService.getUsersForOwnOrganizations(), this.search$, this.role$, this.organization$)
         .map(([users, search, role, organization]) => {
 
           const roleMatches = (user: UserViewModel) =>

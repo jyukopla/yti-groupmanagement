@@ -1,14 +1,12 @@
 package fi.vm.yti.groupmanagement.dao;
 
 import fi.vm.yti.groupmanagement.model.*;
-
 import org.dalesbred.Database;
 import org.dalesbred.query.QueryBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 
 import java.util.*;
 
@@ -26,9 +24,8 @@ public class FrontendDao {
         this.db = db;
     }
 
-    public List<UserWithRolesInOrganizations> getUsersMatchingOrganization(String adminEmail) {
+    public List<UserWithRolesInOrganizations> getUsersForAdminOrganizations(String email) {
 
-        // Get only users for the organizations which the user is in admin-role
         List<UserRow> rows = db.findAll(UserRow.class,
                     "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, array_agg(uo.role_name) AS roles \n" +
                             "FROM \"user\" u \n" +
@@ -36,7 +33,7 @@ public class FrontendDao {
                             "WHERE uo.organization_id IN (SELECT organization_id FROM user_organization WHERE user_email = ? and role_name='ADMIN') \n" +
                             "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at \n" +
                             "ORDER BY u.lastName, u.firstName \n" +
-                            "", adminEmail);
+                            "", email);
 
         Map<UserRow.UserDetails, List<UserRow.OrganizationDetails>> grouped =
                 rows.stream().collect(groupingBy(row -> row.user, LinkedHashMap::new, mapping(row -> row.organization, toList())));

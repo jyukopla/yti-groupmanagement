@@ -21,8 +21,8 @@ export class ApiService {
   constructor(private endpoint: FrontendEndpoint) {
   }
 
-  getUsersMatchingOrganization(adminEmail: string): Observable<User[]> {
-    return this.endpoint.getUsersMatchingOrganization(adminEmail).map(users =>
+  getUsersForOwnOrganizations(): Observable<User[]> {
+    return this.endpoint.getUsersForOwnOrganizations().map(users =>
       users.map(userModel => new User(userModel)));
   }
 

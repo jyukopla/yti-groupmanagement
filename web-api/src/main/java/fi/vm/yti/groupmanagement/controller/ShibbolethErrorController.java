@@ -1,6 +1,8 @@
 package fi.vm.yti.groupmanagement.controller;
 
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ public class ShibbolethErrorController {
 
     @Value("${registration.url}")
     private String registrationUrl;
+    private static final Logger logger = LoggerFactory.getLogger(ShibbolethErrorController.class);
 
     @RequestMapping(value = "/login-error", method = RequestMethod.GET, produces = TEXT_HTML_VALUE)
     String loginError(HttpServletRequest request,
@@ -31,6 +34,7 @@ public class ShibbolethErrorController {
                       @RequestParam(required = false) @Nullable String statusCode2,
                       Map<String, Object> model) {
 
+        logger.info("loginError, requestURL: " + requestURL + ", errorType: " + errorType + " and errorText: " + errorText);
         boolean singUpMissing = isSingUpMissing(errorType, statusCode2);
 
         model.put("missingSignUp", singUpMissing);

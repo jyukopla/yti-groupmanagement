@@ -36,7 +36,7 @@ public class PublicApiController {
     public PublicApiUser getUser(@RequestParam @NotNull String email,
                                  @RequestParam(required = false) @Nullable String firstName,
                                  @RequestParam(required = false) @Nullable String lastName) {
-        logger.info("getUser requested with email: " + email +", and name: " + firstName + " " + lastName);
+        logger.info("getUser requested with email: " + email + ", and name: " + firstName + " " + lastName);
         if (email.isEmpty()) {
             throw new RuntimeException("Email is a mandatory parameter");
         }

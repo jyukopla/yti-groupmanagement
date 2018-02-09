@@ -70,6 +70,7 @@ dependencies {
     testCompile "org.springframework:spring-test"
     testCompile "com.jayway.jsonpath:json-path:2.0.0"
     testCompile "org.hsqldb:hsqldb:2.3.4"
+    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '0.9.26'
 
     compile project(':frontend')
 }

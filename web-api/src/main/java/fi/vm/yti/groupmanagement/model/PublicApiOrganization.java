@@ -9,9 +9,9 @@ public class PublicApiOrganization {
     private final Map<String, String> prefLabel;
     private final Map<String, String> description;
     private final String url;
-    private final Boolean removed;
+    private final boolean removed;
 
-    public PublicApiOrganization(UUID uuid, Map<String, String> prefLabel, Map<String, String> description, String url, Boolean removed) {
+    public PublicApiOrganization(UUID uuid, Map<String, String> prefLabel, Map<String, String> description, String url, boolean removed) {
         this.uuid = uuid;
         this.prefLabel = prefLabel;
         this.description = description;
@@ -35,5 +35,7 @@ public class PublicApiOrganization {
         return url;
     }
 
-    public Boolean getRemoved() { return removed; }
+    public boolean getRemoved() {
+        return removed;
+    }
 }

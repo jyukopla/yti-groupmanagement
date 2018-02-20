@@ -86,7 +86,7 @@ public class FrontendDao {
     }
 
     public @NotNull Organization getOrganization(UUID organizationId) {
-        return db.findUnique(Organization.class,"SELECT id, name_en, name_fi, name_sv, description_en, description_fi, description_sv, url FROM organization where id = ?", organizationId);
+        return db.findUnique(Organization.class,"SELECT id, name_en, name_fi, name_sv, description_en, description_fi, description_sv, url, removed FROM organization where id = ?", organizationId);
     }
 
     public @NotNull List<UserWithRoles> getOrganizationUsers(UUID organizationId) {
@@ -125,8 +125,8 @@ public class FrontendDao {
 
     public void updateOrganization(Organization org) {
 
-        db.update("UPDATE organization SET name_en=?, name_fi=?, name_sv=?, description_en=?, description_fi=?, description_sv=?, url=? WHERE id = ?",
-                org.nameEn, org.nameFi, org.nameSv, org.descriptionEn, org.descriptionFi, org.descriptionSv, org.url, org.id);
+        db.update("UPDATE organization SET name_en=?, name_fi=?, name_sv=?, description_en=?, description_fi=?, description_sv=?, url=?, removed=? WHERE id = ?",
+                org.nameEn, org.nameFi, org.nameSv, org.descriptionEn, org.descriptionFi, org.descriptionSv, org.url, org.removed, org.id);
     }
 
     public void addUserToRoleInOrganization(String userEmail, String role, UUID id) {

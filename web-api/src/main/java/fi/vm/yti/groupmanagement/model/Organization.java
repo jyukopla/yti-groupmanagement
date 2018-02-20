@@ -12,4 +12,5 @@ public class Organization {
     public String descriptionFi;
     public String descriptionEn;
     public String descriptionSv;
+    public Boolean removed;
 }

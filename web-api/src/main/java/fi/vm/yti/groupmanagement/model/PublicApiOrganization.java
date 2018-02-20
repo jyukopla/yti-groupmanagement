@@ -9,12 +9,14 @@ public class PublicApiOrganization {
     private final Map<String, String> prefLabel;
     private final Map<String, String> description;
     private final String url;
+    private final Boolean removed;
 
-    public PublicApiOrganization(UUID uuid, Map<String, String> prefLabel, Map<String, String> description, String url) {
+    public PublicApiOrganization(UUID uuid, Map<String, String> prefLabel, Map<String, String> description, String url, Boolean removed) {
         this.uuid = uuid;
         this.prefLabel = prefLabel;
         this.description = description;
         this.url = url;
+        this.removed = removed;
     }
 
     public UUID getUuid() {
@@ -32,4 +34,6 @@ public class PublicApiOrganization {
     public String getUrl() {
         return url;
     }
+
+    public Boolean getRemoved() { return removed; }
 }

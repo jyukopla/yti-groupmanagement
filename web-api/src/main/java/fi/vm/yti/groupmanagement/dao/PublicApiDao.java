@@ -57,7 +57,7 @@ public class PublicApiDao {
 
     public @NotNull List<PublicApiOrganization> getOrganizations() {
 
-        List<OrganizationRow> rows = database.findAll(OrganizationRow.class, "select id, name_en, name_sv, name_fi, description_en, description_sv, description_fi, url from organization");
+        List<OrganizationRow> rows = database.findAll(OrganizationRow.class, "select id, name_en, name_sv, name_fi, description_en, description_sv, description_fi, url, removed from organization");
 
         return rows.stream().map(row -> {
 
@@ -72,7 +72,7 @@ public class PublicApiDao {
             description.put("en", row.descriptionEn);
             description.put("sv", row.descriptionSv);
 
-            return new PublicApiOrganization(row.id, unmodifiableMap(prefLabel), unmodifiableMap(description), row.url);
+            return new PublicApiOrganization(row.id, unmodifiableMap(prefLabel), unmodifiableMap(description), row.url, row.removed);
 
         }).collect(toList());
     }
@@ -122,5 +122,6 @@ public class PublicApiDao {
         public String descriptionEn;
         public String descriptionFi;
         public String descriptionSv;
+        public Boolean removed;
     }
 }

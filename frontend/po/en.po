@@ -154,6 +154,9 @@ msgstr ""
 msgid "Interoperability platform´s user right management"
 msgstr ""
 
+msgid "Removed"
+msgstr ""
+
 #~ msgid "User list"
 #~ msgstr "Users"
 

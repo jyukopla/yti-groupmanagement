@@ -160,6 +160,9 @@ msgstr "Organisaatio"
 msgid "Interoperability platform´s user right management"
 msgstr "Yhteentoimivuusvälineistön oikeuksienhallinta"
 
+msgid "Removed"
+msgstr "Poistettu"
+
 #~ msgid "Browse users"
 #~ msgstr "Selaa käyttäjiä"
 

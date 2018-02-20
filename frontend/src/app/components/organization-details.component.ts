@@ -1,6 +1,8 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import { OrganizationDetails } from '../entities/organization-details';
 import { NgForm } from '@angular/forms';
+import {LocationService} from "../services/location.service";
+import {AuthorizationManager} from "../services/authorization-manager.service";
 
 @Component({
   selector: 'app-organization-details',
@@ -103,6 +105,19 @@ import { NgForm } from '@angular/forms';
             <p *ngIf="!editing" class="form-control-static">{{organization.url}}</p>
           </div>
         </div>
+        <div class="col-12">
+          <div class="form-group">
+          <input *ngIf="editing" name="removed_checkbox" id="removed_checkbox" type="checkbox"
+                 [(ngModel)]="organization.removed"
+                 [checked]="organization.removed"
+                 [disabled]="!canRemoveOrganization()">
+
+          <input *ngIf="!editing" name="removed_checkbox" id="removed_checkbox" type="checkbox"
+                 [checked]="organization.removed"
+                 [disabled]="true"
+                 translate>Removed
+          </div>
+        </div>
       </div>
     </form>
   `,
@@ -116,7 +131,9 @@ export class OrganizationDetailsComponent {
   @Input()
   editing: boolean;
 
-  @ViewChild('form') form: NgForm;
+  @ViewChild('form') form: any;
+
+  constructor(private authorizationManager: AuthorizationManager) {}
 
   hasChanges() {
     return this.form.dirty;
@@ -125,6 +142,10 @@ export class OrganizationDetailsComponent {
   reset() {
     // FIXME: no idea why this timeout hack is needed
     setTimeout(() => this.form.resetForm());
+  }
+
+  canRemoveOrganization(): boolean {
+    return this.authorizationManager.canRemoveOrganization();
   }
 
   isValid() {

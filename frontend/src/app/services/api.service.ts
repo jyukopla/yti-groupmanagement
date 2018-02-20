@@ -63,8 +63,10 @@ export class ApiService {
     organization.descriptionEn = org.descriptionEn;
     organization.descriptionFi = org.descriptionFi;
     organization.descriptionSv = org.descriptionSv;
+    organization.removed = org.removed;
     model.organization = organization;
     model.userRoles = userRoles;
+
 
     return this.endpoint.updateOrganization(model);
   }

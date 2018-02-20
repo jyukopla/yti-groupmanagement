@@ -32,4 +32,9 @@ export class AuthorizationManager {
   private isAdminInAnyOrganization() {
     return contains(Array.from(this.user.organizationsInRole.keys()), 'ADMIN');
   }
+
+  canRemoveOrganization(): boolean {
+    return this.user.superuser;
+  }
+
 }

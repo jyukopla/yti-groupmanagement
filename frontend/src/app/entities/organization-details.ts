@@ -9,11 +9,12 @@ export class OrganizationDetails {
               public nameSv: string,
               public descriptionFi: string,
               public descriptionEn: string,
-              public descriptionSv: string) {
+              public descriptionSv: string,
+              public removed: boolean) {
   }
 
   static empty() {
-    return new OrganizationDetails('', '', '', '', '', '', '');
+    return new OrganizationDetails('', '', '', '', '', '', '', false);
   }
 
   static fromOrganization(model: Organization) {
@@ -24,7 +25,8 @@ export class OrganizationDetails {
       model.nameSv,
       model.descriptionFi,
       model.descriptionEn,
-      model.descriptionSv
+      model.descriptionSv,
+      model.removed
     );
   }
 
@@ -52,7 +54,8 @@ export class OrganizationDetails {
       this.nameSv,
       this.descriptionFi,
       this.descriptionEn,
-      this.descriptionSv
+      this.descriptionSv,
+      this.removed
     );
   }
 }

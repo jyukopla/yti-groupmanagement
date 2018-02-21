@@ -28,13 +28,18 @@ import { matches } from 'yti-common-ui/utils/string';
                  placeholder="{{'Search organization' | translate}}"/>
         </div>
 
+        <div>
+          <input #showRemovedCheckBox id="showRemovedCheckBox" type="checkbox" name="showRemovedCheckBox"                 
+                 (change)="showRemovedChanged()"
+                 translate/> Show removed organizations only
+        </div>
+        
         <button class="btn btn-action pull-right" (click)="addOrganization()"
                 *ngIf="canCreateOrganization()">
           <span translate>Add new organization</span>
         </button>
-        
-      </div>
-      
+      </div>      
+
       <div *ngFor="let organization of filteredOrganizations"
            class="organization"
            [class.viewable]="canViewOrganization(organization)"
@@ -53,13 +58,15 @@ export class OrganizationsComponent implements OnDestroy {
   filteredOrganizations: OrganizationListItem[];
 
   subscription: Subscription;
+  showRemovedCheckBox: boolean | false;
+
 
   constructor(private apiService: ApiService,
               private authorizationManager: AuthorizationManager,
               private router: Router,
-              languageService: LanguageService) {
+              private languageService: LanguageService) {
 
-    this.subscription = Observable.combineLatest(apiService.getOrganizationList(), this.search$, languageService.language$)
+    this.subscription = Observable.combineLatest(apiService.getOrganizationListOpt(false), this.search$, languageService.language$)
       .subscribe(([organizations, search]) => {
         organizations.sort(comparingLocalizable<OrganizationListItem>(languageService, org => org.name));
         this.filteredOrganizations = organizations.filter(org => matches(languageService.translate(org.name), search));
@@ -90,6 +97,20 @@ export class OrganizationsComponent implements OnDestroy {
     if (this.canViewOrganization(organization)) {
       this.router.navigate(['/organization', organization.id]);
     }
+  }
+
+  showRemovedChanged() {
+      if (this.showRemovedCheckBox) {
+        this.showRemovedCheckBox = false;
+      } else {
+        this.showRemovedCheckBox = true;
+      }
+      this.subscription.unsubscribe();
+      this.subscription = Observable.combineLatest(this.apiService.getOrganizationListOpt(this.showRemovedCheckBox), this.search$, this.languageService.language$)
+        .subscribe(([organizations, search]) => {
+        organizations.sort(comparingLocalizable<OrganizationListItem>(this.languageService, org => org.name));
+        this.filteredOrganizations = organizations.filter(org => matches(this. languageService.translate(org.name), search));
+      });
   }
 
   addOrganization() {

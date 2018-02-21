@@ -31,6 +31,10 @@ export class ApiService {
       users.map(userModel => new User(userModel)));
   }
 
+  getOrganizationListOpt(showRemoved: boolean): Observable<OrganizationListItem[]> {
+    return this.endpoint.getOrganizationsOpt(showRemoved);
+  }
+
   getOrganizationList(): Observable<OrganizationListItem[]> {
     return this.endpoint.getOrganizations();
   }

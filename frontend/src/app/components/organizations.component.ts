@@ -30,8 +30,8 @@ import { matches } from 'yti-common-ui/utils/string';
 
         <div>
           <input #showRemovedCheckBox id="showRemovedCheckBox" type="checkbox" name="showRemovedCheckBox"                 
-                 (change)="showRemovedChanged()"
-                 translate/> Show removed organizations only
+                 (change)="showRemovedChanged()"/>
+                 <span translate>Show removed organizations only</span>
         </div>
         
         <button class="btn btn-action pull-right" (click)="addOrganization()"

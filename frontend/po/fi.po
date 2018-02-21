@@ -163,6 +163,10 @@ msgstr "Yhteentoimivuusvälineistön oikeuksienhallinta"
 msgid "Removed"
 msgstr "Poistettu"
 
+msgid "Show removed organizations only"
+msgstr "Näytä vain poistetut organisaatiot"
+
+
 #~ msgid "Browse users"
 #~ msgstr "Selaa käyttäjiä"
 

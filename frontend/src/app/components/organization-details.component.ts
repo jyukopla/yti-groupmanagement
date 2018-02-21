@@ -1,8 +1,7 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { OrganizationDetails } from '../entities/organization-details';
+import { AuthorizationManager } from '../services/authorization-manager.service';
 import { NgForm } from '@angular/forms';
-import {LocationService} from "../services/location.service";
-import {AuthorizationManager} from "../services/authorization-manager.service";
 
 @Component({
   selector: 'app-organization-details',
@@ -106,17 +105,21 @@ import {AuthorizationManager} from "../services/authorization-manager.service";
           </div>
         </div>
         <div class="col-12">
-          <div class="form-group">
-          <input *ngIf="editing" name="removed_checkbox" id="removed_checkbox" type="checkbox"
-                 [(ngModel)]="organization.removed"
-                 [checked]="organization.removed"
-                 [disabled]="!canRemoveOrganization()">
 
-          <input *ngIf="!editing" name="removed_checkbox" id="removed_checkbox" type="checkbox"
-                 [checked]="organization.removed"
-                 [disabled]="true"
-                 translate>Removed
+          <div class="form-check" *ngIf="editing">
+            <label class="form-check-label">
+              <input class="form-check-input" 
+                     type="checkbox" 
+                     name="removed" 
+                     [(ngModel)]="organization.removed" />
+              {{'Removed' | translate}}
+            </label>
           </div>
+
+          <div *ngIf="!editing && organization.removed" 
+               class="alert alert-danger d-inline-block"
+               role="alert"
+               translate>Removed</div>
         </div>
       </div>
     </form>
@@ -131,9 +134,10 @@ export class OrganizationDetailsComponent {
   @Input()
   editing: boolean;
 
-  @ViewChild('form') form: any;
+  @ViewChild('form') form: NgForm;
 
-  constructor(private authorizationManager: AuthorizationManager) {}
+  constructor(private authorizationManager: AuthorizationManager) {
+  }
 
   hasChanges() {
     return this.form.dirty;

@@ -78,6 +78,11 @@ public class FrontendService {
     }
 
     @Transactional
+    public List<OrganizationListItem> getOrganizationListOpt(Boolean showRemoved) {
+        return frontendDao.getOrganizationListOpt(showRemoved);
+    }
+
+    @Transactional
     public List<OrganizationListItem> getOrganizationList() {
         return frontendDao.getOrganizationList();
     }

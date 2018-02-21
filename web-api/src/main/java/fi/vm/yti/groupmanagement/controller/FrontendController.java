@@ -42,6 +42,12 @@ public class FrontendController {
         return userProvider.getUser();
     }
     
+    @RequestMapping(value = "/organizations/{showRemoved}", method = GET, produces = APPLICATION_JSON_VALUE)
+    public List<OrganizationListItem> getOrganizationsOpt(@PathVariable("showRemoved") Boolean showRemoved) {
+        logger.info("getOrganizations/{showRemoved} requested");
+        return this.frontendService.getOrganizationListOpt(showRemoved);
+    }
+
     @RequestMapping(value = "/organizations", method = GET, produces = APPLICATION_JSON_VALUE)
     public List<OrganizationListItem> getOrganizations() {
         logger.info("getOrganizations requested");

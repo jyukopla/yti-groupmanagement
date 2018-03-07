@@ -20,7 +20,7 @@ msgid "You are expected at {{time}}', {time: moment.format('H:mm"
 msgstr ""
 
 msgid "Interoperability platform's user right management"
-msgstr "Yhteentoimivuusvälineistön oikeuksienhallinta"
+msgstr "Yhteentoimivuusalustan oikeuksienhallinta"
 
 msgid "Edit organization"
 msgstr "Muokkaa organisaatiota"
@@ -65,10 +65,10 @@ msgid "New organization"
 msgstr "Uusi organisaatio"
 
 msgid "Admin users"
-msgstr "Ylläpitäjät"
+msgstr "Pääkäyttäjät"
 
 msgid "No admin users yet"
-msgstr "Ei vielä ylläpitäjiä"
+msgstr "Ei vielä pääkäyttäjiä"
 
 msgid "In finnish"
 msgstr "Suomeksi"
@@ -119,7 +119,7 @@ msgid "Front page"
 msgstr "Etusivu"
 
 msgid "ADMIN"
-msgstr "Ylläpitäjä"
+msgstr "Pääkäyttäjä"
 
 msgid "DATA_MODEL_EDITOR"
 msgstr "Tietomallintaja"
@@ -158,7 +158,7 @@ msgid "Organization"
 msgstr "Organisaatio"
 
 msgid "Interoperability platform´s user right management"
-msgstr "Yhteentoimivuusvälineistön oikeuksienhallinta"
+msgstr "Yhteentoimivuusalustan oikeuksienhallinta"
 
 msgid "Removed"
 msgstr "Poistettu"

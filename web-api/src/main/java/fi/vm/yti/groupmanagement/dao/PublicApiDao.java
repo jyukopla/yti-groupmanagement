@@ -27,9 +27,9 @@ public class PublicApiDao {
         this.database = database;
     }
 
-    public @NotNull PublicApiUser createUser(@NotNull String email, @NotNull String firstName, @NotNull String lastName) {
-        this.database.update("INSERT INTO \"user\" (email, firstName, lastName, superuser) VALUES (?,?,?,?)",
-                email, firstName, lastName, false);
+    public @NotNull PublicApiUser createUser(@NotNull String email, @NotNull String firstName, @NotNull String lastName, UUID id) {
+        this.database.update("INSERT INTO \"user\" (email, firstName, lastName, superuser, id) VALUES (?,?,?,?,?)",
+                email, firstName, lastName, false, id);
 
         return requireNonNull(findUser(email));
     }
@@ -41,18 +41,18 @@ public class PublicApiDao {
     public @Nullable PublicApiUser findUser(@NotNull  String email) {
 
         List<UserRow> rows = database.findAll(UserRow.class,
-                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, array_agg(uo.role_name) AS roles \n" +
+                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id, u.removed_at, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
                         "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
                         "WHERE u.email = ? \n" +
-                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at", email);
+                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id, u.removed_at", email);
 
         return requireSingleOrNone(rowsToAuthorizationUsers(rows));
     }
 
     public List<PublicApiUserListItem> getUsers() {
         return database.findAll(PublicApiUserListItem.class,
-                "SELECT email, firstName, lastName FROM \"user\" ORDER BY lastname, firstname");
+                "SELECT email, firstName, lastName, id FROM \"user\" ORDER BY lastname, firstname");
     }
 
     public @NotNull List<PublicApiOrganization> getOrganizations() {
@@ -91,7 +91,7 @@ public class PublicApiDao {
                 .map(org -> new PublicApiUserOrganization(org.id, org.roles))
                 .collect(toList());
 
-        return new PublicApiUser(user.email, user.firstName, user.lastName, user.superuser, false, user.creationDateTime, nonNullOrganizations);
+        return new PublicApiUser(user.email, user.firstName, user.lastName, user.superuser, false, user.creationDateTime, user.id, user.removalDateTime, nonNullOrganizations);
     }
 
     private static List<PublicApiUser> rowsToAuthorizationUsers(List<UserRow> rows) {

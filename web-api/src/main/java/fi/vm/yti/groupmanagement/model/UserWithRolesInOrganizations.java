@@ -10,16 +10,20 @@ public class UserWithRolesInOrganizations {
     public String firstName;
     public String lastName;
     public boolean superuser;
+    public UUID userId;
     public LocalDateTime creationDateTime;
+    public LocalDateTime removalDateTime;
     public List<OrganizationRoles> organizations;
 
-    public UserWithRolesInOrganizations(String email, String firstName, String lastName, boolean superuser, LocalDateTime creationDateTime, List<OrganizationRoles> organizations) {
+    public UserWithRolesInOrganizations(String email, String firstName, String lastName, boolean superuser, UUID userId, LocalDateTime creationDateTime, LocalDateTime removalDateTime, List<OrganizationRoles> organizations) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.superuser = superuser;
         this.creationDateTime = creationDateTime;
         this.organizations = organizations;
+        this.removalDateTime = removalDateTime;
+        this.userId = userId;
     }
 
     public static class OrganizationRoles {

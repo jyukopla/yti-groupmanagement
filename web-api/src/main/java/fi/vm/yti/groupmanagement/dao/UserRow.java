@@ -15,14 +15,18 @@ public final class UserRow {
                    boolean superuser,
                    UUID organizationId,
                    LocalDateTime creationDateTime,
+                   UUID userId,
+                   LocalDateTime removalDateTime,
                    List<String> roles) {
 
         this.user.email = email;
         this.user.firstName = firstName;
         this.user.lastName = lastName;
         this.user.superuser = superuser;
+        this.user.id = userId;
         this.organization.id = organizationId;
         this.user.creationDateTime = creationDateTime;
+        this.user.removalDateTime = removalDateTime;
         this.organization.roles = roles;
     }
 
@@ -33,6 +37,8 @@ public final class UserRow {
         String lastName;
         LocalDateTime creationDateTime;
         boolean superuser;
+        LocalDateTime removalDateTime;
+        UUID id;
 
         @Override
         public boolean equals(Object o) {

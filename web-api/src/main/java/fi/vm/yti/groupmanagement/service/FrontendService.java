@@ -122,6 +122,10 @@ public class FrontendService {
         return frontendDao.getUsers();
     }
 
+    @Transactional
+    public void removeUser(String email) {
+        frontendDao.removeUser(email);
+    }
 
     @Transactional
     public List<String> getAllRoles() {

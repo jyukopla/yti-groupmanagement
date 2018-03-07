@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static fi.vm.yti.groupmanagement.util.CollectionUtil.mapToList;
@@ -27,11 +28,11 @@ public class FrontendDao {
     public List<UserWithRolesInOrganizations> getUsersForAdminOrganizations(String email) {
 
         List<UserRow> rows = db.findAll(UserRow.class,
-                    "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, array_agg(uo.role_name) AS roles \n" +
+                    "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id, u.removed_at, array_agg(uo.role_name) AS roles \n" +
                             "FROM \"user\" u \n" +
                             "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
                             "WHERE uo.organization_id IN (SELECT organization_id FROM user_organization WHERE user_email = ? and role_name='ADMIN') \n" +
-                            "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at \n" +
+                            "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id \n" +
                             "ORDER BY u.lastName, u.firstName \n" +
                             "", email);
 
@@ -47,17 +48,17 @@ public class FrontendDao {
                     .map(org -> new UserWithRolesInOrganizations.OrganizationRoles(org.id, org.roles))
                     .collect(toList());
 
-            return new UserWithRolesInOrganizations(user.email, user.firstName, user.lastName, user.superuser, user.creationDateTime, organizations);
+            return new UserWithRolesInOrganizations(user.email, user.firstName, user.lastName, user.superuser, user.id, user.creationDateTime, user.removalDateTime, organizations);
         });
     }
 
     public List<UserWithRolesInOrganizations> getUsers() {
 
         List<UserRow> rows = db.findAll(UserRow.class,
-                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, array_agg(uo.role_name) AS roles \n" +
+                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id, u.removed_at, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
-                        "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
-                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at \n" +
+                        "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) WHERE u.removed_at IS NULL \n" +
+                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id \n" +
                         "ORDER BY u.lastName, u.firstName \n" +
                         "");
 
@@ -73,8 +74,14 @@ public class FrontendDao {
                     .map(org -> new UserWithRolesInOrganizations.OrganizationRoles(org.id, org.roles))
                     .collect(toList());
 
-            return new UserWithRolesInOrganizations(user.email, user.firstName, user.lastName, user.superuser, user.creationDateTime, organizations);
+            return new UserWithRolesInOrganizations(user.email, user.firstName, user.lastName, user.superuser, user.id, user.creationDateTime, user.removalDateTime, organizations);
         });
+    }
+
+    public void removeUser(String email) {
+        System.out.print("removeUser");
+        db.update("UPDATE \"user\" SET email=?, firstname=?, lastname=?, removed_at=? WHERE email = ?",
+                "", null, null, LocalDateTime.now(), email);
     }
 
     public @NotNull List<OrganizationListItem> getOrganizationListOpt(Boolean showRemoved) {
@@ -94,11 +101,11 @@ public class FrontendDao {
     public @NotNull List<UserWithRoles> getOrganizationUsers(UUID organizationId) {
 
         List<UserRow> rows = db.findAll(UserRow.class,
-                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, array_agg(uo.role_name) AS roles \n" +
+                "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id, u.removed_at, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
                         "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
                         "WHERE uo.organization_id = ? \n" +
-                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at", organizationId);
+                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id", organizationId);
 
         return mapToList(rows, row -> {
 

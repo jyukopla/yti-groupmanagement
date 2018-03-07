@@ -36,7 +36,8 @@ public class PublicApiService {
         if (user != null) {
             return user;
         } else {
-            return publicApiDao.createUser(email, firstName, lastName);
+            UUID id = UUID.randomUUID();
+            return publicApiDao.createUser(email, firstName, lastName, id);
         }
     }
 

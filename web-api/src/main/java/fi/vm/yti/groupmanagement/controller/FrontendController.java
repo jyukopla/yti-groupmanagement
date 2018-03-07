@@ -94,6 +94,13 @@ public class FrontendController {
         return this.frontendService.getUsers();
     }
 
+    @RequestMapping(value = "/removeuser/{email}/", method = POST)
+    public Boolean removeUser(@PathVariable("email") String email) {
+        logger.info("removeUser requested for email: " + email);
+        this.frontendService.removeUser(email);
+        return true;
+    }
+
     @RequestMapping(value = "/requests", method = GET, produces = APPLICATION_JSON_VALUE)
     public List<UserRequestWithOrganization> getAllUserRequests() {
         logger.info("getAllUserRequests requested");

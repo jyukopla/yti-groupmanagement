@@ -166,6 +166,8 @@ msgstr "Poistettu"
 msgid "Show removed organizations only"
 msgstr "Näytä vain poistetut organisaatiot"
 
+msgid "This user will be removed."
+msgstr "Tämä käyttäjä poistetaan."
 
 #~ msgid "Browse users"
 #~ msgstr "Selaa käyttäjiä"

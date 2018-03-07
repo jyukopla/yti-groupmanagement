@@ -160,6 +160,9 @@ msgstr ""
 msgid "Show removed organizations only"
 msgstr ""
 
+msgid "This user will be removed."
+msgstr ""
+
 #~ msgid "User list"
 #~ msgstr "Users"
 

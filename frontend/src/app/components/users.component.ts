@@ -6,15 +6,16 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Localizable } from 'yti-common-ui/types/localization';
 import { requireDefined } from 'yti-common-ui/utils/object';
-import {index, remove} from 'yti-common-ui/utils/array';
+import { index } from 'yti-common-ui/utils/array';
 import { FilterOptions } from 'yti-common-ui/components/filter-dropdown.component';
 import { LanguageService } from '../services/language.service';
 import { TranslateService } from 'ng2-translate';
 import { User } from '../entities/user';
 import { UserService } from 'yti-common-ui/services/user.service';
-import {AuthorizationManager} from "../services/authorization-manager.service";
-import {ignoreModalClose} from "yti-common-ui/utils/modal";
-import {DeleteConfirmationModalService} from "./delete-confirmation-modal.component";
+import { AuthorizationManager } from '../services/authorization-manager.service';
+import { ignoreModalClose } from 'yti-common-ui/utils/modal';
+import { DeleteConfirmationModalService } from './delete-confirmation-modal.component';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-users',
@@ -45,17 +46,17 @@ import {DeleteConfirmationModalService} from "./delete-confirmation-modal.compon
     <div class="results">
       <div class="result" *ngFor="let user of users$ | async">
         <h4>{{user.displayName}} <span class="email">({{user.email}})</span>
-          <span><button class="btn btn-link btn-sm"
-                        (click)="removeUser(user)"
-                        *ngIf="canRemoveUser(user)">
-              <span class="fa fa-trash"></span>
-              <span translate>Remove</span>
-            </button></span>
+          <button class="btn btn-link btn-sm"
+                  (click)="removeUser(user)"
+                  *ngIf="canRemoveUser()">
+            <span class="fa fa-trash"></span>
+            <span translate>Remove</span>
+          </button>
           <div id="time">{{user.creationDateTime | dateTime }}</div>
           <div *ngIf="user.superuser" id="superuser"><br translate>SuperUser</div>
         </h4>
-                
-        <ul>                    
+
+        <ul>
           <li *ngFor="let organization of user.organizations">
             <a [routerLink]="['/organization', organization.id]">
               {{organization.name | translateValue}}
@@ -80,7 +81,8 @@ export class UsersComponent {
   search$ = new BehaviorSubject('');
   role$ = new BehaviorSubject<string|null>(null);
   organization$ = new BehaviorSubject<OrganizationListItem|null>(null);
-  //users: UserViewModel[];
+  usersForOwnOrganizations = new Subject<User[]>();
+
   users$: Observable<UserViewModel[]>;
 
   constructor(private apiService: ApiService,
@@ -91,6 +93,8 @@ export class UsersComponent {
               private authorizationManager: AuthorizationManager,
               private deleteUserModal: DeleteConfirmationModalService) {
 
+    this.refreshUsers();
+
     this.apiService.getAllRoles().subscribe(roles => {
       this.roleOptions = [null, ...roles].map(role => ({
         value: role,
@@ -98,7 +102,9 @@ export class UsersComponent {
       }));
     });
 
-    this.apiService.getOrganizationList().subscribe(organizations => {
+    const organizations$ = this.apiService.getOrganizationList();
+
+    organizations$.subscribe(organizations => {
 
       const ownOrganizations = organizations.filter(org => {
 
@@ -110,43 +116,38 @@ export class UsersComponent {
         value: org,
         name: () => org ? languageService.translate(org.name) : translateService.instant('All organizations')
       }));
-
-      const organizationsById = index(organizations, org => org.id);
-
-      this.users$ = Observable.combineLatest(this.apiService.getUsersForOwnOrganizations(), this.search$, this.role$, this.organization$)
-        .map(([users, search, role, organization]) => {
-
-          const roleMatches = (user: UserViewModel) =>
-            !role || user.organizations.find(org => org.roles.indexOf(role) !== -1);
-
-          const organizationMatches = (user: UserViewModel) =>
-            !organization || user.organizations.find(org => org.id === organization.id) != null;
-
-          const searchMatchesName = (user: UserViewModel) =>
-            !search || user.displayName.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-
-          const searchMatchesEmail = (user: UserViewModel) =>
-            !search || user.email.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-
-          const searchMatches = (user: UserViewModel) =>
-            searchMatchesName(user) || searchMatchesEmail(user);
-
-          return users.map(user => new UserViewModel(user, organizationsById))
-            .filter(user => roleMatches(user) && organizationMatches(user) && searchMatches(user));
-        });
     });
+
+    this.users$ = Observable.combineLatest(organizations$, this.usersForOwnOrganizations, this.search$, this.role$, this.organization$)
+      .map(([organizations, users, search, role, organization]) => {
+
+        const roleMatches = (user: UserViewModel) =>
+          !role || user.organizations.find(org => org.roles.indexOf(role) !== -1);
+
+        const organizationMatches = (user: UserViewModel) =>
+          !organization || user.organizations.find(org => org.id === organization.id) != null;
+
+        const searchMatchesName = (user: UserViewModel) =>
+          !search || user.displayName.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+
+        const searchMatchesEmail = (user: UserViewModel) =>
+          !search || user.email.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+
+        const searchMatches = (user: UserViewModel) =>
+          searchMatchesName(user) || searchMatchesEmail(user);
+
+        return users.map(user => new UserViewModel(user, index(organizations, org => org.id)))
+          .filter(user => roleMatches(user) && organizationMatches(user) && searchMatches(user));
+      });
+  }
+
+  refreshUsers() {
+    this.apiService.getUsersForOwnOrganizations()
+      .subscribe(users => this.usersForOwnOrganizations.next(users));
   }
 
   get loading() {
     return this.roleOptions == null || this.organizationOptions == null;
-  }
-
-  get role(): string|null {
-    return this.role$.getValue();
-  }
-
-  set role(value: string|null) {
-    this.role$.next(value);
   }
 
   get organization(): OrganizationListItem|null {
@@ -170,9 +171,10 @@ export class UsersComponent {
   }
 
   removeUser(user: UserViewModel) {
-    this.deleteUserModal.open(user.displayName, user.email, "This user will be removed.")
-      .then((user) => {
-        this.apiService.removeUser(user.email).subscribe();
+    this.deleteUserModal.open(user.displayName, user.email, 'This user will be removed.')
+      .then(() => {
+        this.apiService.removeUser(user.email)
+          .subscribe(() => this.refreshUsers());
       }, ignoreModalClose);
   }
 }

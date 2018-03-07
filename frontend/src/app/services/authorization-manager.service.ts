@@ -37,4 +37,8 @@ export class AuthorizationManager {
     return this.user.superuser;
   }
 
+  canRemoveUser(): boolean {
+    return this.user.superuser;
+  }
+
 }

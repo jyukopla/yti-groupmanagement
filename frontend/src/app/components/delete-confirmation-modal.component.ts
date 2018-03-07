@@ -8,11 +8,12 @@ export class DeleteConfirmationModalService {
   constructor(private modalService: ModalService) {
   }
 
-  open(username: string, useremail: string): Promise<any> {
+  open(username: string, useremail: string, contenttext: string): Promise<any> {
     const modalRef = this.modalService.open(DeleteConfirmationModalComponent, { size: 'sm' });
     const instance = modalRef.componentInstance as DeleteConfirmationModalComponent;
     instance.username = username;
     instance.useremail = useremail;
+    instance.contenttext = contenttext;
     return modalRef.result;
   }
 }
@@ -31,7 +32,7 @@ export class DeleteConfirmationModalService {
       <div class="row">
         <div class="col-md-12">
           
-            <p translate>This user will be removed from organization after the changes are saved.</p>          
+            <p>{{contenttext | translate}}</p>
             <li>{{username}}  ({{useremail}})</li>
           <br>
           <span translate>Are you sure that you want to remove?</span>
@@ -49,6 +50,7 @@ export class DeleteConfirmationModalComponent {
 
   @Input() username: string;
   @Input() useremail: string;
+  @Input() contenttext: string;
 
   constructor(private modal: NgbActiveModal) {
   }

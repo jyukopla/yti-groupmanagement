@@ -31,6 +31,10 @@ export class ApiService {
       users.map(userModel => new User(userModel)));
   }
 
+  removeUser(userEmail: string): Observable<boolean> {
+    return this.endpoint.removeUser(userEmail);
+  }
+
   getOrganizationListOpt(showRemoved: boolean): Observable<OrganizationListItem[]> {
     return this.endpoint.getOrganizationsOpt(showRemoved);
   }

@@ -207,7 +207,7 @@ export class OrganizationComponent {
   }
 
   removeUser(user: UserViewModel) {
-    this.deleteUserModal.open(user.name, user.email)
+    this.deleteUserModal.open(user.name, user.email, "This user will be removed from organization after the changes are saved.")
       .then(() => {
         remove(this.users, user);
         this.usersAddedOrRemoved = true;

@@ -6,12 +6,15 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Localizable } from 'yti-common-ui/types/localization';
 import { requireDefined } from 'yti-common-ui/utils/object';
-import { index } from 'yti-common-ui/utils/array';
+import {index, remove} from 'yti-common-ui/utils/array';
 import { FilterOptions } from 'yti-common-ui/components/filter-dropdown.component';
 import { LanguageService } from '../services/language.service';
 import { TranslateService } from 'ng2-translate';
 import { User } from '../entities/user';
 import { UserService } from 'yti-common-ui/services/user.service';
+import {AuthorizationManager} from "../services/authorization-manager.service";
+import {ignoreModalClose} from "yti-common-ui/utils/modal";
+import {DeleteConfirmationModalService} from "./delete-confirmation-modal.component";
 
 @Component({
   selector: 'app-users',
@@ -42,6 +45,12 @@ import { UserService } from 'yti-common-ui/services/user.service';
     <div class="results">
       <div class="result" *ngFor="let user of users$ | async">
         <h4>{{user.displayName}} <span class="email">({{user.email}})</span>
+          <span><button class="btn btn-link btn-sm"
+                        (click)="removeUser(user)"
+                        *ngIf="canRemoveUser(user)">
+              <span class="fa fa-trash"></span>
+              <span translate>Remove</span>
+            </button></span>
           <div id="time">{{user.creationDateTime | dateTime }}</div>
           <div *ngIf="user.superuser" id="superuser"><br translate>SuperUser</div>
         </h4>
@@ -71,14 +80,16 @@ export class UsersComponent {
   search$ = new BehaviorSubject('');
   role$ = new BehaviorSubject<string|null>(null);
   organization$ = new BehaviorSubject<OrganizationListItem|null>(null);
-
+  //users: UserViewModel[];
   users$: Observable<UserViewModel[]>;
 
   constructor(private apiService: ApiService,
               private locationService: LocationService,
               languageService: LanguageService,
               translateService: TranslateService,
-              userService: UserService) {
+              userService: UserService,
+              private authorizationManager: AuthorizationManager,
+              private deleteUserModal: DeleteConfirmationModalService) {
 
     this.apiService.getAllRoles().subscribe(roles => {
       this.roleOptions = [null, ...roles].map(role => ({
@@ -152,6 +163,17 @@ export class UsersComponent {
 
   set search(value: string) {
     this.search$.next(value);
+  }
+
+  canRemoveUser(): boolean {
+    return this.authorizationManager.canRemoveUser();
+  }
+
+  removeUser(user: UserViewModel) {
+    this.deleteUserModal.open(user.displayName, user.email, "This user will be removed.")
+      .then((user) => {
+        this.apiService.removeUser(user.email).subscribe();
+      }, ignoreModalClose);
   }
 }
 

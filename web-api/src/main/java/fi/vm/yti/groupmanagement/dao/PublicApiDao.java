@@ -52,7 +52,7 @@ public class PublicApiDao {
 
     public List<PublicApiUserListItem> getUsers() {
         return database.findAll(PublicApiUserListItem.class,
-                "SELECT email, firstName, lastName, id FROM \"user\" ORDER BY lastname, firstname");
+                "SELECT email, firstName, lastName, id FROM \"user\" WHERE removed_at IS NULL ORDER BY lastname, firstname");
     }
 
     public @NotNull List<PublicApiOrganization> getOrganizations() {

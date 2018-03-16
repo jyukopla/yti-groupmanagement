@@ -96,6 +96,13 @@ bootRun {
 	systemProperties System.properties
 }
 
+sonarqube {
+    properties {
+        property "soar.projectKey", "yti-groupmanagement"
+        property "soar.projectName", "web-api"
+    }
+}
+
 apina {
     target = new File(project(":frontend").projectDir, 'src/app/apina.ts')
     blackBoxClasses = [/org\.dalesbred\..+/, /java\.time\..+/]

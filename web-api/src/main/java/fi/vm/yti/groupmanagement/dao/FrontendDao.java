@@ -79,9 +79,8 @@ public class FrontendDao {
     }
 
     public void removeUser(String email) {
-        System.out.print("removeUser");
         db.update("UPDATE \"user\" SET email=?, firstname=?, lastname=?, removed_at=? WHERE email = ?",
-                "", null, null, LocalDateTime.now(), email);
+                null, null, null, LocalDateTime.now(), email);
     }
 
     public @NotNull List<OrganizationListItem> getOrganizationListOpt(Boolean showRemoved) {

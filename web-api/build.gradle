@@ -105,7 +105,7 @@ bootRun {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "yti"
+        property "sonar.projectKey", "yti-groupmanagement-web-api"
         property "sonar.projectName", "yti-groupmanagement-web-api"
     }
 }

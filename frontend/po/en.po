@@ -64,16 +64,16 @@ msgstr ""
 msgid "No admin users yet"
 msgstr ""
 
-msgid "In finnish"
+msgid "In Finnish"
 msgstr ""
 
 msgid "Description"
 msgstr ""
 
-msgid "In english"
+msgid "In English"
 msgstr ""
 
-msgid "In swedish"
+msgid "In Swedish"
 msgstr ""
 
 msgid "Organizations"

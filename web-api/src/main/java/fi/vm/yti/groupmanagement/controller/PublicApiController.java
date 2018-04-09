@@ -36,7 +36,7 @@ public class PublicApiController {
     public PublicApiUser getUser(@RequestParam @NotNull String email,
                                  @RequestParam(required = false) @Nullable String firstName,
                                  @RequestParam(required = false) @Nullable String lastName) {
-        logger.info("getUser requested with email: " + email + ", and name: " + firstName + " " + lastName);
+        logger.info("GET /user requested");
         if (email.isEmpty()) {
             throw new RuntimeException("Email is a mandatory parameter");
         }
@@ -50,14 +50,14 @@ public class PublicApiController {
 
     @RequestMapping(value = "/users", method = GET, produces = APPLICATION_JSON_VALUE)
     public List<PublicApiUserListItem> getUsers() {
-        logger.info("getUsers requested");
+        logger.info("GET /users requested");
         return this.publicApiService.getUsers();
     }
 
     @RequestMapping(value = "/organizations", method = GET, produces = APPLICATION_JSON_VALUE)
     @CrossOrigin
     public List<PublicApiOrganization> getOrganizations() {
-        logger.info("getOrganizations requested");
+        logger.info("GET /organizations requested");
         return publicApiService.getOrganizations();
     }
 
@@ -65,13 +65,13 @@ public class PublicApiController {
     public void addUserRequest(@RequestParam String email,
                                @RequestParam UUID organizationId,
                                @RequestParam String role) {
-        logger.info("addUserRequest requested with email: " + email + " for organization id: " + organizationId + " for role: " + role);
+        logger.info("POST /request requested for organization id: " + organizationId + " for role: " + role);
         this.publicApiService.addUserRequest(email, organizationId, role);
     }
 
     @RequestMapping(value = "/requests", method = GET, produces = APPLICATION_JSON_VALUE)
     public List<PublicApiUserRequest> getUserRequests(@RequestParam String email) {
-        logger.info("getUserRequests requested with email: " + email);
+        logger.info("GET requests requested");
         return this.publicApiService.getUserRequests(email);
     }
 }

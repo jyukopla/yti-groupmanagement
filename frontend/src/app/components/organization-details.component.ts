@@ -38,7 +38,7 @@ import { NgForm } from '@angular/forms';
 
         <div class="col-md-4">
 
-          <h4 translate>In english</h4>
+          <h4 translate>In English</h4>
 
           <div class="form-group section">
 

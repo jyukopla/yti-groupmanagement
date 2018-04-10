@@ -11,7 +11,7 @@ import { NgForm } from '@angular/forms';
       <div class="row">
         <div class="col-md-4">
 
-          <h4 translate>In finnish</h4>
+          <h4 translate>In Finnish</h4>
           <div class="form-group section">
 
             <label for="name_fi" translate>Name</label>
@@ -65,7 +65,7 @@ import { NgForm } from '@angular/forms';
 
         <div class="col-md-4">
 
-          <h4 translate>In swedish</h4>
+          <h4 translate>In Swedish</h4>
 
           <div class="form-group section">
 

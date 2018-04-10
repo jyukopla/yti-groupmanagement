@@ -76,7 +76,7 @@ msgstr "Suomeksi"
 msgid "Description"
 msgstr "Kuvaus"
 
-msgid "In english"
+msgid "In English"
 msgstr "Englanniksi"
 
 msgid "In swedish"

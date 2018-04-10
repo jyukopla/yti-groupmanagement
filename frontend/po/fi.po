@@ -70,7 +70,7 @@ msgstr "Pääkäyttäjät"
 msgid "No admin users yet"
 msgstr "Ei vielä pääkäyttäjiä"
 
-msgid "In finnish"
+msgid "In Finnish"
 msgstr "Suomeksi"
 
 msgid "Description"
@@ -79,7 +79,7 @@ msgstr "Kuvaus"
 msgid "In English"
 msgstr "Englanniksi"
 
-msgid "In swedish"
+msgid "In Swedish"
 msgstr "Ruotsiksi"
 
 msgid "Search organization"

@@ -2,8 +2,8 @@
 <configuration>
 
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
-    <property name="LOG_PATH" value="/data/logs/yti-groupmanagement"/>
     <property name="SERVICE_NAME" value="yti-groupmanagement"/>
+    <property name="LOG_PATH" value="/data/logs/${SERVICE_NAME}"/>
 
     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/${SERVICE_NAME}.log</file>
@@ -23,7 +23,7 @@
                     <pattern>
                         {
                         "severity": "%level",
-                        "service": "${springAppName:-}",
+                        "service": "${SERVICE_NAME:-}",
                         "trace": "%X{X-B3-TraceId:-}",
                         "span": "%X{X-B3-SpanId:-}",
                         "parent": "%X{X-B3-ParentSpanId:-}",

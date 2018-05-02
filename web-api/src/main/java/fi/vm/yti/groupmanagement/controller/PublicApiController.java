@@ -33,9 +33,9 @@ public class PublicApiController {
     }
 
     @RequestMapping(value = "/user", method = GET, produces = APPLICATION_JSON_VALUE, params = "email")
-    public PublicApiUser getUser(@RequestParam @NotNull String email,
-                                 @RequestParam(required = false) @Nullable String firstName,
-                                 @RequestParam(required = false) @Nullable String lastName) {
+    public PublicApiUser getUserByEmail(@RequestParam @NotNull String email,
+                                        @RequestParam(required = false) @Nullable String firstName,
+                                        @RequestParam(required = false) @Nullable String lastName) {
         logger.info("GET /user requested");
         if (email.isEmpty()) {
             throw new RuntimeException("Email is a mandatory parameter");
@@ -49,7 +49,7 @@ public class PublicApiController {
     }
 
     @RequestMapping(value = "/user", method = GET, produces = APPLICATION_JSON_VALUE, params = "id")
-    public PublicApiUser getUser(@RequestParam @NotNull UUID id) {
+    public PublicApiUser getUserById(@RequestParam @NotNull UUID id) {
 
         logger.info("GET /user requested");
 

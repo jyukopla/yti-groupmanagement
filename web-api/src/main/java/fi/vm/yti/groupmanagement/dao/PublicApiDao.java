@@ -31,21 +31,33 @@ public class PublicApiDao {
         this.database.update("INSERT INTO \"user\" (email, firstName, lastName, superuser, id) VALUES (?,?,?,?,?)",
                 email, firstName, lastName, false, id);
 
-        return requireNonNull(findUser(email));
+        return requireNonNull(findUserByEmail(email));
     }
 
-    public @NotNull PublicApiUser getUser(@NotNull  String email) {
-        return requireNonNull(findUser(email));
+    public @NotNull PublicApiUser getUserByEmail(@NotNull  String email) {
+        return requireNonNull(findUserByEmail(email));
     }
 
-    public @Nullable PublicApiUser findUser(@NotNull  String email) {
+    public PublicApiUser getUserById(@NotNull UUID id) {
+        return requireNonNull(findUserById(id));
+    }
+
+    public @Nullable PublicApiUser findUserByEmail(@NotNull String email) {
+        return findUser("email", email);
+    }
+
+    public @Nullable PublicApiUser findUserById(@NotNull UUID id) {
+        return findUser("id", id);
+    }
+
+    private @Nullable PublicApiUser findUser(@NotNull String whereColumn, @NotNull Object conditionValue) {
 
         List<UserRow> rows = database.findAll(UserRow.class,
                 "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id, u.removed_at, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
                         "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
-                        "WHERE u.email = ? \n" +
-                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id, u.removed_at", email);
+                        "WHERE u." + whereColumn + " = ? \n" +
+                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id, u.removed_at", conditionValue);
 
         return requireSingleOrNone(rowsToAuthorizationUsers(rows));
     }

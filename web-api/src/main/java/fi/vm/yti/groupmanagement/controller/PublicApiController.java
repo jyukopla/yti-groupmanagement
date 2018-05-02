@@ -32,7 +32,7 @@ public class PublicApiController {
         this.publicApiService = publicApiService;
     }
 
-    @RequestMapping(value = "/user", method = GET, produces = APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/user", method = GET, produces = APPLICATION_JSON_VALUE, params = "email")
     public PublicApiUser getUser(@RequestParam @NotNull String email,
                                  @RequestParam(required = false) @Nullable String firstName,
                                  @RequestParam(required = false) @Nullable String lastName) {
@@ -44,8 +44,16 @@ public class PublicApiController {
         if (firstName != null && lastName != null) {
             return this.publicApiService.getOrCreateUser(email, firstName, lastName);
         } else {
-            return this.publicApiService.getUser(email);
+            return this.publicApiService.getUserByEmail(email);
         }
+    }
+
+    @RequestMapping(value = "/user", method = GET, produces = APPLICATION_JSON_VALUE, params = "id")
+    public PublicApiUser getUser(@RequestParam @NotNull UUID id) {
+
+        logger.info("GET /user requested");
+
+        return this.publicApiService.getUserById(id);
     }
 
     @RequestMapping(value = "/users", method = GET, produces = APPLICATION_JSON_VALUE)

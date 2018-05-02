@@ -24,14 +24,19 @@ public class PublicApiService {
     }
 
     @Transactional
-    public @NotNull PublicApiUser getUser(@NotNull String email) {
-        return this.publicApiDao.getUser(email);
+    public @NotNull PublicApiUser getUserByEmail(@NotNull String email) {
+        return this.publicApiDao.getUserByEmail(email);
+    }
+
+    @Transactional
+    public PublicApiUser getUserById(@NotNull UUID id) {
+        return this.publicApiDao.getUserById(id);
     }
 
     @Transactional
     public @NotNull PublicApiUser getOrCreateUser(@NotNull String email, @NotNull String firstName, @NotNull String lastName) {
 
-        PublicApiUser user = publicApiDao.findUser(email);
+        PublicApiUser user = publicApiDao.findUserByEmail(email);
 
         if (user != null) {
             return user;

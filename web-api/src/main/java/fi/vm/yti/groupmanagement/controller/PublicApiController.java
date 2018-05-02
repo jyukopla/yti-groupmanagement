@@ -9,10 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.UUID;
@@ -49,11 +49,17 @@ public class PublicApiController {
     }
 
     @RequestMapping(value = "/user", method = GET, produces = APPLICATION_JSON_VALUE, params = "id")
-    public PublicApiUser getUserById(@RequestParam @NotNull UUID id) {
+    public PublicApiUser findUserById(@RequestParam @NotNull UUID id) {
 
         logger.info("GET /user requested");
 
-        return this.publicApiService.getUserById(id);
+        PublicApiUser user = this.publicApiService.findUserById(id);
+
+        if (user == null) {
+            throw new UserNotFoundException(id);
+        }
+
+        return user;
     }
 
     @RequestMapping(value = "/users", method = GET, produces = APPLICATION_JSON_VALUE)

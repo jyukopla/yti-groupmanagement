@@ -29,8 +29,8 @@ public class PublicApiService {
     }
 
     @Transactional
-    public PublicApiUser getUserById(@NotNull UUID id) {
-        return this.publicApiDao.getUserById(id);
+    public PublicApiUser findUserById(@NotNull UUID id) {
+        return this.publicApiDao.findUserById(id);
     }
 
     @Transactional

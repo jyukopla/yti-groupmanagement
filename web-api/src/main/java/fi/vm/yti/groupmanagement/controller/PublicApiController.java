@@ -9,10 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,10 +32,10 @@ public class PublicApiController {
         this.publicApiService = publicApiService;
     }
 
-    @RequestMapping(value = "/user", method = GET, produces = APPLICATION_JSON_VALUE)
-    public PublicApiUser getUser(@RequestParam @NotNull String email,
-                                 @RequestParam(required = false) @Nullable String firstName,
-                                 @RequestParam(required = false) @Nullable String lastName) {
+    @RequestMapping(value = "/user", method = GET, produces = APPLICATION_JSON_VALUE, params = "email")
+    public PublicApiUser getUserByEmail(@RequestParam @NotNull String email,
+                                        @RequestParam(required = false) @Nullable String firstName,
+                                        @RequestParam(required = false) @Nullable String lastName) {
         logger.info("GET /user requested");
         if (email.isEmpty()) {
             throw new RuntimeException("Email is a mandatory parameter");
@@ -44,8 +44,22 @@ public class PublicApiController {
         if (firstName != null && lastName != null) {
             return this.publicApiService.getOrCreateUser(email, firstName, lastName);
         } else {
-            return this.publicApiService.getUser(email);
+            return this.publicApiService.getUserByEmail(email);
         }
+    }
+
+    @RequestMapping(value = "/user", method = GET, produces = APPLICATION_JSON_VALUE, params = "id")
+    public PublicApiUser findUserById(@RequestParam @NotNull UUID id) {
+
+        logger.info("GET /user requested");
+
+        PublicApiUser user = this.publicApiService.findUserById(id);
+
+        if (user == null) {
+            throw new UserNotFoundException(id);
+        }
+
+        return user;
     }
 
     @RequestMapping(value = "/users", method = GET, produces = APPLICATION_JSON_VALUE)

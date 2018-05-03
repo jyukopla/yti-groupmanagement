@@ -21,6 +21,7 @@ import { comparingPrimitive } from 'yti-common-ui/utils/comparator';
           <td class="actions">
 
             <button type="button"
+                    id="{{request.email + '_decline_request_button'}}"
                     class="btn btn-link"
                     (click)="declineRequest(request)">
               <i class="fa fa-trash"></i>
@@ -28,6 +29,7 @@ import { comparingPrimitive } from 'yti-common-ui/utils/comparator';
             </button>
 
             <button type="button"
+                    id="{{request.email + '_accept_request_button'}}"
                     class="btn btn-action"
                     (click)="acceptRequest(request)" translate>Accept</button>
           </td>

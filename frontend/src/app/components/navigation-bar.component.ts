@@ -9,23 +9,24 @@ import { LoginModalService } from 'yti-common-ui/components/login-modal.componen
   template: `
     <nav class="navbar navbar-expand-md navbar-light">
 
-      <a class="navbar-brand" [routerLink]="['/']"><span translate>Interoperability platform's user right management</span></a>
+      <a class="navbar-brand" id="groupmanagement_home_link" [routerLink]="['/']"><span translate>Interoperability platform's user right management</span></a>
 
       <ul class="navbar-nav ml-auto">
 
         <li class="nav-item" *ngIf="!isLoggedIn()">
-          <a class="nav-link" (click)="logIn()" translate>LOG IN</a>
+          <a class="nav-link" id="navigation_login_link" (click)="logIn()" translate>LOG IN</a>
         </li>
 
         <li class="nav-item logged-in" *ngIf="isLoggedIn()">
           <span>{{user.name}}</span>
-          <a class="nav-link" (click)="logOut()" translate>LOG OUT</a>
+          <a class="nav-link" id="navigation_logout_link" (click)="logOut()" translate>LOG OUT</a>
         </li>
 
         <li class="nav-item dropdown" placement="bottom-right" ngbDropdown>
-          <a class="dropdown-toggle nav-link btn btn-language" ngbDropdownToggle>{{language.toUpperCase()}}</a>
+          <a class="dropdown-toggle nav-link btn btn-language" id="lang_selection_dropdown" ngbDropdownToggle>{{language.toUpperCase()}}</a>
           <div ngbDropdownMenu>
             <a *ngFor="let availableLanguage of availableLanguages"
+               id="{{availableLanguage.code + '_available_language'}}"
                class="dropdown-item"
                [class.active]="availableLanguage.code === language"
                (click)="language = availableLanguage.code">
@@ -35,15 +36,15 @@ import { LoginModalService } from 'yti-common-ui/components/login-modal.componen
         </li>
 
         <li class="nav-item dropdown" placement="bottom-right" ngbDropdown>
-          <a class="nav-link btn-menu" ngbDropdownToggle>
+          <a class="nav-link btn-menu" id="app_menu_dropdown" ngbDropdownToggle>
             <app-menu></app-menu>
           </a>
           <div ngbDropdownMenu>
-            <a class="dropdown-item" *ngIf="isLoggedIn()" (click)="logOut()">
+            <a class="dropdown-item" id="logout_link" *ngIf="isLoggedIn()" (click)="logOut()">
               <i class="fa fa-sign-out"></i>
               <span translate>LOG OUT</span>
             </a>
-            <a class="dropdown-item" *ngIf="!isLoggedIn()" (click)="logIn()">
+            <a class="dropdown-item" id="login_link" *ngIf="!isLoggedIn()" (click)="logIn()">
               <i class="fa fa-sign-in"></i>
               <span translate>LOG IN</span>
             </a>

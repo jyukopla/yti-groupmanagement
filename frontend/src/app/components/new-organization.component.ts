@@ -20,6 +20,7 @@ import { OrganizationDetailsComponent } from './organization-details.component';
       <div class="clearfix">
         <h1 class="pull-left" translate>New organization</h1>        
         <button type="button"
+                id="save_organization_button"
                 [disabled]="!isValid()"
                 class="btn btn-action pull-right"
                 appNotification
@@ -29,12 +30,14 @@ import { OrganizationDetailsComponent } from './organization-details.component';
         </button>
 
         <button type="submit"
+                id="cancel_button"
                 class="btn btn-link cancel pull-right"
                 (click)="back()" translate>Cancel
         </button>
       </div>
 
       <app-organization-details #details="details"
+                                id="organization_details"
                                 [organization]="organization" 
                                 [editing]="true"></app-organization-details>
 
@@ -42,10 +45,11 @@ import { OrganizationDetailsComponent } from './organization-details.component';
 
       <p *ngIf="organizationAdminUsers.length === 0" translate>No admin users yet</p>
       <ul *ngIf="organizationAdminUsers.length > 0">
-        <li *ngFor="let user of organizationAdminUsers">{{user.name}}</li>
+        <li *ngFor="let user of organizationAdminUsers" id="{{user.email + '_org_admin_user_item'}}">{{user.name}}</li>
       </ul>
 
       <button type="button"
+              id="add_user_button"
               class="btn btn-action"
               (click)="addUser()" translate>Add user</button>
 

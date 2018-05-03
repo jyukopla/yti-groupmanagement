@@ -109,6 +109,7 @@ import { NgForm } from '@angular/forms';
           <div class="form-check" *ngIf="editing">
             <label class="form-check-label">
               <input class="form-check-input" 
+                     id="organization_removed_checkbox"
                      type="checkbox" 
                      name="removed" 
                      [(ngModel)]="organization.removed" />

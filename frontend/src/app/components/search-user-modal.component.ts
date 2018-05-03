@@ -29,7 +29,7 @@ export class SearchUserModalService {
   template: `
     <div class="modal-header">
       <h4 class="modal-title">
-        <a><i class="fa fa-times" (click)="cancel()"></i></a>
+        <a><i class="fa fa-times" id="search_modal_cancel_link" (click)="cancel()"></i></a>
         <span translate>Select user</span>
       </h4>
     </div>
@@ -39,6 +39,7 @@ export class SearchUserModalService {
         <div class="col-12">
           <div class="input-group input-group-lg input-group-search">
             <input #searchInput
+                   id="search_user_input"
                    type="text"
                    class="form-control"
                    placeholder="{{'Search user' | translate}}"
@@ -53,6 +54,7 @@ export class SearchUserModalService {
             <div class="search-results">
               <div *ngFor="let user of searchResults$ | async; let last = last"
                    class="search-result"
+                   id="{{'search_results_user_' + user.email}}"
                    (click)="selectUser(user)">
 
                 <div class="content" [class.last]="last">
@@ -69,6 +71,7 @@ export class SearchUserModalService {
     <div class="modal-footer">
 
       <button type="button"
+              id="cancel_button"
               class="btn btn-link cancel"
               (click)="cancel()" translate>Cancel
       </button>

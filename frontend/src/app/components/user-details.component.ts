@@ -18,7 +18,7 @@ interface UserOrganizationRoles {
   template: `
     <div class="content-box" *ngIf="!loading">
 
-      <app-back-button (back)="back()"></app-back-button>
+      <app-back-button id="back_button" (back)="back()"></app-back-button>
       
       <div class="page-header">
         <h1 translate>User details</h1>

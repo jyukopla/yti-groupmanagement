@@ -23,24 +23,26 @@ import { matches } from 'yti-common-ui/utils/string';
 
         <div class="input-group input-group-lg input-group-search pull-left">
           <input class="form-control"
+                 id="search_organization_input"
                  type="text"
                  [(ngModel)]="search"
                  placeholder="{{'Search organization' | translate}}"/>
         </div>
 
         <div>
-          <input #showRemovedCheckBox id="showRemovedCheckBox" type="checkbox" name="showRemovedCheckBox"                 
+          <input #showRemovedCheckBox id="showRemovedCheckBox" id="show_removed_organizations_checkbox" type="checkbox" name="showRemovedCheckBox"
                  (change)="showRemovedChanged()"/>
                  <span translate>Show removed organizations only</span>
         </div>
         
-        <button class="btn btn-action pull-right" (click)="addOrganization()"
+        <button class="btn btn-action pull-right" id="add_new_organization_button" (click)="addOrganization()"
                 *ngIf="canCreateOrganization()">
           <span translate>Add new organization</span>
         </button>
       </div>      
 
       <div *ngFor="let organization of filteredOrganizations"
+           id="{{'organization_list_item_' + organization.id}}"
            class="organization"
            [class.viewable]="canViewOrganization(organization)"
            (click)="navigate(organization)">

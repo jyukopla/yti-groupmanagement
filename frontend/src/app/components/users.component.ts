@@ -28,6 +28,7 @@ import { Subject } from 'rxjs/Subject';
 
       <div class="input-group input-group-search pull-left">
         <input #searchInput
+               id="search_user_input"
                type="text"
                class="form-control"
                placeholder="{{'Search user' | translate}}"
@@ -35,10 +36,12 @@ import { Subject } from 'rxjs/Subject';
       </div>
 
       <app-filter-dropdown [options]="organizationOptions"
+                           id="organizations_dropdown"
                            [filterSubject]="organization$"
                            class="pull-left ml-2"></app-filter-dropdown>
 
       <app-filter-dropdown [options]="roleOptions"
+                           id="roles_dropdown"
                            [filterSubject]="role$"
                            class="pull-left ml-2"></app-filter-dropdown>
     </div>
@@ -47,6 +50,7 @@ import { Subject } from 'rxjs/Subject';
       <div class="result" *ngFor="let user of users$ | async">
         <h4>{{user.displayName}} <span class="email">({{user.email}})</span>
           <button class="btn btn-link btn-sm"
+                  id="{{user.email + '_remove_user_button'}}"
                   (click)="removeUser(user)"
                   *ngIf="canRemoveUser()">
             <span class="fa fa-trash"></span>
@@ -58,11 +62,11 @@ import { Subject } from 'rxjs/Subject';
 
         <ul>
           <li *ngFor="let organization of user.organizations">
-            <a [routerLink]="['/organization', organization.id]">
+            <a [routerLink]="['/organization', organization.id]" id="{{'organization_listitem_' + organization.id}}">
               {{organization.name | translateValue}}
             </a>:
             <span *ngFor="let role of organization.roles; let last = last">
-                <span class="role">{{role | translate}}</span><span [hidden]="last">,</span>
+                <span class="role" id="{{'role_item_' + role}}">{{role | translate}}</span><span [hidden]="last">,</span>
               </span>
           </li>
         </ul>

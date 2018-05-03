@@ -20,17 +20,18 @@ import { OrganizationDetailsComponent } from './organization-details.component';
   template: `
     <div class="content-box" *ngIf="organization">
 
-      <app-back-button (back)="back()"></app-back-button>
+      <app-back-button id="app_back_button" (back)="back()"></app-back-button>
       
       <div class="clearfix">
         <h1 class="pull-left" translate>Organization</h1>
 
-        <button class="btn btn-action pull-right" (click)="startEditing()"
+        <button class="btn btn-action pull-right" id="edit_organization_button" (click)="startEditing()"
                 *ngIf="!editing && !notificationVisible && canEditOrganization()">
           <span translate>Edit organization</span>
         </button>
 
         <button type="button"
+                id="save_organization_button"
                 *ngIf="editing || notificationVisible"
                 [disabled]="!hasChanges() || !isValid() || notificationVisible"
                 appNotification
@@ -41,6 +42,7 @@ import { OrganizationDetailsComponent } from './organization-details.component';
         </button>
 
         <button type="submit"
+                id="cancel_editing_button"
                 class="btn btn-link cancel pull-right"
                 *ngIf="editing || notificationVisible"
                 (click)="cancelEditing()" translate>Cancel
@@ -72,12 +74,14 @@ import { OrganizationDetailsComponent } from './organization-details.component';
           <td>{{user.email}}</td>
           <td *ngFor="let role of availableRoles" class="check">
             <input type="checkbox"
+                   id="{{role + '_user_role_checkbox'}}"
                    [checked]="user.isInRole(role)"
                    [disabled]="!editing || isRoleDisabledForUser(user, role)"
                    (click)="user.toggleRole(role)"/>
           </td>
           <td>
             <button class="btn btn-link btn-sm"
+                    id="{{user.email + '_remove_user_button'}}"
                     (click)="removeUser(user)"
                     *ngIf="canRemove(user)">
               <span class="fa fa-trash"></span>
@@ -90,6 +94,7 @@ import { OrganizationDetailsComponent } from './organization-details.component';
 
       <div *ngIf="editing" class="actions">
         <button type="button"
+                id="add_user_button"
                 class="btn btn-action"
                 (click)="addUser()" translate>Add user
         </button>

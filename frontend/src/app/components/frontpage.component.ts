@@ -11,7 +11,7 @@ import { AuthorizationManager } from '../services/authorization-manager.service'
       <app-user-requests></app-user-requests>
       
       <ngb-tabset>
-        <ngb-tab>
+        <ngb-tab id="organizations_tab">
           <ng-template ngbTabTitle>
             <span translate>ORGANIZATIONS</span>
           </ng-template>
@@ -21,7 +21,7 @@ import { AuthorizationManager } from '../services/authorization-manager.service'
           </ng-template>
         </ngb-tab>
 
-        <ngb-tab *ngIf="canBrowseUsers()">
+        <ngb-tab id="users_tab" *ngIf="canBrowseUsers()">
           <ng-template ngbTabTitle>
             <span translate>USERS</span>
           </ng-template>

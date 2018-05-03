@@ -13,6 +13,7 @@ import { LocationService } from '../services/location.service';
       <router-outlet></router-outlet>
     </div>
     <app-footer [title]="'Interoperability platform´s user right management' | translate" 
+                id="navigate_to_info_link"
                 (informationClick)="navigateToInformation()"></app-footer>
   `
 })

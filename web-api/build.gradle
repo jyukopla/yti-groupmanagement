@@ -19,6 +19,17 @@ artifactoryPublish.skip = true
 
 repositories {
     mavenLocal()
+
+    // put your artifactory parameters to $HOME/.gradle/gradle.properties
+    if (project.hasProperty('artifactoryUrl')) {
+        maven {
+            url "$artifactoryUrl"
+            credentials {
+                username "$artifactoryUsername"
+                password "$artifactoryPassword"
+            }
+        }
+    }
 }
 
 configurations {
@@ -46,7 +57,7 @@ dependencies {
     compile "org.springframework.security:spring-security-core"
     compile "org.springframework.security:spring-security-config"
     compile "org.springframework.security:spring-security-web"
-    compile "fi.vm.yti:yti-spring-security:0.1-SNAPSHOT"
+    compile "fi.vm.yti:yti-spring-security:0.1.0"
 
     compile "org.postgresql:postgresql:9.4.1212"
     compile "org.dalesbred:dalesbred:1.2.5"

@@ -159,7 +159,7 @@ public class FrontendDao {
     public @NotNull List<UserRequestWithOrganization> getAllUserRequestsForOrganizations(@Nullable Set<UUID> organizations) {
 
         QueryBuilder builder = new QueryBuilder(
-                "SELECT r.id, us.email, r.organization_id, r.role_name, us.firstName, us.lastName, org.name_fi, org.name_en, org.name_sv, r.sent \n" +
+                "SELECT r.id, us.email as user_email, r.organization_id, r.role_name, us.firstName, us.lastName, org.name_fi, org.name_en, org.name_sv, r.sent \n" +
                         "FROM request r\n" +
                         "LEFT JOIN \"user\" us ON (us.id = r.user_id)\n" +
                         "LEFT JOIN organization org ON (org.id = r.organization_id)\n");
@@ -177,7 +177,7 @@ public class FrontendDao {
 
     public @NotNull UserRequest getUserRequest(int requestId) {
         return db.findUnique(UserRequest.class,
-                "SELECT r.id, u.email, r.organization_id, r.role_name, r.sent FROM request r \n" +
+                "SELECT r.id, u.email as user_email, r.organization_id, r.role_name, r.sent FROM request r \n" +
                         "LEFT JOIN \"user\" u on (u.id = r.user_id) \n" +
                         "WHERE r.id = ?", requestId);
     }

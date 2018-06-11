@@ -55,7 +55,7 @@ public class PublicApiDao {
         List<UserRow> rows = database.findAll(UserRow.class,
                 "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id, u.removed_at, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
-                        "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
+                        "  LEFT JOIN user_organization uo ON (uo.user_id = u.id) \n" +
                         "WHERE u." + whereColumn + " = ? \n" +
                         "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id, u.removed_at", conditionValue);
 
@@ -90,7 +90,7 @@ public class PublicApiDao {
     }
 
     public void addUserRequest(String email, UUID organizationId, String role) {
-        database.update("INSERT INTO request (user_email, organization_id, role_name, sent) VALUES (?,?,?,?)",
+        database.update("INSERT INTO request (user_id, organization_id, role_name, sent) VALUES ((select id from \"user\" where email = ?),?,?,?)",
                 email, organizationId, role, false);
     }
 
@@ -119,9 +119,10 @@ public class PublicApiDao {
     public List<PublicApiUserRequest> getUserRequests(String email) {
         return database.findAll(PublicApiUserRequest.class,
                 "SELECT organization_id, array_agg(role_name)\n" +
-                        "FROM request\n" +
-                        "WHERE user_email = ? \n" +
-                        "GROUP BY organization_id", email);
+                        "FROM request r \n" +
+                        "LEFT JOIN \"user\" u on (u.id = r.user_id)" +
+                        "WHERE u.email = ? \n" +
+                        "GROUP BY r.organization_id", email);
     }
 
     public static final class OrganizationRow {

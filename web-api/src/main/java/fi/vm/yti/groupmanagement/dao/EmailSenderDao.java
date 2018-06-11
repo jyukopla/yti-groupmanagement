@@ -32,9 +32,10 @@ public class EmailSenderDao {
                         "    WHERE r.sent = FALSE\n" +
                         "    GROUP BY org.id, org.name_fi, org.name_en, org.name_sv\n" +
                         ")\n" +
-                        "SELECT uro.id, uro.name_fi, uro.name_en, uro.name_sv, array_agg(uo.user_email) as admin_emails, uro.request_count\n" +
+                        "SELECT uro.id, uro.name_fi, uro.name_en, uro.name_sv, array_agg(u.email) as admin_emails, uro.request_count\n" +
                         "FROM unsent_requests_in_organizations uro\n" +
                         "  LEFT JOIN user_organization uo ON (uo.organization_id = uro.id)\n" +
+                        "  LEFT JOIN \"user\" u ON (u.id = UO.user_id)" +
                         "WHERE uo.role_name = 'ADMIN'\n" +
                         "GROUP BY uro.id, uro.name_fi, uro.name_en, uro.name_sv, uro.request_count");
     }

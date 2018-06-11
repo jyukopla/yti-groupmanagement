@@ -30,8 +30,8 @@ public class FrontendDao {
         List<UserRow> rows = db.findAll(UserRow.class,
                     "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id, u.removed_at, array_agg(uo.role_name) AS roles \n" +
                             "FROM \"user\" u \n" +
-                            "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
-                            "WHERE uo.organization_id IN (SELECT organization_id FROM user_organization WHERE user_email = ? and role_name='ADMIN') \n" +
+                            "  LEFT JOIN user_organization uo ON (uo.user_id = u.id) \n" +
+                            "WHERE uo.organization_id IN (SELECT organization_id FROM user_organization WHERE u.email = ? and role_name='ADMIN') \n" +
                             "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id \n" +
                             "ORDER BY u.lastName, u.firstName \n" +
                             "", email);
@@ -57,7 +57,7 @@ public class FrontendDao {
         List<UserRow> rows = db.findAll(UserRow.class,
                 "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id, u.removed_at, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
-                        "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) WHERE u.removed_at IS NULL \n" +
+                        "  LEFT JOIN user_organization uo ON (uo.user_id = u.id) WHERE u.removed_at IS NULL \n" +
                         "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id \n" +
                         "ORDER BY u.lastName, u.firstName \n" +
                         "");
@@ -102,7 +102,7 @@ public class FrontendDao {
         List<UserRow> rows = db.findAll(UserRow.class,
                 "SELECT u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id, u.removed_at, array_agg(uo.role_name) AS roles \n" +
                         "FROM \"user\" u \n" +
-                        "  LEFT JOIN user_organization uo ON (uo.user_email = u.email) \n" +
+                        "  LEFT JOIN user_organization uo ON (uo.user_id = u.id) \n" +
                         "WHERE uo.organization_id = ? \n" +
                         "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id", organizationId);
 
@@ -138,7 +138,7 @@ public class FrontendDao {
     }
 
     public void addUserToRoleInOrganization(String userEmail, String role, UUID id) {
-        db.update("INSERT INTO user_organization (user_email, organization_id, role_name) VALUES (?, ?, ?)", userEmail, id, role);
+        db.update("INSERT INTO user_organization (user_id, organization_id, role_name) VALUES ((select id from \"user\" where email = ?), ?, ?)", userEmail, id, role);
     }
 
     public void clearUserRoles(UUID id) {
@@ -152,16 +152,16 @@ public class FrontendDao {
     public String getOrganizationNameFI(UUID id ) { return db.findUnique(String.class,"SELECT name_fi FROM organization WHERE id=?", id);}
 
     public void addUserRequest(UserRequestModel userRequest) {
-        db.update("INSERT INTO request (user_email, organization_id, role_name, sent) VALUES (?,?,?,?)",
+        db.update("INSERT INTO request (user_id, organization_id, role_name, sent) VALUES ((select id from \"user\" where email = ?),?,?,?)",
                 userRequest.email, userRequest.organizationId, userRequest.role, false);
     }
 
     public @NotNull List<UserRequestWithOrganization> getAllUserRequestsForOrganizations(@Nullable Set<UUID> organizations) {
 
         QueryBuilder builder = new QueryBuilder(
-                "SELECT r.id, r.user_email, r.organization_id, r.role_name, us.firstName, us.lastName, org.name_fi, org.name_en, org.name_sv, r.sent \n" +
+                "SELECT r.id, us.email, r.organization_id, r.role_name, us.firstName, us.lastName, org.name_fi, org.name_en, org.name_sv, r.sent \n" +
                         "FROM request r\n" +
-                        "LEFT JOIN \"user\" us ON (us.email = r.user_email)\n" +
+                        "LEFT JOIN \"user\" us ON (us.id = r.user_id)\n" +
                         "LEFT JOIN organization org ON (org.id = r.organization_id)\n");
 
         if (organizations != null) {
@@ -177,7 +177,8 @@ public class FrontendDao {
 
     public @NotNull UserRequest getUserRequest(int requestId) {
         return db.findUnique(UserRequest.class,
-                "SELECT r.id, r.user_email, r.organization_id, r.role_name, r.sent FROM request r\n" +
+                "SELECT r.id, u.email, r.organization_id, r.role_name, r.sent FROM request r \n" +
+                        "LEFT JOIN \"user\" u on (u.id = r.user_id) \n" +
                         "WHERE r.id = ?", requestId);
     }
 

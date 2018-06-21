@@ -14,7 +14,6 @@ import { AppComponent } from './components/app.component';
 import { ApinaConfig, ApinaModule } from './apina';
 import { FrontpageComponent } from './components/frontpage.component';
 import { LanguageService } from './services/language.service';
-import { NavigationBarComponent } from './components/navigation-bar.component';
 import { TranslateValuePipe } from './pipes/translate-value.pipe';
 import { LocationService } from './services/location.service';
 import { UsersComponent } from './components/users.component';
@@ -36,6 +35,8 @@ import { ConfirmationModalService } from 'yti-common-ui/components/confirmation-
 import { FormatDateTimePipe } from './pipes/format-date-time.pipe';
 import { InformationAboutServiceComponent } from './components/information/information-about-service.component';
 import { ModalService } from './services/modal.service';
+import { NavigationBarComponent } from './components/navigation/navigation-bar.component';
+import { LogoComponent } from './components/navigation/logo.component';
 
 const localizations: { [lang: string]: string} = {
   fi: Object.assign({},
@@ -134,7 +135,8 @@ const appRoutes: Routes = [
     DeleteConfirmationModalComponent,
     OrganizationComponent,
     FormatDateTimePipe,
-    InformationAboutServiceComponent
+    InformationAboutServiceComponent,
+    LogoComponent
   ],
   entryComponents: [
     SearchUserModalComponent,
@@ -149,7 +151,6 @@ const appRoutes: Routes = [
     NgbModule.forRoot(),
     TranslateModule.forRoot({ provide: TranslateLoader, useFactory: createTranslateLoader }),
     YtiCommonModule
-
   ],
   providers: [
     { provide: AUTHENTICATED_USER_ENDPOINT, useFactory: resolveAuthenticatedUserEndpoint },

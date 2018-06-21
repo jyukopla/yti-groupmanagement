@@ -11,7 +11,7 @@ import { LoginModalService } from 'yti-common-ui/components/login-modal.componen
 
       <div class="navbar-header">
         <div class="navbar-fluid logo">
-          <a id="groupmanagement_home_link" class="navbar-brand" [routerLink]="['/']">
+          <a id="main_page_link" class="navbar-brand" [routerLink]="['/']">
             <div class="logocontainer">
               <span>
                 <svg id="flagimage" class="applogo">

@@ -130,6 +130,9 @@ msgstr "Terminology editor"
 msgid "CODE_LIST_EDITOR"
 msgstr "Code list editor"
 
+msgid "MEMBER"
+msgstr "Member"
+
 msgid "Confirm remove"
 msgstr ""
 

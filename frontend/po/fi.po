@@ -130,6 +130,9 @@ msgstr "Sanastotyöntekijä"
 msgid "CODE_LIST_EDITOR"
 msgstr "Koodistotyöntekijä"
 
+msgid "MEMBER"
+msgstr "Jäsen"
+
 msgid "All roles"
 msgstr "Kaikki roolit"
 

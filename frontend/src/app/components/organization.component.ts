@@ -8,11 +8,12 @@ import { SearchUserModalService } from './search-user-modal.component';
 import { ApiService } from '../services/api.service';
 import { DeleteConfirmationModalService } from './delete-confirmation-modal.component';
 import { NotificationDirective } from 'yti-common-ui/components/notification.component';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthorizationManager } from '../services/authorization-manager.service';
 import { anyMatching, remove } from 'yti-common-ui/utils/array';
 import { ConfirmationModalService } from 'yti-common-ui/components/confirmation-modal.component';
 import { OrganizationDetailsComponent } from './organization-details.component';
+import { flatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-organization',
@@ -23,9 +24,9 @@ import { OrganizationDetailsComponent } from './organization-details.component';
       <app-back-button id="app_back_button" (back)="back()"></app-back-button>
       
       <div class="clearfix">
-        <h1 class="pull-left" translate>Organization</h1>
+        <h1 class="float-left" translate>Organization</h1>
 
-        <button class="btn btn-action pull-right" id="edit_organization_button" (click)="startEditing()"
+        <button class="btn btn-action float-right" id="edit_organization_button" (click)="startEditing()"
                 *ngIf="!editing && !notificationVisible && canEditOrganization()">
           <span translate>Edit organization</span>
         </button>
@@ -36,16 +37,15 @@ import { OrganizationDetailsComponent } from './organization-details.component';
                 [disabled]="!hasChanges() || !isValid() || notificationVisible"
                 appNotification
                 #notification="notification"
-                class="btn btn-action pull-right"
-                (click)="saveOrganization()"
-                translate>Save
+                class="btn btn-action float-right"
+                (click)="saveOrganization()">{{'Save' | translate}}
         </button>
 
         <button type="submit"
                 id="cancel_editing_button"
-                class="btn btn-link cancel pull-right"
+                class="btn btn-link cancel float-right"
                 *ngIf="editing || notificationVisible"
-                (click)="cancelEditing()" translate>Cancel
+                (click)="cancelEditing()">{{'Cancel' | translate}}
         </button>
 
       </div>
@@ -96,7 +96,7 @@ import { OrganizationDetailsComponent } from './organization-details.component';
         <button type="button"
                 id="add_user_button"
                 class="btn btn-action"
-                (click)="addUser()" translate>Add user
+                (click)="addUser()">{{'Add user' | translate}}
         </button>
       </div>
 
@@ -131,10 +131,10 @@ export class OrganizationComponent {
               private translateService: TranslateService,
               private authorizationManager: AuthorizationManager) {
 
-    const organizationWithUsers$ = route.params.flatMap(params => {
+    const organizationWithUsers$ = route.params.pipe(flatMap(params => {
       const organizationId = params['id'];
       return apiService.getOrganization(organizationId);
-    });
+    }));
 
     organizationWithUsers$.subscribe(organizationWithUsers => {
 

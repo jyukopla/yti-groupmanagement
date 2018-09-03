@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform, OnDestroy } from '@angular/core';
 import { LanguageService } from '../services/language.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { Localizable } from 'yti-common-ui/types/localization';
 
 @Pipe({

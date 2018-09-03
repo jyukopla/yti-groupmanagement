@@ -5,15 +5,16 @@ plugins {
 }
 
 node {
-    version = '6.10.1'
+    version = '8.11.4'
     workDir = file("${project.buildDir}/nodejs")
     download = true
 }
 
+String yarnVersion = "1.9.4"
+
 // This manual setup is not necessary once https://github.com/srs/gradle-node-plugin/issues/175 is fixed
 task yarnSetup(dependsOn: nodeSetup) {
     File yarnDir = file(".gradle/yarn")
-    String yarnVersion = "0.28.4"
 
     group = 'node'
     description = "Install yarn into .gradle/yarn"
@@ -45,7 +46,7 @@ task yarnInstall(type: NodeTask, dependsOn: yarnSetup) {
     inputs.file 'package.json'
     inputs.file 'yarn.lock'
     outputs.dir 'node_modules'
-    script = file(".gradle/yarn/dist/bin/yarn.js")
+    script = file(".gradle/yarn/yarn-v${yarnVersion}/bin/yarn.js")
     args = ['install', '--pure-lockfile']
 }
 

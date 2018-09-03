@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "yti-terminology-ui": {
+    "yti-groupmanagement": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -14,7 +14,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "preserveSymlinks": true,
-            "outputPath": "dist/yti-terminology-ui",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -52,18 +52,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "yti-terminology-ui:build"
+            "browserTarget": "yti-groupmanagement:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "yti-terminology-ui:build:production"
+              "browserTarget": "yti-groupmanagement:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "yti-terminology-ui:build"
+            "browserTarget": "yti-groupmanagement:build"
           }
         },
         "test": {
@@ -97,7 +97,7 @@
         }
       }
     },
-    "yti-terminology-ui-e2e": {
+    "yti-groupmanagement-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -105,11 +105,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "yti-terminology-ui:serve"
+            "devServerTarget": "yti-groupmanagement:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "yti-terminology-ui:serve:production"
+              "devServerTarget": "yti-groupmanagement:serve:production"
             }
           }
         },
@@ -125,5 +125,5 @@
       }
     }
   },
-  "defaultProject": "yti-terminology-ui"
+  "defaultProject": "yti-groupmanagement"
 }

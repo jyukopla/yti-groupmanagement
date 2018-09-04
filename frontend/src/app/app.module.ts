@@ -38,14 +38,27 @@ import { NavigationBarComponent } from './components/navigation/navigation-bar.c
 import { LogoComponent } from './components/navigation/logo.component';
 import { of } from 'rxjs';
 
-const localizations: { [lang: string]: string } = {
+function removeEmptyValues(obj: {}) {
+
+  const result: any = {};
+
+  for (const [key, value] of Object.entries(obj)) {
+    if (!!value) {
+      result[key] = value;
+    }
+  }
+
+  return result;
+}
+
+const localizations: { [lang: string]: any } = {
   fi: {
-    ...JSON.parse(require('raw-loader!po-loader?format=mf!../../po/fi.po')),
-    ...JSON.parse(require('raw-loader!po-loader?format=mf!yti-common-ui/po/fi.po'))
+    ...removeEmptyValues(JSON.parse(require(`raw-loader!po-loader?format=mf!../../po/fi.po`))),
+    ...removeEmptyValues(JSON.parse(require(`raw-loader!po-loader?format=mf!yti-common-ui/po/fi.po`)))
   },
   en: {
-    ...JSON.parse(require('raw-loader!po-loader?format=mf!../../po/en.po')),
-    ...JSON.parse(require('raw-loader!po-loader?format=mf!yti-common-ui/po/en.po'))
+    ...removeEmptyValues(JSON.parse(require(`raw-loader!po-loader?format=mf!../../po/en.po`))),
+    ...removeEmptyValues(JSON.parse(require(`raw-loader!po-loader?format=mf!yti-common-ui/po/en.po`)))
   }
 };
 
@@ -152,14 +165,14 @@ const appRoutes: Routes = [
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader
-      }
+      },
+      missingTranslationHandler: { provide: MissingTranslationHandler, useFactory: createMissingTranslationHandler }
     }),
     YtiCommonModule
   ],
   providers: [
     { provide: AUTHENTICATED_USER_ENDPOINT, useFactory: resolveAuthenticatedUserEndpoint },
     { provide: LOCALIZER, useExisting: LanguageService },
-    { provide: MissingTranslationHandler, useFactory: createMissingTranslationHandler },
     LanguageService,
     LocationService,
     ApiService,

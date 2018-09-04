@@ -8,8 +8,7 @@ import {
   MissingTranslationHandlerParams,
   TranslateLoader,
   TranslateModule
-} from 'ng2-translate';
-import { Observable } from 'rxjs/Observable';
+} from '@ngx-translate/core';
 import { AppComponent } from './components/app.component';
 import { ApinaConfig, ApinaModule } from './apina';
 import { FrontpageComponent } from './components/frontpage.component';
@@ -39,17 +38,18 @@ import { NavigationBarComponent } from './components/navigation/navigation-bar.c
 import { LogoComponent } from './components/navigation/logo.component';
 import {HttpModule} from "@angular/http";
 import {ConfigService} from "./services/config.service";
+import { of } from 'rxjs';
 
-const localizations: { [lang: string]: string} = {
-  fi: Object.assign({},
-    require('json-loader!po-loader?format=mf!../../po/fi.po'),
-    require('json-loader!po-loader?format=mf!yti-common-ui/po/fi.po')
-  )
-  ,
-  en: Object.assign({},
-    require('json-loader!po-loader?format=mf!../../po/en.po'),
-    require('json-loader!po-loader?format=mf!yti-common-ui/po/en.po')
-  )
+
+const localizations: { [lang: string]: string } = {
+  fi: {
+    ...JSON.parse(require('raw-loader!po-loader?format=mf!../../po/fi.po')),
+    ...JSON.parse(require('raw-loader!po-loader?format=mf!yti-common-ui/po/fi.po'))
+  },
+  en: {
+    ...JSON.parse(require('raw-loader!po-loader?format=mf!../../po/en.po')),
+    ...JSON.parse(require('raw-loader!po-loader?format=mf!yti-common-ui/po/en.po'))
+  }
 };
 
 export function resolveAuthenticatedUserEndpoint() {
@@ -57,7 +57,7 @@ export function resolveAuthenticatedUserEndpoint() {
 }
 
 export function createTranslateLoader(): TranslateLoader {
-  return { getTranslation: (lang: string) => Observable.of(localizations[lang]) };
+  return { getTranslation: (lang: string) => of(localizations[lang]) };
 }
 
 export function createMissingTranslationHandler(): MissingTranslationHandler {
@@ -152,7 +152,12 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
     NgbModule.forRoot(),
-    TranslateModule.forRoot({ provide: TranslateLoader, useFactory: createTranslateLoader }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader
+      }
+    }),
     YtiCommonModule
   ],
   providers: [

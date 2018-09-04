@@ -7,7 +7,7 @@ import { OrganizationDetails } from '../entities/organization-details';
 import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { NotificationDirective } from 'yti-common-ui/components/notification.component';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { OrganizationDetailsComponent } from './organization-details.component';
 
 @Component({
@@ -18,21 +18,20 @@ import { OrganizationDetailsComponent } from './organization-details.component';
       <app-back-button (back)="back()"></app-back-button>
 
       <div class="clearfix">
-        <h1 class="pull-left" translate>New organization</h1>        
+        <h1 class="float-left" translate>New organization</h1>        
         <button type="button"
                 id="save_organization_button"
                 [disabled]="!isValid()"
-                class="btn btn-action pull-right"
+                class="btn btn-action float-right"
                 appNotification
                 #notification="notification"
-                (click)="saveOrganization()"
-                translate>Save
+                (click)="saveOrganization()">{{'Save' | translate}}
         </button>
 
         <button type="submit"
                 id="cancel_button"
-                class="btn btn-link cancel pull-right"
-                (click)="back()" translate>Cancel
+                class="btn btn-link cancel float-right"
+                (click)="back()">{{'Cancel' | translate}}
         </button>
       </div>
 

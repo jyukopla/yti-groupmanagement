@@ -9,7 +9,7 @@ buildscript {
 
 plugins {
     id "org.springframework.boot" version "1.5.1.RELEASE"
-    id "fi.evident.apina" version "0.8.0"
+    id "fi.evident.apina" version "0.10.7"
     id "org.sonarqube" version "2.6.2"
 }
 
@@ -129,7 +129,7 @@ sonarqube {
 apina {
     target = new File(project(":frontend").projectDir, 'src/app/apina.ts')
     blackBoxClasses = [/org\.dalesbred\..+/, /java\.time\..+/]
-    enumMode = 'string'
+    enumMode = 'STRING_UNION'
 }
 
 tasks.findByPath(":frontend:installDependencies").dependsOn apina

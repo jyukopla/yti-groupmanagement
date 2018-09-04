@@ -4,11 +4,11 @@ import {
   ViewChild
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { User } from '../entities/user';
-import { Observable } from 'rxjs/Observable';
 import { ApiService } from '../services/api.service';
 import { ModalService } from '../services/modal.service';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class SearchUserModalService {
@@ -73,7 +73,7 @@ export class SearchUserModalService {
       <button type="button"
               id="cancel_button"
               class="btn btn-link cancel"
-              (click)="cancel()" translate>Cancel
+              (click)="cancel()">{{'Cancel' | translate}}
       </button>
 
     </div>
@@ -98,7 +98,7 @@ export class SearchUserModalComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.searchResults$ =
-      Observable.combineLatest(this.search$, this.apiService.getUsers()).map(([search, users]) => {
+      combineLatest(this.search$, this.apiService.getUsers()).pipe(map(([search, users]) => {
 
         const isUserAddable = (user: User) => {
           return !this.isExcluded(user) && (!search || user.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
@@ -106,7 +106,7 @@ export class SearchUserModalComponent implements OnInit, AfterViewInit {
         };
 
         return users.filter(user => isUserAddable(user));
-      });
+      }));
   }
 
   isExcluded(user: User) {

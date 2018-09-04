@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Localizable } from 'yti-common-ui/types/localization';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { OrganizationDetails } from '../entities/organization-details';
 
 export interface Location {

@@ -2,20 +2,19 @@ import { Component } from '@angular/core';
 import { OrganizationListItem, UUID } from '../apina';
 import { LocationService } from '../services/location.service';
 import { ApiService } from '../services/api.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { Observable, BehaviorSubject, Subject, combineLatest } from 'rxjs';
 import { Localizable } from 'yti-common-ui/types/localization';
 import { requireDefined } from 'yti-common-ui/utils/object';
 import { index } from 'yti-common-ui/utils/array';
 import { FilterOptions } from 'yti-common-ui/components/filter-dropdown.component';
 import { LanguageService } from '../services/language.service';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { User } from '../entities/user';
 import { UserService } from 'yti-common-ui/services/user.service';
 import { AuthorizationManager } from '../services/authorization-manager.service';
 import { ignoreModalClose } from 'yti-common-ui/utils/modal';
 import { DeleteConfirmationModalService } from './delete-confirmation-modal.component';
-import { Subject } from 'rxjs/Subject';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-users',
@@ -26,7 +25,7 @@ import { Subject } from 'rxjs/Subject';
 
     <div class="top-actions">
 
-      <div class="input-group input-group-search pull-left">
+      <div class="input-group input-group-search float-left">
         <input #searchInput
                id="search_user_input"
                type="text"
@@ -38,12 +37,12 @@ import { Subject } from 'rxjs/Subject';
       <app-filter-dropdown [options]="organizationOptions"
                            id="organizations_dropdown"
                            [filterSubject]="organization$"
-                           class="pull-left ml-2"></app-filter-dropdown>
+                           class="float-left ml-2"></app-filter-dropdown>
 
       <app-filter-dropdown [options]="roleOptions"
                            id="roles_dropdown"
                            [filterSubject]="role$"
-                           class="pull-left ml-2"></app-filter-dropdown>
+                           class="float-left ml-2"></app-filter-dropdown>
     </div>
 
     <div class="results">
@@ -122,8 +121,8 @@ export class UsersComponent {
       }));
     });
 
-    this.users$ = Observable.combineLatest(organizations$, this.usersForOwnOrganizations, this.search$, this.role$, this.organization$)
-      .map(([organizations, users, search, role, organization]) => {
+    this.users$ = combineLatest(organizations$, this.usersForOwnOrganizations, this.search$, this.role$, this.organization$)
+      .pipe(map(([organizations, users, search, role, organization]) => {
 
         const roleMatches = (user: UserViewModel) =>
           !role || user.organizations.find(org => org.roles.indexOf(role) !== -1);
@@ -142,7 +141,7 @@ export class UsersComponent {
 
         return users.map(user => new UserViewModel(user, index(organizations, org => org.id)))
           .filter(user => roleMatches(user) && organizationMatches(user) && searchMatches(user));
-      });
+      }));
   }
 
   refreshUsers() {

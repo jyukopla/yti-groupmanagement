@@ -11,9 +11,10 @@ import {
   UserRequestWithOrganization,
   UUID
 } from '../apina';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { User } from '../entities/user';
 import { OrganizationDetails } from '../entities/organization-details';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ApiService {
@@ -22,13 +23,13 @@ export class ApiService {
   }
 
   getUsersForOwnOrganizations(): Observable<User[]> {
-    return this.endpoint.getUsersForOwnOrganizations().map(users =>
-      users.map(userModel => new User(userModel)));
+    return this.endpoint.getUsersForOwnOrganizations().pipe(map(users =>
+      users.map(userModel => new User(userModel))));
   }
 
   getUsers(): Observable<User[]> {
-    return this.endpoint.getUsers().map(users =>
-      users.map(userModel => new User(userModel)));
+    return this.endpoint.getUsers().pipe(map(users =>
+      users.map(userModel => new User(userModel))));
   }
 
   removeUser(userEmail: string): Observable<boolean> {

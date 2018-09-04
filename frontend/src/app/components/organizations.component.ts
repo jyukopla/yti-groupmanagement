@@ -5,9 +5,7 @@ import { AuthorizationManager } from '../services/authorization-manager.service'
 import { ApiService } from '../services/api.service';
 import { LanguageService } from '../services/language.service';
 import { comparingLocalizable } from 'yti-common-ui/utils/comparator';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 import { matches } from 'yti-common-ui/utils/string';
 
 @Component({
@@ -21,7 +19,7 @@ import { matches } from 'yti-common-ui/utils/string';
 
       <div class="top-actions">
 
-        <div class="input-group input-group-lg input-group-search pull-left">
+        <div class="input-group input-group-lg input-group-search float-left">
           <input class="form-control"
                  id="search_organization_input"
                  type="text"
@@ -35,7 +33,7 @@ import { matches } from 'yti-common-ui/utils/string';
                  <span translate>Show removed organizations only</span>
         </div>
         
-        <button class="btn btn-action pull-right" id="add_new_organization_button" (click)="addOrganization()"
+        <button class="btn btn-action float-right" id="add_new_organization_button" (click)="addOrganization()"
                 *ngIf="canCreateOrganization()">
           <span translate>Add new organization</span>
         </button>
@@ -68,7 +66,7 @@ export class OrganizationsComponent implements OnDestroy {
               private router: Router,
               private languageService: LanguageService) {
 
-    this.subscription = Observable.combineLatest(apiService.getOrganizationListOpt(false), this.search$, languageService.language$)
+    this.subscription = combineLatest(apiService.getOrganizationListOpt(false), this.search$, languageService.language$)
       .subscribe(([organizations, search]) => {
         organizations.sort(comparingLocalizable<OrganizationListItem>(languageService, org => org.name));
         this.filteredOrganizations = organizations.filter(org => matches(languageService.translate(org.name), search));
@@ -102,13 +100,9 @@ export class OrganizationsComponent implements OnDestroy {
   }
 
   showRemovedChanged() {
-      if (this.showRemovedCheckBox) {
-        this.showRemovedCheckBox = false;
-      } else {
-        this.showRemovedCheckBox = true;
-      }
+      this.showRemovedCheckBox = !this.showRemovedCheckBox;
       this.subscription.unsubscribe();
-      this.subscription = Observable.combineLatest(this.apiService.getOrganizationListOpt(this.showRemovedCheckBox), this.search$, this.languageService.language$)
+      this.subscription = combineLatest(this.apiService.getOrganizationListOpt(this.showRemovedCheckBox), this.search$, this.languageService.language$)
         .subscribe(([organizations, search]) => {
         organizations.sort(comparingLocalizable<OrganizationListItem>(this.languageService, org => org.name));
         this.filteredOrganizations = organizations.filter(org => matches(this. languageService.translate(org.name), search));

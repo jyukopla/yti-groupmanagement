@@ -51,11 +51,11 @@ import {error} from "util";
           </a>
           <div ngbDropdownMenu>
             <a class="dropdown-item" id="logout_link" *ngIf="isLoggedIn()" (click)="logOut()">
-              <i class="fa fa-sign-out"></i>
+              <i class="fas fa-sign-out-alt"></i>
               <span translate>LOG OUT</span>
             </a>
             <a class="dropdown-item" id="login_link" *ngIf="!isLoggedIn()" (click)="logIn()">
-              <i class="fa fa-sign-in"></i>
+              <i class="fas fa-sign-in-alt"></i>
               <span translate>LOG IN</span>
             </a>
             <div class="dropdown-divider"></div>

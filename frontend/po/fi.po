@@ -172,6 +172,18 @@ msgstr "Näytä vain poistetut organisaatiot"
 msgid "This user will be removed."
 msgstr "Tämä käyttäjä poistetaan."
 
+msgid "yhteentoimiva.suomi.fi"
+msgstr "yhteentoimiva.suomi.fi"
+
+msgid "Suomi.fi Reference Data"
+msgstr "Suomi.fi-koodistot"
+
+msgid "Suomi.fi Controlled Vocabularies"
+msgstr "Suomi.fi-sanastot"
+
+msgid "Suomi.fi Data Vocabularies"
+msgstr "Suomi.fi-tietomallit"
+
 #~ msgid "Browse users"
 #~ msgstr "Selaa käyttäjiä"
 

@@ -1,7 +1,12 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { Language, LanguageService } from '../../services/language.service';
 import { UserService } from 'yti-common-ui/services/user.service';
 import { LoginModalService } from 'yti-common-ui/components/login-modal.component';
+import {ConfigService} from "../../services/config.service";
+import {Config} from "../../entities/config";
+import {map} from "rxjs/operator/map";
+import {error} from "util";
+
 
 @Component({
   selector: 'app-navigation-bar',
@@ -55,6 +60,10 @@ import { LoginModalService } from 'yti-common-ui/components/login-modal.componen
             </a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" [routerLink]="['/userDetails']" translate>User details</a>
+            <a class="dropdown-item" href="https://yhteentoimiva.suomi.fi" target="_blank" translate>yhteentoimiva.suomi.fi</a>
+            <a class="dropdown-item" [href]="codelistUrl" target="_blank" translate>Suomi.fi Reference Data</a>
+            <a class="dropdown-item" [href]="terminologyUrl" target="_blank" translate>Suomi.fi Controlled Vocabularies</a>
+            <a class="dropdown-item" [href]="dataModelUrl" target="_blank" translate>Suomi.fi Data Vocabularies</a>
           </div>
         </li>
       </ul>
@@ -69,9 +78,21 @@ export class NavigationBarComponent {
     { code: 'en' as Language, name: 'In English (EN)' }
   ];
 
+  codelistUrl: string;
+  terminologyUrl: string;
+  dataModelUrl: string;
+
+
   constructor(private languageService: LanguageService,
               private userService: UserService,
-              private loginModal: LoginModalService) {
+              private loginModal: LoginModalService,
+              private configService: ConfigService) {
+
+    configService.getConfig().subscribe(configuration => {
+      this.codelistUrl = configuration.codeListUrl;
+      this.terminologyUrl = configuration.terminologyUrl;
+      this.dataModelUrl = configuration.dataModelUrl;
+    });
   }
 
   set language(language: Language) {

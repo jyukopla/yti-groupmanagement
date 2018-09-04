@@ -37,6 +37,8 @@ import { InformationAboutServiceComponent } from './components/information/infor
 import { ModalService } from './services/modal.service';
 import { NavigationBarComponent } from './components/navigation/navigation-bar.component';
 import { LogoComponent } from './components/navigation/logo.component';
+import {HttpModule} from "@angular/http";
+import {ConfigService} from "./services/config.service";
 
 const localizations: { [lang: string]: string} = {
   fi: Object.assign({},
@@ -146,6 +148,7 @@ const appRoutes: Routes = [
     BrowserModule,
     ApinaModule,
     FormsModule,
+    HttpModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
     NgbModule.forRoot(),
@@ -165,7 +168,8 @@ const appRoutes: Routes = [
     NgbPopover,
     ConfirmCancelEditGuard,
     ConfirmModalCloseEditGuard,
-    ModalService
+    ModalService,
+    ConfigService
   ],
   bootstrap: [AppComponent]
 })

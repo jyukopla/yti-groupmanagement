@@ -1,7 +1,8 @@
 import { Http } from '@angular/http';
 import { Config } from '../entities/config';
 import { config } from "../../config";
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 export class ConfigService {
@@ -11,7 +12,8 @@ export class ConfigService {
   constructor(private $http: Http) {
     var endpoint = config.apiEndpointWithName('config');
     this.configuration = this.$http.get(endpoint)
-      .map(res => res.json().results as Config);
+      .pipe(map(res => res.json().results as Config));
+
   }
 
   getConfig(): Observable<Config>  {

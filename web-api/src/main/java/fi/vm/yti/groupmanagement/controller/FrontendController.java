@@ -1,5 +1,6 @@
 package fi.vm.yti.groupmanagement.controller;
 
+import fi.vm.yti.groupmanagement.config.ApplicationProperties;
 import fi.vm.yti.groupmanagement.model.*;
 import fi.vm.yti.groupmanagement.service.FrontendService;
 import fi.vm.yti.security.AuthenticatedUserProvider;
@@ -25,15 +26,20 @@ import org.slf4j.LoggerFactory;
 @RequestMapping("/api")
 public class FrontendController {
 
+
     private final FrontendService frontendService;
     private final AuthenticatedUserProvider userProvider;
+    private final ApplicationProperties applicationProperties;
+
     private static final Logger logger = LoggerFactory.getLogger(FrontendController.class);
 
     @Autowired
     public FrontendController(FrontendService frontendService,
-                              AuthenticatedUserProvider userProvider) {
+                              AuthenticatedUserProvider userProvider,
+                              ApplicationProperties applicationProperties) {
         this.frontendService = frontendService;
         this.userProvider = userProvider;
+        this.applicationProperties = applicationProperties;
     }
 
     @RequestMapping(value = "/authenticated-user", method = GET, produces = APPLICATION_JSON_VALUE)
@@ -123,5 +129,18 @@ public class FrontendController {
     public void acceptUserRequest(@PathVariable("id") int id) {
         logger.info("acceptUserRequest requested with request id: " + id);
         this.frontendService.acceptUserRequest(id);
+    }
+
+    @RequestMapping(value = "/configuration", method = GET, produces = APPLICATION_JSON_VALUE)
+    public ConfigurationModel getConfiguration() {
+        logger.info("getConfiguration requested");
+
+        ConfigurationModel model = new ConfigurationModel();
+        model.codeListUrl = this.applicationProperties.getCodeListUrl();
+        model.dataModelUrl = this.applicationProperties.getDataModelUrl();
+        model.terminologyUrl = this.applicationProperties.getTerminologyUrl();
+        model.dev = this.applicationProperties.getDevMode();
+
+        return model;
     }
 }

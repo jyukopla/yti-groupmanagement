@@ -9,10 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public final class ApplicationProperties {
 
-    public ApplicationProperties applicationProperties() {
-        return new ApplicationProperties();
-    }
-
     private String codeListUrl;
     private String dataModelUrl;
     private String terminologyUrl;
@@ -42,8 +38,11 @@ public final class ApplicationProperties {
         this.terminologyUrl = terminologyUrl;
     }
 
-    public boolean getDevMode() { return this.devMode; }
+    public boolean getDevMode() {
+        return this.devMode;
+    }
 
-    public void setDevMode(boolean devMode) { this.devMode = devMode; }
-
+    public void setDevMode(boolean devMode) {
+        this.devMode = devMode;
+    }
 }

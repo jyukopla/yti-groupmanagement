@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  ConfigurationModel,
   CreateOrganization,
   EmailRole,
   FrontendEndpoint,
@@ -102,5 +103,9 @@ export class ApiService {
 
   createRequest(req: UserRequestModel): Observable<void> {
     return this.endpoint.addUserRequest(req);
+  }
+
+  getConfiguration(): Observable<ConfigurationModel> {
+    return this.endpoint.getConfiguration();
   }
 }

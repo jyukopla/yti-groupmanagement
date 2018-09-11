@@ -1,16 +1,16 @@
 export interface Config {
-  apiEndpoint: string;
-  apiEndpointWithName(name: string): string;
+  publicApiEndpoint: string;
+  publicApiEndpointWithName(name: string): string;
 }
 
 class EnvironmentConfig implements Config {
 
-  apiEndpointWithName(name: string) {
-    return `${this.apiEndpoint}/rest/${name}`;
+  publicApiEndpointWithName(name: string) {
+    return `${this.publicApiEndpoint}/${name}`;
   }
 
-  get apiEndpoint() {
-    return process.env.API_ENDPOINT || '/api';
+  get publicApiEndpoint() {
+    return process.env.API_ENDPOINT || '/public-api';
   }
 }
 

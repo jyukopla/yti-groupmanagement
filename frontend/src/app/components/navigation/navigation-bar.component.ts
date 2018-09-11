@@ -58,7 +58,7 @@ import {ConfigService} from "../../services/config.service";
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" [routerLink]="['/userDetails']" translate>User details</a>
             <a class="dropdown-item" href="https://yhteentoimiva.suomi.fi" target="_blank" translate>yhteentoimiva.suomi.fi</a>
-            <a class="dropdown-item" [href]="codelistUrl" target="_blank" translate>Suomi.fi Reference Data</a>
+            <a class="dropdown-item" [href]="codeListUrl" target="_blank" translate>Suomi.fi Reference Data</a>
             <a class="dropdown-item" [href]="terminologyUrl" target="_blank" translate>Suomi.fi Controlled Vocabularies</a>
             <a class="dropdown-item" [href]="dataModelUrl" target="_blank" translate>Suomi.fi Data Vocabularies</a>
           </div>
@@ -75,7 +75,7 @@ export class NavigationBarComponent {
     { code: 'en' as Language, name: 'In English (EN)' }
   ];
 
-  codelistUrl: string;
+  codeListUrl: string;
   terminologyUrl: string;
   dataModelUrl: string;
 
@@ -86,7 +86,7 @@ export class NavigationBarComponent {
               private configService: ConfigService) {
 
     configService.getConfig().subscribe(configuration => {
-      this.codelistUrl = configuration.codeListUrl;
+      this.codeListUrl = configuration.codeListUrl;
       this.terminologyUrl = configuration.terminologyUrl;
       this.dataModelUrl = configuration.dataModelUrl;
     });

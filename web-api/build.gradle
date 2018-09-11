@@ -89,6 +89,8 @@ dependencies {
     compile "ch.qos.logback:logback-core"
     compile "net.logstash.logback:logstash-logback-encoder:5.0"
 
+    compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.0'
+
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile "junit:junit:4.12"
     testCompile "org.springframework:spring-test"

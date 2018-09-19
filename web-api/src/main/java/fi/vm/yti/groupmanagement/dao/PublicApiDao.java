@@ -1,6 +1,7 @@
 package fi.vm.yti.groupmanagement.dao;
 
 import fi.vm.yti.groupmanagement.model.*;
+import org.apache.http.client.utils.DateUtils;
 import org.dalesbred.Database;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import static fi.vm.yti.groupmanagement.util.CollectionUtil.requireSingleOrNone;
@@ -72,9 +75,9 @@ public class PublicApiDao {
 
     public List<PublicApiUserListItem> getModifiedUsers(String ifModifiedSince) {
 
-        OffsetDateTime date;
+        Date date;
         try {
-            date = OffsetDateTime.parse(ifModifiedSince, DateTimeFormatter.RFC_1123_DATE_TIME);
+            date = DateUtils.parseDate(ifModifiedSince);
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -108,9 +111,9 @@ public class PublicApiDao {
 
     public @NotNull List<PublicApiOrganization> getModifiedOrganizations(String ifModifiedSince) {
 
-        OffsetDateTime date;
+        Date date;
         try {
-            date = OffsetDateTime.parse(ifModifiedSince, DateTimeFormatter.RFC_1123_DATE_TIME);
+            date = DateUtils.parseDate(ifModifiedSince);
         }
         catch (Exception e) {
             throw new RuntimeException(e);

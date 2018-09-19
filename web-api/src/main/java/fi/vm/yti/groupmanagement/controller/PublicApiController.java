@@ -85,7 +85,6 @@ public class PublicApiController {
     public ResponseEntity<List<PublicApiOrganization>> getOrganizations(@RequestHeader(value="If-Modified-Since", required=false) String ifModifiedSince) {
         logger.info("GET /organizations requested");
 
-        System.out.println(ifModifiedSince);
         if (ifModifiedSince != null && !ifModifiedSince.isEmpty()) {
             List<PublicApiOrganization> organizations = publicApiService.getModifiedOrganizations(ifModifiedSince);
             if (organizations.size() > 0) {

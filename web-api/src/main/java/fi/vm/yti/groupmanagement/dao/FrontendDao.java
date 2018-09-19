@@ -133,16 +133,18 @@ public class FrontendDao {
 
     public void updateOrganization(Organization org) {
 
-        db.update("UPDATE organization SET name_en=?, name_fi=?, name_sv=?, description_en=?, description_fi=?, description_sv=?, url=?, removed=? WHERE id = ?",
+        db.update("UPDATE organization SET name_en=?, name_fi=?, name_sv=?, description_en=?, description_fi=?, description_sv=?, url=?, removed=?, modified=now() WHERE id = ?",
                 org.nameEn, org.nameFi, org.nameSv, org.descriptionEn, org.descriptionFi, org.descriptionSv, org.url, org.removed, org.id);
     }
 
     public void addUserToRoleInOrganization(String userEmail, String role, UUID id) {
         db.update("INSERT INTO user_organization (user_id, organization_id, role_name) VALUES ((select id from \"user\" where email = ?), ?, ?)", userEmail, id, role);
+        updateOrganizationModifiedStamp(id);
     }
 
     public void clearUserRoles(UUID id) {
         db.update("DELETE FROM user_organization uo where uo.organization_id = ?", id);
+        updateOrganizationModifiedStamp(id);
     }
 
     public @NotNull List<String> getAllRoles() {
@@ -180,6 +182,10 @@ public class FrontendDao {
                 "SELECT r.id, u.email as user_email, r.organization_id, r.role_name, r.sent FROM request r \n" +
                         "LEFT JOIN \"user\" u on (u.id = r.user_id) \n" +
                         "WHERE r.id = ?", requestId);
+    }
+
+    void updateOrganizationModifiedStamp(UUID orgId) {
+        db.update("UPDATE organization SET modified=now() WHERE id = ?", orgId);
     }
 
     public static class OrganizationListItemRow {

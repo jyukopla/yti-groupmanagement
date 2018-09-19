@@ -7,6 +7,8 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,7 @@ import static fi.vm.yti.groupmanagement.util.CollectionUtil.requireSingleOrNone;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.*;
+
 
 @Repository
 public class PublicApiDao {
@@ -67,9 +70,53 @@ public class PublicApiDao {
                 "SELECT email, firstName, lastName, id FROM \"user\" WHERE removed_at IS NULL ORDER BY lastname, firstname");
     }
 
+    public List<PublicApiUserListItem> getModifiedUsers(String ifModifiedSince) {
+
+        OffsetDateTime date;
+        try {
+            date = OffsetDateTime.parse(ifModifiedSince, DateTimeFormatter.RFC_1123_DATE_TIME);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return database.findAll(PublicApiUserListItem.class,
+                "SELECT email, firstName, lastName, id FROM \"user\" WHERE removed_at IS NULL AND created_at > ? ORDER BY lastname, firstname", date);
+    }
+
     public @NotNull List<PublicApiOrganization> getOrganizations() {
 
         List<OrganizationRow> rows = database.findAll(OrganizationRow.class, "select id, name_en, name_sv, name_fi, description_en, description_sv, description_fi, url, removed from organization");
+
+        return rows.stream().map(row -> {
+
+            Map<String, String> prefLabel = new HashMap<>(3);
+            Map<String, String> description = new HashMap<>(3);
+
+            prefLabel.put("fi", row.nameFi);
+            prefLabel.put("en", row.nameEn);
+            prefLabel.put("sv", row.nameSv);
+
+            description.put("fi", row.descriptionFi);
+            description.put("en", row.descriptionEn);
+            description.put("sv", row.descriptionSv);
+
+            return new PublicApiOrganization(row.id, unmodifiableMap(prefLabel), unmodifiableMap(description), row.url, row.removed);
+
+        }).collect(toList());
+    }
+
+    public @NotNull List<PublicApiOrganization> getModifiedOrganizations(String ifModifiedSince) {
+
+        OffsetDateTime date;
+        try {
+            date = OffsetDateTime.parse(ifModifiedSince, DateTimeFormatter.RFC_1123_DATE_TIME);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        List<OrganizationRow> rows = database.findAll(OrganizationRow.class, "select id, name_en, name_sv, name_fi, description_en, description_sv, description_fi, url, removed from organization where modified > ?", date);
 
         return rows.stream().map(row -> {
 

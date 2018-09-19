@@ -9,7 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,16 +66,35 @@ public class PublicApiController {
     }
 
     @RequestMapping(value = "/users", method = GET, produces = APPLICATION_JSON_VALUE)
-    public List<PublicApiUserListItem> getUsers() {
+    public ResponseEntity<List<PublicApiUserListItem>> getUsers(@RequestHeader(value="If-Modified-Since", required=false) String ifModifiedSince) {
         logger.info("GET /users requested");
-        return this.publicApiService.getUsers();
+
+        if (ifModifiedSince != null && !ifModifiedSince.isEmpty()) {
+            List<PublicApiUserListItem> users = publicApiService.getModifiedUsers(ifModifiedSince);
+            if (users.size() > 0) {
+                return new ResponseEntity<>(users, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(users, HttpStatus.NOT_MODIFIED);
+            }
+        }
+        else return new ResponseEntity<>(this.publicApiService.getUsers(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/organizations", method = GET, produces = APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public List<PublicApiOrganization> getOrganizations() {
+    public ResponseEntity<List<PublicApiOrganization>> getOrganizations(@RequestHeader(value="If-Modified-Since", required=false) String ifModifiedSince) {
         logger.info("GET /organizations requested");
-        return publicApiService.getOrganizations();
+
+        System.out.println(ifModifiedSince);
+        if (ifModifiedSince != null && !ifModifiedSince.isEmpty()) {
+            List<PublicApiOrganization> organizations = publicApiService.getModifiedOrganizations(ifModifiedSince);
+            if (organizations.size() > 0) {
+                return new ResponseEntity<>(organizations, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(organizations, HttpStatus.NOT_MODIFIED);
+            }
+        }
+        else return new ResponseEntity<>(publicApiService.getOrganizations(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/request", method = POST)

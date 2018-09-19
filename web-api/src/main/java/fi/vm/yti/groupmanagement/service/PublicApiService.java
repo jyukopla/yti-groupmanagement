@@ -52,6 +52,11 @@ public class PublicApiService {
     }
 
     @Transactional
+    public List<PublicApiOrganization> getModifiedOrganizations(String ifModifiedSince) {
+        return publicApiDao.getModifiedOrganizations(ifModifiedSince);
+    }
+
+    @Transactional
     public void addUserRequest(String email, UUID organizationId, String role) {
         publicApiDao.addUserRequest(email, organizationId, role);
     }
@@ -64,5 +69,10 @@ public class PublicApiService {
     @Transactional
     public List<PublicApiUserListItem> getUsers() {
         return this.publicApiDao.getUsers();
+    }
+
+    @Transactional
+    public List<PublicApiUserListItem> getModifiedUsers(String ifModifiedSince) {
+        return this.publicApiDao.getModifiedUsers(ifModifiedSince);
     }
 }

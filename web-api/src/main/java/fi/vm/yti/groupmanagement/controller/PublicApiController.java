@@ -4,7 +4,6 @@ import fi.vm.yti.groupmanagement.model.PublicApiOrganization;
 import fi.vm.yti.groupmanagement.model.PublicApiUser;
 import fi.vm.yti.groupmanagement.model.PublicApiUserListItem;
 import fi.vm.yti.groupmanagement.model.PublicApiUserRequest;
-import fi.vm.yti.groupmanagement.model.UserRequestAllDetails;
 import fi.vm.yti.groupmanagement.service.PublicApiService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

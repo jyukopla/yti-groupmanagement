@@ -4,6 +4,7 @@ import fi.vm.yti.groupmanagement.model.PublicApiOrganization;
 import fi.vm.yti.groupmanagement.model.PublicApiUser;
 import fi.vm.yti.groupmanagement.model.PublicApiUserListItem;
 import fi.vm.yti.groupmanagement.model.PublicApiUserRequest;
+import fi.vm.yti.groupmanagement.model.UserRequestAllDetails;
 import fi.vm.yti.groupmanagement.service.PublicApiService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,7 +36,7 @@ public class PublicApiController {
         this.publicApiService = publicApiService;
     }
 
-    @RequestMapping(value = "/user", method = GET, produces = APPLICATION_JSON_VALUE, params = "email")
+    @RequestMapping(value = "/user", method = POST, produces = APPLICATION_JSON_VALUE, params = "email")
     public PublicApiUser getUserByEmail(@RequestParam @NotNull String email,
                                         @RequestParam(required = false) @Nullable String firstName,
                                         @RequestParam(required = false) @Nullable String lastName) {

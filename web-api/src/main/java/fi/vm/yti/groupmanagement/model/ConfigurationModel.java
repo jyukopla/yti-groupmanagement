@@ -5,4 +5,5 @@ public class ConfigurationModel {
     public String dataModelUrl;
     public String terminologyUrl;
     public boolean dev;
+    public String env;
 }

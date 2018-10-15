@@ -13,6 +13,7 @@ public final class ApplicationProperties {
     private String dataModelUrl;
     private String terminologyUrl;
     private boolean devMode;
+    private String env;
 
     public String getCodeListUrl() {
         return codeListUrl;
@@ -45,4 +46,8 @@ public final class ApplicationProperties {
     public void setDevMode(boolean devMode) {
         this.devMode = devMode;
     }
+
+    public String getEnv() { return env; }
+
+    public void setEnv(String env) { this.env = env; }
 }

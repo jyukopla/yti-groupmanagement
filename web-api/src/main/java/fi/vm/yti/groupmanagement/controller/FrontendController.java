@@ -140,6 +140,7 @@ public class FrontendController {
         model.dataModelUrl = this.applicationProperties.getDataModelUrl();
         model.terminologyUrl = this.applicationProperties.getTerminologyUrl();
         model.dev = this.applicationProperties.getDevMode();
+        model.env = this.applicationProperties.getEnv();
 
         return model;
     }

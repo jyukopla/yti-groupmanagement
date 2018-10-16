@@ -4,6 +4,7 @@ import fi.vm.yti.security.AuthenticatedUserProvider;
 import fi.vm.yti.security.YtiUser;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -14,10 +15,13 @@ import static fi.vm.yti.security.Role.ADMIN;
 public class AuthorizationManager {
 
     private final AuthenticatedUserProvider userProvider;
+    private final boolean fakeLoginAllowed;
 
     @Autowired
-    AuthorizationManager(AuthenticatedUserProvider userProvider) {
+    AuthorizationManager(AuthenticatedUserProvider userProvider,
+                         @Value("${fake.login.allowed:false}") boolean fakeLoginAllowed) {
         this.userProvider = userProvider;
+        this.fakeLoginAllowed = fakeLoginAllowed;
     }
 
     public boolean canCreateOrganization() {
@@ -37,7 +41,7 @@ public class AuthorizationManager {
     }
 
     public boolean canBrowseUsers() {
-        return getUser().isSuperuser() || getUser().isInRoleInAnyOrganization(ADMIN);
+        return this.fakeLoginAllowed || getUser().isSuperuser() || getUser().isInRoleInAnyOrganization(ADMIN);
     }
 
     private @NotNull YtiUser getUser() {

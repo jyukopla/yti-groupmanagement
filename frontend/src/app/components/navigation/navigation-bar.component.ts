@@ -19,6 +19,18 @@ import { ApiService } from '../../services/api.service';
 
       <ul class="navbar-nav ml-auto">
 
+        <li *ngIf="fakeableUsers.length > 0" class="nav-item dropdown" ngbDropdown>
+          <a class="nav-link" id="fakeable_user_dropdown" ngbDropdownToggle translate>Impersonate user</a>
+          <div ngbDropdownMenu>
+            <a class="dropdown-item" 
+               *ngFor="let user of fakeableUsers" 
+               (click)="fakeUser(user.email)" 
+               id="{{user.email + '_fakeable_user_link'}}">
+              {{user.firstName}} {{user.lastName}}
+            </a>
+          </div>
+        </li>
+        
         <li class="nav-item" *ngIf="!isLoggedIn()">
           <a class="nav-link" id="navigation_login_link" (click)="logIn()" translate>LOG IN</a>
         </li>
@@ -74,6 +86,8 @@ export class NavigationBarComponent {
     { code: 'en' as Language, name: 'In English (EN)' }
   ];
 
+  fakeableUsers: { email: string, firstName: string, lastName: string }[] = [];
+
   codeListUrl: string;
   terminologyUrl: string;
   dataModelUrl: string;
@@ -89,6 +103,15 @@ export class NavigationBarComponent {
       this.terminologyUrl = configuration.terminologyUrl;
       this.dataModelUrl = configuration.dataModelUrl;
     });
+
+    apiService.getUsers().subscribe(users => {
+      console.log(users);
+      this.fakeableUsers = users.map(u => ({ email: u.email, firstName: u.firstName, lastName: u.lastName}));
+    });
+  }
+
+  fakeUser(userEmail: string) {
+    this.userService.updateLoggedInUser(userEmail);
   }
 
   set language(language: Language) {

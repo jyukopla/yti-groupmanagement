@@ -129,3 +129,6 @@ msgstr ""
 
 msgid "All organizations"
 msgstr ""
+
+msgid "Impersonate user"
+msgstr ""

@@ -52,6 +52,9 @@ msgstr "ORGANISAATIOT"
 msgid "USERS"
 msgstr "KÄYTTÄJÄT"
 
+msgid "Impersonate user"
+msgstr "Esiinny käyttäjänä"
+
 msgid "LOG IN"
 msgstr "KIRJAUDU SISÄÄN"
 

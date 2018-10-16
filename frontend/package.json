@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "node -- node_modules/@angular/cli/bin/ng",
     "start": "ng serve --port 4300 --proxy-config proxy.conf.json",
+    "start-dev": "ng serve --port 4300 --proxy-config proxy-dev.conf.json --ssl true",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

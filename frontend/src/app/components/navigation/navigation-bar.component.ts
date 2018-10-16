@@ -105,7 +105,6 @@ export class NavigationBarComponent {
     });
 
     apiService.getUsers().subscribe(users => {
-      console.log(users);
       this.fakeableUsers = users.map(u => ({ email: u.email, firstName: u.firstName, lastName: u.lastName}));
     });
   }

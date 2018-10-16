@@ -14,6 +14,7 @@ import { ApiService } from '../../services/api.service';
         <a id="main_page_link" class="navbar-brand" [routerLink]="['/']">
           <app-logo></app-logo>
           <span translate>Interoperability platform's user right management</span>
+          <span *ngIf="environmentIdentifier">{{environmentIdentifier}}</span>
         </a>
       </div>
 
@@ -91,6 +92,7 @@ export class NavigationBarComponent {
   codeListUrl: string;
   terminologyUrl: string;
   dataModelUrl: string;
+  env: string;
 
 
   constructor(private languageService: LanguageService,
@@ -102,6 +104,7 @@ export class NavigationBarComponent {
       this.codeListUrl = configuration.codeListUrl;
       this.terminologyUrl = configuration.terminologyUrl;
       this.dataModelUrl = configuration.dataModelUrl;
+      this.env = configuration.env;
     });
 
     apiService.getUsers().subscribe(users => {
@@ -135,5 +138,9 @@ export class NavigationBarComponent {
 
   isLoggedIn() {
     return this.userService.isLoggedIn();
+  }
+
+  get environmentIdentifier() {
+    return this.env ? this.env !== 'prod' ? ' - ' + this.env.toUpperCase() : '' : '';
   }
 }

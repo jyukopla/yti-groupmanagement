@@ -2,55 +2,40 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2017-12-07 21:15+0200\n"
+"PO-Revision-Date: 2018-10-17 11:05+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 2.2\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Email: { email }"
-msgstr ""
-
-msgid "You are expected at {{time}}', {time: moment.format('H:mm"
-msgstr ""
-
-msgid "Interoperability platform's user right management"
+msgid "Interoperability platform´s user right management"
 msgstr "Yhteentoimivuusalustan oikeuksienhallinta"
 
-msgid "Edit organization"
-msgstr "Muokkaa organisaatiota"
+msgid "Confirm remove"
+msgstr "Poistamisen hyväksyntä"
 
-msgid "Save"
-msgstr "Tallenna"
+msgid "Are you sure that you want to remove?"
+msgstr "Poistetaanko?"
 
-msgid "Users"
-msgstr "Käyttäjät"
+msgid "Yes"
+msgstr ""
 
-msgid "No users yet"
-msgstr "Ei vielä käyttäjiä"
-
-msgid "Name"
-msgstr "Nimi"
-
-msgid "Email"
-msgstr "Sähköposti"
-
-msgid "Remove"
-msgstr "Poista"
-
-msgid "Add user"
-msgstr "Lisää käyttäjä"
+msgid "Cancel"
+msgstr "Peruuta"
 
 msgid "ORGANIZATIONS"
 msgstr "ORGANISAATIOT"
 
 msgid "USERS"
 msgstr "KÄYTTÄJÄT"
+
+msgid "Interoperability platform's user right management"
+msgstr "Yhteentoimivuusalustan oikeuksienhallinta"
 
 msgid "Impersonate user"
 msgstr "Esiinny käyttäjänä"
@@ -64,6 +49,21 @@ msgstr "KIRJAUDU ULOS"
 msgid "User details"
 msgstr "Käyttäjätiedot"
 
+msgid "yhteentoimiva.suomi.fi"
+msgstr "yhteentoimiva.suomi.fi"
+
+msgid "Suomi.fi Reference Data"
+msgstr "Suomi.fi-koodistot"
+
+msgid "Suomi.fi Controlled Vocabularies"
+msgstr "Suomi.fi-sanastot"
+
+msgid "Suomi.fi Data Vocabularies"
+msgstr "Suomi.fi-tietomallit"
+
+msgid "Save"
+msgstr "Tallenna"
+
 msgid "New organization"
 msgstr "Uusi organisaatio"
 
@@ -73,8 +73,20 @@ msgstr "Pääkäyttäjät"
 msgid "No admin users yet"
 msgstr "Ei vielä pääkäyttäjiä"
 
+msgid "Add user"
+msgstr "Lisää käyttäjä"
+
+msgid "Save failed"
+msgstr "Tallennus epäonnistui"
+
+msgid "Removed"
+msgstr "Poistettu"
+
 msgid "In Finnish"
 msgstr "Suomeksi"
+
+msgid "Name"
+msgstr "Nimi"
 
 msgid "Description"
 msgstr "Kuvaus"
@@ -85,11 +97,35 @@ msgstr "Englanniksi"
 msgid "In Swedish"
 msgstr "Ruotsiksi"
 
+msgid "Organization"
+msgstr "Organisaatio"
+
+msgid "Edit organization"
+msgstr "Muokkaa organisaatiota"
+
+msgid "Users"
+msgstr "Käyttäjät"
+
+msgid "No users yet"
+msgstr "Ei vielä käyttäjiä"
+
+msgid "Email"
+msgstr "Sähköposti"
+
+msgid "Remove"
+msgstr "Poista"
+
+msgid "Changes saved"
+msgstr "Muutokset tallennettu"
+
 msgid "Search organization"
 msgstr "Hae organisaatiota"
 
 msgid "Organizations"
 msgstr "Organisaatiot"
+
+msgid "Show removed organizations only"
+msgstr "Näytä vain poistetut organisaatiot"
 
 msgid "Add new organization"
 msgstr "Lisää uusi organisaatio"
@@ -99,9 +135,6 @@ msgstr "Hae käyttäjää"
 
 msgid "Select user"
 msgstr "Valitse käyttäjä"
-
-msgid "Cancel"
-msgstr "Peruuta"
 
 msgid "Organizations and roles"
 msgstr "Organisaatio ja roolit"
@@ -117,6 +150,9 @@ msgstr "Hylkää"
 
 msgid "Accept"
 msgstr "Hyväksy"
+
+msgid "SuperUser"
+msgstr "Pääkäyttäjä"
 
 msgid "Front page"
 msgstr "Etusivu"
@@ -142,59 +178,17 @@ msgstr "Kaikki roolit"
 msgid "All organizations"
 msgstr "Kaikki organisaatiot"
 
-msgid "Confirm remove"
-msgstr "Poistamisen hyväksyntä"
+#~ msgid "This user will be removed from organization after the changes are saved."
+#~ msgstr "Tämä käyttäjä poistetaan organisaatiosta kun muutokset talletetaan."
 
-msgid "This user will be removed from organization after the changes are saved."
-msgstr "Tämä käyttäjä poistetaan organisaatiosta kun muutokset talletetaan."
-
-msgid "Are you sure that you want to remove?"
-msgstr "Poistetaanko?"
-
-msgid "Changes saved"
-msgstr "Muutokset tallennettu"
-
-msgid "Save failed"
-msgstr "Tallennus epäonnistui"
-
-msgid "SuperUser"
-msgstr "Pääkäyttäjä"
-
-msgid "Organization"
-msgstr "Organisaatio"
-
-msgid "Interoperability platform´s user right management"
-msgstr "Yhteentoimivuusalustan oikeuksienhallinta"
-
-msgid "Removed"
-msgstr "Poistettu"
-
-msgid "Show removed organizations only"
-msgstr "Näytä vain poistetut organisaatiot"
-
-msgid "This user will be removed."
-msgstr "Tämä käyttäjä poistetaan."
-
-msgid "yhteentoimiva.suomi.fi"
-msgstr "yhteentoimiva.suomi.fi"
-
-msgid "Suomi.fi Reference Data"
-msgstr "Suomi.fi-koodistot"
-
-msgid "Suomi.fi Controlled Vocabularies"
-msgstr "Suomi.fi-sanastot"
-
-msgid "Suomi.fi Data Vocabularies"
-msgstr "Suomi.fi-tietomallit"
+#~ msgid "This user will be removed."
+#~ msgstr "Tämä käyttäjä poistetaan."
 
 #~ msgid "Browse users"
 #~ msgstr "Selaa käyttäjiä"
 
 #~ msgid "Search user..."
 #~ msgstr "Hae käyttäjää..."
-
-#~ msgid "Organization"
-#~ msgstr "Organisaatio"
 
 #~ msgid "Role"
 #~ msgstr "Rooli"

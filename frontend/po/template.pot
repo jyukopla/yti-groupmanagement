@@ -4,43 +4,31 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Email: { email }"
+msgid "Interoperability platform´s user right management"
 msgstr ""
 
-msgid "You are expected at {{time}}', {time: moment.format('H:mm"
+msgid "Confirm remove"
 msgstr ""
 
-msgid "Group management service"
+msgid "Are you sure that you want to remove?"
 msgstr ""
 
-msgid "Edit organization"
+msgid "Yes"
 msgstr ""
 
-msgid "Save"
-msgstr ""
-
-msgid "Users"
-msgstr ""
-
-msgid "No users yet"
-msgstr ""
-
-msgid "Name"
-msgstr ""
-
-msgid "Email"
-msgstr ""
-
-msgid "Remove"
-msgstr ""
-
-msgid "Add user"
+msgid "Cancel"
 msgstr ""
 
 msgid "ORGANIZATIONS"
 msgstr ""
 
 msgid "USERS"
+msgstr ""
+
+msgid "Interoperability platform's user right management"
+msgstr ""
+
+msgid "Impersonate user"
 msgstr ""
 
 msgid "LOG IN"
@@ -52,6 +40,21 @@ msgstr ""
 msgid "User details"
 msgstr ""
 
+msgid "yhteentoimiva.suomi.fi"
+msgstr ""
+
+msgid "Suomi.fi Reference Data"
+msgstr ""
+
+msgid "Suomi.fi Controlled Vocabularies"
+msgstr ""
+
+msgid "Suomi.fi Data Vocabularies"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
 msgid "New organization"
 msgstr ""
 
@@ -61,22 +64,58 @@ msgstr ""
 msgid "No admin users yet"
 msgstr ""
 
-msgid "In finnish"
+msgid "Add user"
+msgstr ""
+
+msgid "Save failed"
+msgstr ""
+
+msgid "Removed"
+msgstr ""
+
+msgid "In Finnish"
+msgstr ""
+
+msgid "Name"
 msgstr ""
 
 msgid "Description"
 msgstr ""
 
-msgid "In english"
+msgid "In English"
 msgstr ""
 
-msgid "In swedish"
+msgid "In Swedish"
+msgstr ""
+
+msgid "Organization"
+msgstr ""
+
+msgid "Edit organization"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "No users yet"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Changes saved"
 msgstr ""
 
 msgid "Search organization"
 msgstr ""
 
 msgid "Organizations"
+msgstr ""
+
+msgid "Show removed organizations only"
 msgstr ""
 
 msgid "Add new organization"
@@ -86,9 +125,6 @@ msgid "Search user"
 msgstr ""
 
 msgid "Select user"
-msgstr ""
-
-msgid "Cancel"
 msgstr ""
 
 msgid "Organizations and roles"
@@ -104,6 +140,9 @@ msgid "Decline"
 msgstr ""
 
 msgid "Accept"
+msgstr ""
+
+msgid "SuperUser"
 msgstr ""
 
 msgid "Front page"
@@ -128,7 +167,4 @@ msgid "All roles"
 msgstr ""
 
 msgid "All organizations"
-msgstr ""
-
-msgid "Impersonate user"
 msgstr ""

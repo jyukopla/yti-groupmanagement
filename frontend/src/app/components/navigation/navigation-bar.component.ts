@@ -93,6 +93,7 @@ export class NavigationBarComponent {
   terminologyUrl: string;
   dataModelUrl: string;
   env: string;
+  fakeLoginAllowed: boolean;
 
 
   constructor(private languageService: LanguageService,
@@ -105,10 +106,13 @@ export class NavigationBarComponent {
       this.terminologyUrl = configuration.terminologyUrl;
       this.dataModelUrl = configuration.dataModelUrl;
       this.env = configuration.env;
+      this.fakeLoginAllowed = configuration.fakeLoginAllowed;
     });
 
     apiService.getUsers().subscribe(users => {
-      this.fakeableUsers = users.map(u => ({ email: u.email, firstName: u.firstName, lastName: u.lastName}));
+      if (this.fakeLoginAllowed) {
+        this.fakeableUsers = users.map(u => ({email: u.email, firstName: u.firstName, lastName: u.lastName}));
+      }
     });
   }
 

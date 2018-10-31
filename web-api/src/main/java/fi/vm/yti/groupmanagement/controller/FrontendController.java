@@ -141,7 +141,7 @@ public class FrontendController {
         model.terminologyUrl = this.applicationProperties.getTerminologyUrl();
         model.dev = this.applicationProperties.getDevMode();
         model.env = this.applicationProperties.getEnv();
-
+        model.fakeLoginAllowed =  this.applicationProperties.isFakeLoginAllowed();
         return model;
     }
 }

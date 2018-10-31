@@ -1,6 +1,7 @@
 
 package fi.vm.yti.groupmanagement.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -9,11 +10,18 @@ import org.springframework.stereotype.Component;
 @Component
 public final class ApplicationProperties {
 
+
+    ApplicationProperties(@Value("${fake.login.allowed:false}") boolean fakeLoginAllowed) {
+
+        this.fakeLoginAllowed = fakeLoginAllowed;
+    }
+
     private String codeListUrl;
     private String dataModelUrl;
     private String terminologyUrl;
     private boolean devMode;
     private String env;
+    private boolean fakeLoginAllowed;
 
     public String getCodeListUrl() {
         return codeListUrl;
@@ -50,4 +58,8 @@ public final class ApplicationProperties {
     public String getEnv() { return env; }
 
     public void setEnv(String env) { this.env = env; }
+
+    public boolean isFakeLoginAllowed() { return fakeLoginAllowed; }
+
+    public void setFakeLoginAllowed(boolean fakeLoginAllowed) { this.fakeLoginAllowed = fakeLoginAllowed; }
 }

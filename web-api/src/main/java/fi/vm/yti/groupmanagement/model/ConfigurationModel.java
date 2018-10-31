@@ -6,4 +6,5 @@ public class ConfigurationModel {
     public String terminologyUrl;
     public boolean dev;
     public String env;
+    public boolean fakeLoginAllowed;
 }

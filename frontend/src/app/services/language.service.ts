@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Localizable, Localizer } from 'yti-common-ui/types/localization';
+import { Language, Localizable, Localizer } from 'yti-common-ui/types/localization';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { getFromLocalStorage, setToLocalStorage } from 'yti-common-ui/utils/storage';
 
-export type Language = string;
+export { Language };
 
 @Injectable()
 export class LanguageService implements Localizer {
 
-  language$ = new BehaviorSubject<Language>('fi');
+  private static readonly LANGUAGE_KEY: string = 'yti-groupmanagement.language-service.language';
+  language$ = new BehaviorSubject<Language>(getFromLocalStorage(LanguageService.LANGUAGE_KEY, 'fi'));
 
   constructor(private translateService: TranslateService) {
     translateService.addLangs(['fi', 'en']);
@@ -28,6 +30,7 @@ export class LanguageService implements Localizer {
   set language(language: Language) {
     if (this.language !== language) {
       this.language$.next(language);
+      setToLocalStorage(LanguageService.LANGUAGE_KEY, language);
     }
   }
 

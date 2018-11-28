@@ -6,12 +6,12 @@ import fi.vm.yti.groupmanagement.model.PublicApiUserListItem;
 import fi.vm.yti.groupmanagement.model.PublicApiUserRequest;
 import fi.vm.yti.groupmanagement.service.PublicApiService;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -35,19 +36,19 @@ public class PublicApiController {
         this.publicApiService = publicApiService;
     }
 
-    @RequestMapping(value = "/user", method = POST, produces = APPLICATION_JSON_VALUE, params = "email")
-    public PublicApiUser getUserByEmail(@RequestParam @NotNull String email,
-                                        @RequestParam(required = false) @Nullable String firstName,
-                                        @RequestParam(required = false) @Nullable String lastName) {
+
+    @RequestMapping(value = "/user", method = POST, produces = APPLICATION_JSON_VALUE, consumes= APPLICATION_JSON_UTF8_VALUE)
+    public PublicApiUser getUserByEmail(@RequestBody NewUser newUser) {
         logger.info("GET /user requested");
-        if (email.isEmpty()) {
+
+        if (newUser.email.isEmpty()) {
             throw new RuntimeException("Email is a mandatory parameter");
         }
 
-        if (firstName != null && lastName != null) {
-            return this.publicApiService.getOrCreateUser(email, firstName, lastName);
+        if (newUser.firstName != null && newUser.lastName != null) {
+            return this.publicApiService.getOrCreateUser(newUser.email, newUser.firstName, newUser.lastName);
         } else {
-            return this.publicApiService.getUserByEmail(email);
+            return this.publicApiService.getUserByEmail(newUser.email);
         }
     }
 
@@ -66,7 +67,7 @@ public class PublicApiController {
     }
 
     @RequestMapping(value = "/users", method = GET, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<PublicApiUserListItem>> getUsers(@RequestHeader(value="If-Modified-Since", required=false) String ifModifiedSince) {
+    public ResponseEntity<List<PublicApiUserListItem>> getUsers( @RequestHeader(value="If-Modified-Since", required=false) String ifModifiedSince) {
         logger.info("GET /users requested");
 
         if (ifModifiedSince != null && !ifModifiedSince.isEmpty()) {
@@ -82,8 +83,8 @@ public class PublicApiController {
 
     @RequestMapping(value = "/organizations", method = GET, produces = APPLICATION_JSON_VALUE, params = "all")
     @CrossOrigin
-    public ResponseEntity<List<PublicApiOrganization>> getAllOrganizations(@RequestParam(value="all", required=false) String all,
-                                                                        @RequestHeader(value="If-Modified-Since", required=false) String ifModifiedSince) {
+    public ResponseEntity<List<PublicApiOrganization>> getAllOrganizations( @RequestParam(value="all", required=false) String all,
+                                                                            @RequestHeader(value="If-Modified-Since", required=false) String ifModifiedSince) {
         logger.info("GET /organizations?all requested");
 
         if (ifModifiedSince != null && !ifModifiedSince.isEmpty()) {
@@ -130,4 +131,10 @@ public class PublicApiController {
         logger.info("GET requests requested");
         return this.publicApiService.getUserRequests(email);
     }
+}
+
+class NewUser{
+    public String email;
+    public String firstName;
+    public String lastName;
 }

@@ -104,7 +104,8 @@ public class FrontendDao {
                         "FROM \"user\" u \n" +
                         "  LEFT JOIN user_organization uo ON (uo.user_id = u.id) \n" +
                         "WHERE uo.organization_id = ? \n" +
-                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id", organizationId);
+                        "GROUP BY u.email, u.firstName, u.lastName, u.superuser, uo.organization_id, u.created_at, u.id \n" +
+                        "ORDER BY u.lastName, u.firstName", organizationId);
 
         return mapToList(rows, row -> {
 

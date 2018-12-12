@@ -70,7 +70,7 @@ import { flatMap } from 'rxjs/operators';
         </thead>
         <tbody>
         <tr *ngFor="let user of users">
-          <td>{{user.name}}</td>
+          <td>{{user.lastNameFirst}}</td>
           <td>{{user.email}}</td>
           <td *ngFor="let role of availableRoles" class="check">
             <input type="checkbox"
@@ -275,6 +275,10 @@ class UserViewModel {
     } else {
       this.addRole(role);
     }
+  }
+
+  get lastNameFirst() {
+    return this.lastName + ', ' + this.firstName;
   }
 
   setPristine() {

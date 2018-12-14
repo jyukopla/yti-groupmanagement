@@ -3,6 +3,7 @@ import { Language, LanguageService } from '../../services/language.service';
 import { UserService } from 'yti-common-ui/services/user.service';
 import { LoginModalService } from 'yti-common-ui/components/login-modal.component';
 import { ApiService } from '../../services/api.service';
+import {ConfigurationService} from "../../services/configuration.service";
 
 @Component({
   selector: 'app-navigation-bar',
@@ -70,9 +71,9 @@ import { ApiService } from '../../services/api.service';
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" [routerLink]="['/userDetails']" translate>User details</a>
             <a class="dropdown-item" href="https://yhteentoimiva.suomi.fi" target="_blank" translate>yhteentoimiva.suomi.fi</a>
-            <a class="dropdown-item" [href]="codeListUrl" target="_blank" translate>Suomi.fi Reference Data</a>
-            <a class="dropdown-item" [href]="terminologyUrl" target="_blank" translate>Suomi.fi Controlled Vocabularies</a>
-            <a class="dropdown-item" [href]="dataModelUrl" target="_blank" translate>Suomi.fi Data Vocabularies</a>
+            <a class="dropdown-item" [href]="configService.codeListUrl" target="_blank" translate>Suomi.fi Reference Data</a>
+            <a class="dropdown-item" [href]="configService.terminologyUrl" target="_blank" translate>Suomi.fi Controlled Vocabularies</a>
+            <a class="dropdown-item" [href]="configService.dataModelUrl" target="_blank" translate>Suomi.fi Data Vocabularies</a>
           </div>
         </li>
       </ul>
@@ -99,15 +100,9 @@ export class NavigationBarComponent {
   constructor(private languageService: LanguageService,
               private userService: UserService,
               private loginModal: LoginModalService,
-              private apiService: ApiService) {
+              private apiService: ApiService,
+              public configService: ConfigurationService) {
 
-    apiService.getConfiguration().subscribe(configuration => {
-      this.codeListUrl = configuration.codeListUrl;
-      this.terminologyUrl = configuration.terminologyUrl;
-      this.dataModelUrl = configuration.dataModelUrl;
-      this.env = configuration.env;
-      this.fakeLoginAllowed = configuration.fakeLoginAllowed;
-    });
 
     apiService.getUsers().subscribe(users => {
       if (this.fakeLoginAllowed) {

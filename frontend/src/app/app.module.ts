@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { Injectable, NgModule } from '@angular/core';
+import { APP_INITIALIZER, Injectable, NgModule } from '@angular/core';
 import { CanDeactivate, ResolveEnd, Router, RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
@@ -37,6 +37,7 @@ import { ModalService } from './services/modal.service';
 import { NavigationBarComponent } from './components/navigation/navigation-bar.component';
 import { LogoComponent } from './components/navigation/logo.component';
 import { of } from 'rxjs';
+import { ConfigurationService } from "./services/configuration.service";
 
 function removeEmptyValues(obj: {}) {
 
@@ -62,6 +63,10 @@ const localizations: { [lang: string]: any } = {
     ...removeEmptyValues(JSON.parse(require(`raw-loader!po-loader?format=mf!yti-common-ui/po/en.po`)))
   }
 };
+
+export function initApp(configurationService: ConfigurationService) {
+  return () => configurationService.fetchConfiguration();
+}
 
 export function resolveAuthenticatedUserEndpoint() {
   return '/api/authenticated-user';
@@ -172,6 +177,7 @@ const appRoutes: Routes = [
     YtiCommonModule
   ],
   providers: [
+    { provide: APP_INITIALIZER, useFactory: initApp, deps: [ConfigurationService], multi: true },
     { provide: AUTHENTICATED_USER_ENDPOINT, useFactory: resolveAuthenticatedUserEndpoint },
     { provide: LOCALIZER, useExisting: LanguageService },
     LanguageService,

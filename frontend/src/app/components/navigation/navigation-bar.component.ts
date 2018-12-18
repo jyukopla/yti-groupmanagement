@@ -93,7 +93,7 @@ export class NavigationBarComponent {
   codeListUrl: string;
   terminologyUrl: string;
   dataModelUrl: string;
-  env: string;
+  fakeLoginAllowed: boolean;
 
 
   constructor(private languageService: LanguageService,
@@ -139,6 +139,8 @@ export class NavigationBarComponent {
   }
 
   get environmentIdentifier() {
-    return this.env ? this.env !== 'prod' ? ' - ' + this.env.toUpperCase() : '' : '';
+    const env = this.configService.env;
+    return env ? env !== 'prod' ? ' - ' + env.toUpperCase() : '' : '';
   }
+
 }

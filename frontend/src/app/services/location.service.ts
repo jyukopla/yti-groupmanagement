@@ -1,7 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Localizable } from 'yti-common-ui/types/localization';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { OrganizationDetails } from '../entities/organization-details';
+import { Title } from "@angular/platform-browser";
+import { TranslateService } from "@ngx-translate/core";
+import { ConfigurationService } from "./configuration.service";
 
 export interface Location {
   localizationKey?: string;
@@ -13,9 +16,18 @@ const frontPage = { localizationKey: 'Front page', route: [''] };
 const newOrganization = { localizationKey: 'Add new organization' };
 
 @Injectable()
-export class LocationService {
+export class LocationService implements OnDestroy {
 
   location = new Subject<Location[]>();
+  private titleTranslationSubscription: Subscription;
+
+  constructor(private translateService: TranslateService,
+              private configurationService: ConfigurationService,
+              private titleService: Title) {
+    this.titleTranslationSubscription = this.translateService.stream('Interoperability platform\'s user right management').subscribe(value => {
+      this.titleService.setTitle(this.configurationService.getEnvironmentIdentifier('prefix') + value);
+    });
+  }
 
   private changeLocation(location: Location[]): void {
     location.unshift(frontPage);
@@ -44,4 +56,9 @@ export class LocationService {
         route: ['information']
     }]);
   }
+
+  ngOnDestroy() {
+    this.titleTranslationSubscription.unsubscribe();
+  }
+
 }

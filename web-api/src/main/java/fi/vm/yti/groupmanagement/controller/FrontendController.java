@@ -1,6 +1,7 @@
 package fi.vm.yti.groupmanagement.controller;
 
 import fi.vm.yti.groupmanagement.config.ApplicationProperties;
+import fi.vm.yti.groupmanagement.config.ImpersonateProperties;
 import fi.vm.yti.groupmanagement.model.*;
 import fi.vm.yti.groupmanagement.service.FrontendService;
 import fi.vm.yti.security.AuthenticatedUserProvider;
@@ -30,16 +31,19 @@ public class FrontendController {
     private final FrontendService frontendService;
     private final AuthenticatedUserProvider userProvider;
     private final ApplicationProperties applicationProperties;
+    private final ImpersonateProperties impersonateProperties;
 
     private static final Logger logger = LoggerFactory.getLogger(FrontendController.class);
 
     @Autowired
     public FrontendController(FrontendService frontendService,
                               AuthenticatedUserProvider userProvider,
-                              ApplicationProperties applicationProperties) {
+                              ApplicationProperties applicationProperties,
+                              ImpersonateProperties impersonateProperties) {
         this.frontendService = frontendService;
         this.userProvider = userProvider;
         this.applicationProperties = applicationProperties;
+        this.impersonateProperties = impersonateProperties;
     }
 
     @RequestMapping(value = "/authenticated-user", method = GET, produces = APPLICATION_JSON_VALUE)
@@ -142,6 +146,8 @@ public class FrontendController {
         model.dev = this.applicationProperties.getDevMode();
         model.env = this.applicationProperties.getEnv();
         model.fakeLoginAllowed =  this.applicationProperties.isFakeLoginAllowed();
+        model.impersonateAllowed = impersonateProperties.isAllowed();
+
         return model;
     }
 }

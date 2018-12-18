@@ -12,7 +12,6 @@ public final class ApplicationProperties {
 
 
     ApplicationProperties(@Value("${fake.login.allowed:false}") boolean fakeLoginAllowed) {
-
         this.fakeLoginAllowed = fakeLoginAllowed;
     }
 
@@ -61,5 +60,7 @@ public final class ApplicationProperties {
 
     public boolean isFakeLoginAllowed() { return fakeLoginAllowed; }
 
-    public void setFakeLoginAllowed(boolean fakeLoginAllowed) { this.fakeLoginAllowed = fakeLoginAllowed; }
+    public void setFakeLoginAllowed(boolean fakeLoginAllowed) {
+        this.fakeLoginAllowed = fakeLoginAllowed; }
+
 }

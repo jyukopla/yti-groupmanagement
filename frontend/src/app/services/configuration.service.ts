@@ -40,6 +40,10 @@ export class ConfigurationService {
     return this.configuration.codeListUrl;
   }
 
+  get fakeLoginAllowed(): boolean {
+    return this.configuration.fakeLoginAllowed;
+  }
+
   getEnvironmentIdentifier(style?: 'prefix' | 'postfix'): string {
     if (this.env !== 'prod') {
       const identifier = this.env.toUpperCase();

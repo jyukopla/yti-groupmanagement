@@ -4,4 +4,5 @@ export interface Config {
     dataModelUrl: string,
     dev: boolean,
     env: string;
+    fakeLoginAllowed: boolean;
 }

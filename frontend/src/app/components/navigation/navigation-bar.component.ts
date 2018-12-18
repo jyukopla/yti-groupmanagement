@@ -94,7 +94,6 @@ export class NavigationBarComponent {
   terminologyUrl: string;
   dataModelUrl: string;
   env: string;
-  fakeLoginAllowed: boolean;
 
 
   constructor(private languageService: LanguageService,
@@ -105,7 +104,7 @@ export class NavigationBarComponent {
 
 
     apiService.getUsers().subscribe(users => {
-      if (this.fakeLoginAllowed) {
+      if (this.configService.fakeLoginAllowed) {
         this.fakeableUsers = users.map(u => ({email: u.email, firstName: u.firstName, lastName: u.lastName}));
       }
     });

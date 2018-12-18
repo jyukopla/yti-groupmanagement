@@ -7,4 +7,5 @@ public class ConfigurationModel {
     public boolean dev;
     public String env;
     public boolean fakeLoginAllowed;
+    public boolean impersonateAllowed;
 }

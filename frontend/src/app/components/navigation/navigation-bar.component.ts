@@ -93,7 +93,6 @@ export class NavigationBarComponent {
   codeListUrl: string;
   terminologyUrl: string;
   dataModelUrl: string;
-  env: string;
   fakeLoginAllowed: boolean;
 
 
@@ -139,7 +138,10 @@ export class NavigationBarComponent {
     return this.userService.isLoggedIn();
   }
 
+
   get environmentIdentifier() {
-    return this.env ? this.env !== 'prod' ? ' - ' + this.env.toUpperCase() : '' : '';
+    const env = this.configService.env;
+    return env ? env !== 'prod' ? ' - ' + env.toUpperCase() : '' : '';
   }
+
 }

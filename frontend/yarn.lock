@@ -4246,11 +4246,24 @@ neo-async@^2.5.0:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.5.2.tgz#489105ce7bc54e709d736b195f82135048c50fcc"
 
+ngx-clipboard@^11.1.9:
+  version "11.1.9"
+  resolved "https://registry.yarnpkg.com/ngx-clipboard/-/ngx-clipboard-11.1.9.tgz#a391853dc49e436de407260863a2c814d73a9332"
+  dependencies:
+    ngx-window-token "^1.0.2"
+    tslib "^1.9.0"
+
 ngx-infinite-scroll@6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/ngx-infinite-scroll/-/ngx-infinite-scroll-6.0.1.tgz#571e54860ce32839451569bcf6e7a63cfae327bd"
   dependencies:
     opencollective "^1.0.3"
+
+ngx-window-token@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/ngx-window-token/-/ngx-window-token-1.0.2.tgz#2ebadd300fee1f61eb8b851b0ad97b1f46f5e4cc"
+  dependencies:
+    tslib "^1.9.0"
 
 nice-try@^1.0.4:
   version "1.0.5"
@@ -6918,9 +6931,9 @@ yn@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/yn/-/yn-2.0.0.tgz#e5adabc8acf408f6385fc76495684c88e6af689a"
 
-"yti-common-ui@https://github.com/VRK-YTI/yti-common-ui.git/#0f7292f107758f4ac177354bd7a2d5aca22df6ab":
+"yti-common-ui@https://github.com/VRK-YTI/yti-common-ui.git/#6069e6e1c7874de5245b894d1d2c426a1263da1d":
   version "0.0.0"
-  resolved "https://github.com/VRK-YTI/yti-common-ui.git/#0f7292f107758f4ac177354bd7a2d5aca22df6ab"
+  resolved "https://github.com/VRK-YTI/yti-common-ui.git/#6069e6e1c7874de5245b894d1d2c426a1263da1d"
 
 zone.js@~0.8.26:
   version "0.8.26"

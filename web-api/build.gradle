@@ -127,6 +127,17 @@ sonarqube {
     }
 }
 
+dependencyCheck {
+    format = 'XML'
+    autoUpdate = false
+    analyzers {
+        centralEnabled = false
+    }
+    data {
+        directory = '${OWASP_DATA_DIR}'
+    }
+}
+
 apina {
     target = new File(project(":frontend").projectDir, 'src/app/apina.ts')
     blackBoxClasses = [/org\.dalesbred\..+/, /java\.time\..+/]

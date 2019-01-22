@@ -124,7 +124,7 @@ sonarqube {
     properties {
         property "sonar.projectKey", "yti-groupmanagement-web-api"
         property "sonar.projectName", "yti-groupmanagement-web-api"
-        property("sonar.dependencyCheck.reportPath", "$buildDir/reports/dependency-check-report.xml")
+        property("sonar.dependencyCheck.reportPath", "$buildDir/web-api/reports/dependency-check-report.xml")
     }
 }
 

@@ -135,7 +135,7 @@ dependencyCheck {
         centralEnabled = false
     }
     data {
-        directory = "${OWASP_DATA_DIR}"
+        directory = System.getProperty('${OWASP_DATA_DIR}')
     }
 }
 

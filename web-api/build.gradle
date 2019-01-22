@@ -135,7 +135,7 @@ dependencyCheck {
         centralEnabled = false
     }
     data {
-        directory = '${OWASP_DATA_DIR}'
+        directory = "${OWASP_DATA_DIR}"
     }
 }
 

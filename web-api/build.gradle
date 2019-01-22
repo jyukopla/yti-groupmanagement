@@ -125,11 +125,12 @@ sonarqube {
         property "sonar.projectKey", "yti-groupmanagement-web-api"
         property "sonar.projectName", "yti-groupmanagement-web-api"
         property("sonar.dependencyCheck.reportPath", "$buildDir/reports/dependency-check-report.xml")
+        property("sonar.dependencyCheck.htmlReportPath", "$buildDir/reports/dependency-check-report.html")
     }
 }
 
 dependencyCheck {
-    format = 'XML'
+    format = 'ALL'
     autoUpdate = false
     analyzers {
         centralEnabled = false

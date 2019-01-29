@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2018-10-17 11:24+0300\n"
+"PO-Revision-Date: 2019-01-29 12:58+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -178,6 +178,12 @@ msgid "All roles"
 msgstr ""
 
 msgid "All organizations"
+msgstr ""
+
+msgid "This user will be removed from organization after the changes are saved."
+msgstr ""
+
+msgid "This user will be removed."
 msgstr ""
 
 #~ msgid "Hello"

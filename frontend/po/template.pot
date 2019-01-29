@@ -168,3 +168,9 @@ msgstr ""
 
 msgid "All organizations"
 msgstr ""
+
+msgid "This user will be removed from organization after the changes are saved."
+msgstr ""
+
+msgid "This user will be removed."
+msgstr ""

@@ -69,11 +69,11 @@ import {ConfigurationService} from "../../services/configuration.service";
               <span translate>LOG IN</span>
             </a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" [routerLink]="['/userDetails']" translate>User details</a>
-            <a class="dropdown-item" href="https://yhteentoimiva.suomi.fi" target="_blank" translate>yhteentoimiva.suomi.fi</a>
-            <a class="dropdown-item" [href]="configService.codeListUrl" target="_blank" translate>Suomi.fi Reference Data</a>
-            <a class="dropdown-item" [href]="configService.terminologyUrl" target="_blank" translate>Suomi.fi Controlled Vocabularies</a>
-            <a class="dropdown-item" [href]="configService.dataModelUrl" target="_blank" translate>Suomi.fi Data Vocabularies</a>
+            <a class="dropdown-item" id="navigation_link_user_details" [routerLink]="['/userDetails']" translate>User details</a>
+            <a class="dropdown-item" id="navigation_interoperability_platform_link" href="https://yhteentoimiva.suomi.fi" target="_blank" translate>yhteentoimiva.suomi.fi</a>
+            <a class="dropdown-item" id="navigation_reference_data_link" [href]="configService.codeListUrl" target="_blank" translate>Suomi.fi Reference Data</a>
+            <a class="dropdown-item" id="navigation_terminologies_link" [href]="configService.terminologyUrl" target="_blank" translate>Suomi.fi Terminologies</a>
+            <a class="dropdown-item" id="navigation_data_vocabularies_link" [href]="configService.dataModelUrl" target="_blank" translate>Suomi.fi Data Vocabularies</a>
           </div>
         </li>
       </ul>

@@ -1,5 +1,9 @@
 # Group management
 
+## Running
+  - Run docker-compose up
+  - Access [http://localhost:8002](http://localhost:8002) with browser
+
 ## Development
 
 Get started:
